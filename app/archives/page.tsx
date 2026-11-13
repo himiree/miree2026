@@ -12,13 +12,13 @@ interface ArchiveItem {
   body: string;
 }
 
-const STORAGE_KEY = "archive-items-v2";
+const STORAGE_KEY = "archive-items-v3";
 
 const defaultItems: ArchiveItem[] = [
-  { id: "a1",  image: "/images/archive1_Apzima.png",       title: "Branding",              date: "2022", body: "" },
+  { id: "a1",  image: "/images/archive1_motion.gif",       title: "Motion",                date: "2022", body: "" },
   { id: "a2",  image: "/images/archive2_infographic.png",  title: "Infographic editorial", date: "2019", body: "" },
   { id: "a3",  image: "/images/archive3_Exhibition.png",   title: "Exhibition",            date: "2022", body: "" },
-  { id: "a4",  image: "/images/archive4_identity.png",     title: "Visual Identity",       date: "2022", body: "" },
+  { id: "a4",  image: "/images/Typewood_18.png",           title: "Typography",            date: "2022", body: "" },
   { id: "a5",  image: "/images/archive5_uistudy.png",      title: "UI Study",              date: "2022", body: "" },
   { id: "a6",  image: "/images/archive6_surrealism.png",   title: "Surrealism",            date: "2022", body: "" },
   { id: "a7",  image: "/images/archive7_35hz.png",         title: "Branding",              date: "2022", body: "" },

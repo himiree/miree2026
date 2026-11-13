@@ -114,7 +114,7 @@ export const projects: Project[] = [
   {
     slug: "official-website-renewal",
     title: "Official website full scale renewal",
-    subtitle: "Product, September 2026 – October 2026",
+    subtitle: "Product, September 2025 – January 2026",
     category: "Motion · Branding",
     year: "2025",
     bg: "#e8e3dc",
