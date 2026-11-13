@@ -49,7 +49,7 @@ export default function Home() {
 
         <div className="border-t border-[var(--border)] px-6 sm:px-10 max-w-[1100px] mx-auto w-full" />
 
-        <section className="px-6 sm:px-10 pt-10 pb-24 max-w-[1100px] mx-auto w-full">
+        <section id="recent-work" className="px-6 sm:px-10 pt-10 pb-24 max-w-[1100px] mx-auto w-full">
           <div className="grid grid-cols-1 min-[600px]:grid-cols-2 gap-2 mb-10">
             <p className="text-[32px] font-bold leading-[28px] text-[#181818] tracking-[-0.5px] [text-box-trim:trim-both] [text-box-edge:cap_alphabetic]">
               {t.home.latestWork}

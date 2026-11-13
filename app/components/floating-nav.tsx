@@ -50,7 +50,7 @@ export default function FloatingNav() {
   }, [cvOpen]);
 
   const NAV_ITEMS = [
-    { label: t.nav.work, href: "/" },
+    { label: t.nav.work, href: "/#recent-work" },
     { label: t.nav.about, href: "/about" },
     { label: t.nav.archive, href: "/archives" },
   ];
@@ -65,16 +65,23 @@ export default function FloatingNav() {
       >
         <div className="flex items-center gap-2">
           {/* Profile photo */}
-          <div
+          <Link
+            href="/"
             data-nav-brand
-            className="relative w-[68px] h-[42px] rounded-[99px] overflow-hidden flex-shrink-0 shadow-[0px_8px_32px_0px_rgba(0,0,0,0.12)]"
+            className="relative w-[68px] h-[42px] rounded-[99px] overflow-hidden flex-shrink-0 shadow-[0px_8px_32px_0px_rgba(0,0,0,0.12)] group/profile"
           >
             <img
               src="/profile.png"
               alt="Damiree Kim"
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out group-hover/profile:opacity-0"
             />
-          </div>
+            <img
+              src="/profile_hover.webp"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover/profile:opacity-100"
+            />
+          </Link>
 
           {/* Nav links pill */}
           <nav
@@ -83,7 +90,7 @@ export default function FloatingNav() {
             aria-label="Main navigation"
           >
             {NAV_ITEMS.map((item) => {
-              const active = pathname === item.href;
+              const active = item.href === "/#recent-work" ? pathname === "/" : pathname === item.href;
               return (
                 <Link
                   key={item.href}
