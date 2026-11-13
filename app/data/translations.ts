@@ -178,6 +178,6 @@ export const translations = {
       updated: "Zuletzt aktualisiert 2026-10-01",
     },
   },
-} satisfies Record<Lang, (typeof translations)["ENG"]>;
+};
 
 export type Translations = typeof translations.ENG;
