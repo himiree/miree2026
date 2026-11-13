@@ -10,12 +10,24 @@ interface ArchiveItem {
   title: string;
   date: string;
   body: string;
+  carousel?: string[];
 }
 
-const STORAGE_KEY = "archive-items-v3";
+const STORAGE_KEY = "archive-items-v4";
+
+const ODD82_CAROUSEL = [
+  "/images/ODD82_logo.gif",
+  "/images/odd82/page_1.png",
+  "/images/odd82/page_2.png",
+  "/images/odd82/page_4.png",
+  "/images/odd82/page_6.png",
+  "/images/odd82/page_7.png",
+  "/images/odd82/page_8.png",
+];
 
 const defaultItems: ArchiveItem[] = [
   { id: "a1",  image: "/images/archive1_motion.gif",       title: "Motion",                date: "2022", body: "" },
+  { id: "odd82", image: "/images/ODD82_logo.gif",          title: "Branding",              date: "2025", body: "", carousel: ODD82_CAROUSEL },
   { id: "a2",  image: "/images/archive2_infographic.png",  title: "Infographic editorial", date: "2019", body: "" },
   { id: "a3",  image: "/images/archive3_Exhibition.png",   title: "Exhibition",            date: "2022", body: "" },
   { id: "a4",  image: "/images/Typewood_18.png",           title: "Typography",            date: "2022", body: "" },
@@ -58,6 +70,7 @@ export default function Archives() {
   const [loaded, setLoaded] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [viewing, setViewing] = useState<ArchiveItem | null>(null);
+  const [carouselSlide, setCarouselSlide] = useState(0);
   const [editing, setEditing] = useState<ArchiveItem | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -81,9 +94,11 @@ export default function Archives() {
   useEffect(() => {
     if (!viewing && !editing) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setViewing(null);
-        setEditing(null);
+      if (e.key === "Escape") { setViewing(null); setEditing(null); }
+      if (viewing?.carousel) {
+        const len = viewing.carousel.length;
+        if (e.key === "ArrowRight") setCarouselSlide((s) => (s + 1) % len);
+        if (e.key === "ArrowLeft")  setCarouselSlide((s) => (s - 1 + len) % len);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -151,7 +166,7 @@ export default function Archives() {
             {items.map((item) => (
               <div key={item.id} className="flex flex-col gap-[16px] group">
                 <button
-                  onClick={() => (editMode ? setEditing(item) : setViewing(item))}
+                  onClick={() => { if (editMode) { setEditing(item); } else { setCarouselSlide(0); setViewing(item); } }}
                   className="relative flex-1 min-h-[330px] rounded-xl overflow-hidden text-left transition-opacity duration-300 hover:opacity-80 cursor-pointer"
                 >
                   {item.image ? (
@@ -183,7 +198,60 @@ export default function Archives() {
         </section>
       </main>
 
-      {viewing && (
+      {viewing && viewing.carousel && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center" onClick={() => setViewing(null)}>
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
+          {/* Prev */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setCarouselSlide((s) => (s - 1 + viewing.carousel!.length) % viewing.carousel!.length); }}
+            className="absolute left-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            aria-label="Previous"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 14L6 9l5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          {/* Image */}
+          <div className="relative z-10 flex flex-col items-center gap-4 max-w-[90vw] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+            <img
+              key={carouselSlide}
+              src={viewing.carousel[carouselSlide]}
+              alt={`${viewing.title} ${carouselSlide + 1}`}
+              className="max-h-[80vh] max-w-[90vw] object-contain rounded-xl"
+            />
+            {/* Dots */}
+            <div className="flex gap-2">
+              {viewing.carousel.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCarouselSlide(i)}
+                  className={`w-[6px] h-[6px] rounded-full transition-colors ${i === carouselSlide ? "bg-white" : "bg-white/30"}`}
+                />
+              ))}
+            </div>
+          </div>
+          {/* Next */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setCarouselSlide((s) => (s + 1) % viewing.carousel!.length); }}
+            className="absolute right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            aria-label="Next"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          {/* Close */}
+          <button
+            onClick={() => setViewing(null)}
+            className="absolute top-4 right-4 z-30 w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            aria-label="Close"
+          >
+            <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
+          </button>
+          {/* Counter */}
+          <span className="absolute top-4 left-1/2 -translate-x-1/2 z-30 text-white/60 text-[13px] tracking-[-0.2px]">
+            {carouselSlide + 1} / {viewing.carousel.length}
+          </span>
+        </div>
+      )}
+
+      {viewing && !viewing.carousel && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center p-6"
           onClick={(e) => {
