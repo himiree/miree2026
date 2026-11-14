@@ -3,6 +3,7 @@ import FloatingNav from "../components/floating-nav";
 import Footer from "../components/footer";
 import { useLanguage } from "../context/language";
 import Image from "next/image";
+import { playClickSound } from "../utils/sound";
 
 const skills = [
   {
@@ -39,10 +40,10 @@ export default function About() {
               {t.about.heading}
             </h1>
             <div className="flex items-center gap-[19px]">
-              <a href="https://www.instagram.com/damiree.kim" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+              <a onMouseEnter={() => playClickSound()} href="https://www.instagram.com/damiree.kim" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <Image src="/icon-instagram.svg" alt="Instagram" width={22} height={22} />
               </a>
-              <a href="https://www.linkedin.com/in/damiree-kim" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+              <a onMouseEnter={() => playClickSound()} href="https://www.linkedin.com/in/damiree-kim" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <Image src="/icon-linkedin.svg" alt="LinkedIn" width={22} height={22} />
               </a>
             </div>
