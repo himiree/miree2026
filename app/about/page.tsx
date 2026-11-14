@@ -43,7 +43,7 @@ export default function About() {
               <a onMouseEnter={() => playClickSound()} href="https://www.instagram.com/damiree.kim" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <Image src="/icon-instagram.svg" alt="Instagram" width={22} height={22} />
               </a>
-              <a onMouseEnter={() => playClickSound()} href="https://www.linkedin.com/in/damiree-kim" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+              <a onMouseEnter={() => playClickSound()} href="https://www.linkedin.com/in/damiree-kim/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <Image src="/icon-linkedin.svg" alt="LinkedIn" width={22} height={22} />
               </a>
             </div>
