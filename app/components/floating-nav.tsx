@@ -11,6 +11,8 @@ export default function FloatingNav() {
   const [langOpen, setLangOpen] = useState(false);
   const [cvOpen, setCvOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const copiedTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const contactRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);
   const pathname = usePathname();
@@ -66,6 +68,11 @@ export default function FloatingNav() {
   }, [langOpen]);
 
   useEffect(() => {
+    const timer = copiedTimer;
+    return () => clearTimeout(timer.current);
+  }, []);
+
+  useEffect(() => {
     if (!contactOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       if (contactRef.current && !contactRef.current.contains(e.target as Node)) {
@@ -100,8 +107,29 @@ export default function FloatingNav() {
   const CONTACT_ITEMS = [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/damiree-kim/", icon: "/icon-linkedin.svg", external: true },
     { label: "Instagram", href: "https://www.instagram.com/damiree_813/", icon: "/icon-instagram.svg", external: true },
-    { label: "Email", href: "mailto:damiree813@gmail.com", icon: "/icon-email.svg", external: false },
   ];
+  const EMAIL = "damiree813@gmail.com";
+
+  // "Copy email": copies the address and shows a confirmation for 2.6s
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+    } catch {
+      // Fallback for browsers/contexts without the async clipboard API
+      const ta = document.createElement("textarea");
+      ta.value = EMAIL;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    setEmailCopied(true);
+    clearTimeout(copiedTimer.current);
+    copiedTimer.current = setTimeout(() => setEmailCopied(false), 2600);
+  }
 
   return (
     <>
@@ -204,6 +232,19 @@ export default function FloatingNav() {
                       {item.label}
                     </a>
                   ))}
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onMouseEnter={() => playClickSound()}
+                    onClick={copyEmail}
+                    aria-live="polite"
+                    className={`flex items-center gap-2 w-full text-left px-4 py-2.5 text-[13px] leading-[18px] tracking-[-0.4px] transition-colors duration-150 whitespace-nowrap ${
+                      emailCopied ? "text-[#1271C4]" : "text-[#576779] hover:text-[#181818]"
+                    }`}
+                  >
+                    <img src="/icon-email.svg" alt="" aria-hidden width={14} height={14} className="size-[14px] shrink-0 object-contain" />
+                    {emailCopied ? `Copied! ${EMAIL}` : "Copy email"}
+                  </button>
                 </div>
                 </div>
               )}
