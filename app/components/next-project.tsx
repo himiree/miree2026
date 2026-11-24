@@ -12,13 +12,17 @@ import {
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 const CLICK_SLOP = 6; // px of movement before a press becomes a drag
 const WHEEL_ARM_GAP_MS = 250; // a fresh scroll gesture must start once the page is already at the bottom
-const WHEEL_IDLE_MS = 140; // scroll pause that hands over to the automatic finish
-const WHEEL_SMOOTHING = 0.2; // per-frame easing of the thumbnail toward the scrolled amount
-const CANCEL_BELOW = 0.02; // only a gesture pulled all the way back is cancelled
+// How far you have to scroll past the end for the thumbnail to fill the screen,
+// in viewport heights. ~2.5 trackpad flicks / mouse-wheel spins.
+const WHEEL_DISTANCE_VH = 2.5;
+const TOUCH_DISTANCE_VH = 1.5; // ~2.5 swipes on a phone
+const WHEEL_SMOOTHING = 0.14; // per-frame easing of the thumbnail toward the scrolled amount
+const CANCEL_BELOW = 0.02; // scrolled all the way back = cancel
 
 // "Next project" section (Figma: 260808_aumatis › Next project).
 // Click the thumbnail, drag it upward, or keep scrolling past the end of the
-// page: the thumbnail grows into full screen and becomes the next page's hero.
+// page (~2.5 scrolls): the thumbnail grows into full screen and becomes the
+// next page's hero.
 export default function NextProject({ current }: { current: string }) {
   const router = useRouter();
   const mediaRef = useRef<HTMLDivElement>(null);
@@ -37,8 +41,8 @@ export default function NextProject({ current }: { current: string }) {
     dragRef.current = startHeroDrag({ router, href: next.href, src: next.image, from: mediaRef.current });
     return dragRef.current;
   };
-  // Once a gesture has started it always carries on into the next project,
-  // unless the user deliberately pulled it all the way back.
+  // End of a gesture: carry on into the next project, unless the thumbnail
+  // was brought all the way back to its original size.
   const release = () => {
     const d = dragRef.current;
     if (!d) return;
@@ -51,32 +55,18 @@ export default function NextProject({ current }: { current: string }) {
     gestureRef.current = { ensureDrag, release };
   });
 
-  // Scroll (wheel / trackpad) or touch-drag past the end of the page
+  // Scroll (wheel / trackpad) or swipe past the end of the page. The thumbnail
+  // grows with the distance scrolled and simply holds its size when the user
+  // pauses; reaching full screen carries on into the next project, scrolling
+  // all the way back up puts it back in place.
   useEffect(() => {
     if (!next) return;
-    let idle: ReturnType<typeof setTimeout> | undefined;
-    let touchY: number | null = null;
     let armed = false;
     let lastWheel = 0;
-    let target = 0; // scrolled amount; the thumbnail eases toward it every frame
+    let target = 0; // scrolled amount (0–1); the thumbnail eases toward it every frame
     let raf = 0;
-
-    const follow = () => {
-      const d = dragRef.current;
-      if (!d) {
-        raf = 0;
-        return;
-      }
-      const p = d.progress + (target - d.progress) * WHEEL_SMOOTHING;
-      d.setProgress(Math.abs(target - p) < 0.001 ? target : p);
-      if (target >= 1 && d.progress > 0.97) {
-        raf = 0;
-        clearTimeout(idle);
-        gestureRef.current.release();
-        return;
-      }
-      raf = requestAnimationFrame(follow);
-    };
+    let touchY: number | null = null;
+    let touchBase = 0;
 
     const atBottom = () =>
       window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
@@ -87,8 +77,28 @@ export default function NextProject({ current }: { current: string }) {
       return r.top < window.innerHeight && r.bottom > 0;
     };
 
+    const follow = () => {
+      const d = dragRef.current;
+      if (!d) {
+        raf = 0;
+        return;
+      }
+      const p = d.progress + (target - d.progress) * WHEEL_SMOOTHING;
+      d.setProgress(Math.abs(target - p) < 0.001 ? target : p);
+      const done = (target >= 1 && d.progress > 0.97) || (target <= 0 && d.progress < 0.005);
+      if (done) {
+        raf = 0;
+        gestureRef.current.release();
+        return;
+      }
+      raf = requestAnimationFrame(follow);
+    };
+    const moveTo = (t: number) => {
+      target = clamp01(t);
+      if (!raf) raf = requestAnimationFrame(follow);
+    };
+
     const onWheel = (e: WheelEvent) => {
-      const { ensureDrag, release } = gestureRef.current;
       const now = performance.now();
       const gap = now - lastWheel;
       lastWheel = now;
@@ -102,37 +112,28 @@ export default function NextProject({ current }: { current: string }) {
           if (gap < WHEEL_ARM_GAP_MS) return;
           armed = true;
         }
+        target = 0;
       }
-      const isNew = !dragRef.current;
-      const d = ensureDrag();
-      if (!d) return;
+      if (!gestureRef.current.ensureDrag()) return;
       e.preventDefault();
-      if (isNew) target = d.progress;
-      target = clamp01(target + e.deltaY / (window.innerHeight * 1.2));
-      if (!raf) raf = requestAnimationFrame(follow);
-      clearTimeout(idle);
-      idle = setTimeout(() => {
-        cancelAnimationFrame(raf);
-        raf = 0;
-        release();
-      }, WHEEL_IDLE_MS);
+      moveTo(target + e.deltaY / (window.innerHeight * WHEEL_DISTANCE_VH));
     };
 
     const onTouchStart = (e: TouchEvent) => {
-      touchY = atBottom() && mediaInView() ? e.touches[0].clientY : null;
+      const canStart = dragRef.current || (atBottom() && mediaInView());
+      touchY = canStart ? e.touches[0].clientY : null;
+      touchBase = dragRef.current ? target : 0;
     };
     const onTouchMove = (e: TouchEvent) => {
       if (touchY === null) return;
       const dy = touchY - e.touches[0].clientY; // finger moving up = positive
       if (dy <= 0 && !dragRef.current) return;
-      const d = gestureRef.current.ensureDrag();
-      if (!d) return;
+      if (!gestureRef.current.ensureDrag()) return;
       if (e.cancelable) e.preventDefault();
-      d.setProgress(clamp01(dy / (window.innerHeight * 0.6)));
+      moveTo(touchBase + dy / (window.innerHeight * TOUCH_DISTANCE_VH));
     };
     const onTouchEnd = () => {
       touchY = null;
-      gestureRef.current.release();
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
@@ -141,7 +142,6 @@ export default function NextProject({ current }: { current: string }) {
     window.addEventListener("touchend", onTouchEnd);
     window.addEventListener("touchcancel", onTouchEnd);
     return () => {
-      clearTimeout(idle);
       cancelAnimationFrame(raf);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
