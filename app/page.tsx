@@ -17,7 +17,7 @@ export default function Home() {
       <main className="w-full">
         <section
           id="recent-work"
-          className="flex flex-col items-center gap-20 px-6 sm:px-10 min-[1200px]:px-[100px] pt-36 pb-20 max-w-[1240px] mx-auto w-full"
+          className="flex flex-col items-center gap-20 px-6 sm:px-10 min-[75rem]:px-[100px] pt-36 pb-20 max-w-[1240px] mx-auto w-full"
         >
           <div className="flex flex-col items-center gap-4 text-center tracking-[-0.5px] text-balance">
             <p className={introLine}>

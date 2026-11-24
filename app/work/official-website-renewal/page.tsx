@@ -1,76 +1,153 @@
 "use client";
+import type { ReactNode } from "react";
 import FloatingNav from "../../components/floating-nav";
 import NextProject from "../../components/next-project";
 import CaseStudyHero from "../../components/case-study-hero";
-import Link from "next/link";
+import BeforeAfterSlider from "../../components/before-after-slider";
 
-const fb = "https://framerusercontent.com";
+// Case study: Official website full scale renewal (Figma: 260808_aumatis › Work-detail · v2)
 
-const images = {
-  mockup1: `${fb}/images/5xQRoFELCnHgk1II0R2HiN0UkI.png`,
-  mockup2: `${fb}/images/x4Knac8TFP8UXkPbk0KBFQ9JHjM.png`,
-  detail:  `${fb}/images/JiJLMqN9oDAZVoShiqlN9vFs5s.png`,
+const MEDIA = {
+  // Before/after screenshots for the drag slider — add paths to show them
+  before: undefined as string | undefined, // old Wix site
+  after: undefined as string | undefined, // kewazo.com
+  decision3: "/Project_website_revamp/Design%20decisions%203.mp4",
 };
 
-const videos = {
-  v1: `${fb}/assets/Xdf6CRBjfXz1maRpyFt8eQzkPQ.mp4`,
-  v2: `${fb}/assets/SnNHH2nKHG9ccUezfPsEVQo.mp4`,
-  v3: `${fb}/assets/jI2w62k7nPWcrvSQX0xDhkMH0.mp4`,
-};
+const label = "text-[12.8px] leading-[19.2px] tracking-[-0.25px] text-[#576779]";
+const sectionLabel = "text-[14px] font-medium leading-[19.2px] tracking-[-0.25px] text-[#576779]";
+const headline =
+  "text-[26px] sm:text-[32px] font-semibold leading-[1.3] tracking-[-0.25px] text-[#181818] [text-box-trim:trim-both] [text-box-edge:cap_alphabetic]";
+const body = "text-[17px] sm:text-[20px] leading-[1.5] tracking-[-0.25px] text-[#181818]";
 
-function Divider() {
-  return <div className="border-t border-black/[0.07]" />;
-}
-
-function SectionRow({ label, children }: { label: string; children: React.ReactNode }) {
+/** Label on the left, heading / text / result across the other three columns */
+function Block({ title, heading, children, result }: { title: string; heading: string; children: ReactNode; result?: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-8 py-12">
-      <p className="text-[13px] font-semibold text-[#181818] tracking-[-0.1px] pt-1">{label}</p>
-      <div className="flex flex-col gap-4">{children}</div>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
+      <p className={`${sectionLabel} md:row-span-3`}>{title}</p>
+      <p className={`${headline} md:col-span-3 max-w-[699px]`}>{heading}</p>
+      <div className={`${body} md:col-span-3 flex flex-col`}>{children}</div>
+      {result && <p className={`${headline} md:col-span-3`}>{result}</p>}
     </div>
   );
 }
 
-function DecisionCard({
-  num,
-  title,
-  desc,
-  objectives,
-}: {
-  num: number;
-  title: string;
-  desc: string;
-  objectives: string[];
-}) {
+/** Small label column + bulleted list across three columns */
+function ListRow({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-col gap-2">
-        <p className="text-[12px] font-semibold text-[#9aa5b1] tracking-[0.6px] uppercase">
-          Design Decision {num}.
-        </p>
-        <p className="text-[22px] font-bold tracking-[-0.5px] text-[#181818] leading-[1.2]">
-          {title}
-        </p>
-        <p className="text-[15px] leading-[26px] text-[#576779] tracking-[-0.2px]">{desc}</p>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-3 w-full">
+      <p className={`${sectionLabel} max-w-[200px]`}>{title}</p>
+      <ul className={`${body} md:col-span-3 list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
+    </div>
+  );
+}
+
+// ── 100 homepage visitors (waffle 10×10) ──
+const VISITORS = [
+  { n: 61, cell: "#eaedf3", key: "#e2e5f1", label: "Left without clicking anything" },
+  { n: 16, cell: "#2b3037", key: "#2b3037", label: "Went to About company", note: "41% of those who stayed (16/39)" },
+  { n: 3, cell: "#1ea7a6", key: "#1ea7a6", label: "Went to Case studies", note: "9% of those who stayed (9/39), where the strongest proof lived" },
+  { n: 20, cell: "#bad1d4", key: "#bad1d4", label: "Went elsewhere" },
+];
+
+function VisitorsWaffle() {
+  const cells = VISITORS.flatMap((v) => Array.from({ length: v.n }, () => v.cell));
+  return (
+    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 p-7 rounded-[20px] border border-[#d4def5] bg-white w-full">
+      <div className="grid grid-cols-10 gap-1 w-[296px] max-w-full shrink-0" role="img" aria-label="100 homepage visitors: 61 left without clicking, 16 went to About company, 3 went to Case studies, 20 went elsewhere">
+        {cells.map((c, i) => (
+          <span key={i} className="aspect-square rounded-[4px]" style={{ background: c }} />
+        ))}
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-[12px] font-semibold text-[#9aa5b1] tracking-[0.4px] uppercase">
-          Objectives
-        </p>
-        <ul className="flex flex-col gap-1">
-          {objectives.map((o, i) => (
-            <li key={i} className="flex items-start gap-2 text-[15px] leading-[24px] text-[#576779] tracking-[-0.1px]">
-              <span className="mt-[9px] w-[4px] h-[4px] rounded-full bg-[#9aa5b1] shrink-0" />
-              {o}
-            </li>
-          ))}
-        </ul>
+      <div className="flex flex-col gap-4 min-w-0">
+        <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
+        {VISITORS.map((v) => (
+          <div key={v.label} className="flex items-center gap-3">
+            <span className="size-3 rounded-[3px] shrink-0" style={{ background: v.key }} />
+            <div className="flex flex-col gap-[2px] flex-1 min-w-0 md:w-[440px]">
+              <p className="text-[16px] font-medium text-[#181818]">{v.label}</p>
+              {v.note && <p className="text-[13px] tracking-[-0.32px] text-[#576779]">{v.note}</p>}
+            </div>
+            <p className="text-[24px] font-semibold text-[#181818] shrink-0">{v.n}%</p>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-export default function BrandMotionDetail() {
+// ── Homepage order, old → new ──
+const OLD_HOME = [
+  { t: `Mission headline + "Let's talk" + customer-logo-wall` },
+  { t: "Product intro" },
+  { t: `"Pick your site type" × 2 buttons` },
+  { t: "Availability (Europe, North America)", dim: true },
+  { t: "Industrial / Commercial markets teasers" },
+  { t: "One customer quote" },
+  { t: "Social links", dim: true },
+  { t: "Footer + newsletter", dim: true },
+];
+const NEW_HOME = [
+  { t: "What we sell in one line + a customer-logo-wall" },
+  { t: "Product intro" },
+  { t: "Customer results with ROI", hi: true },
+  { t: "3 main offerings: robot, utilisation data, after-service" },
+  { t: "Value for each stakeholder" },
+  { t: "Testimonials" },
+  { t: "News and Blog" },
+  { t: "Contact form, put into the bottom of every page", hi: true },
+  { t: "Footer, Social links" },
+];
+
+function IAColumn({ title, items }: { title: string; items: { t: string; dim?: boolean; hi?: boolean }[] }) {
+  return (
+    <div className="flex flex-col gap-[6px] flex-1 min-w-0">
+      <p className="text-[15px] font-semibold text-[#181818]">{title}</p>
+      {items.map((it) => (
+        <div
+          key={it.t}
+          className={`rounded-[10px] px-3 py-[9px] text-[14px] ${
+            it.hi
+              ? "bg-[#d9f0f1] border-[1.2px] border-[#058b8c] text-[#181818]"
+              : it.dim
+                ? "bg-[#f5f6f9] border border-[#f2f6f7] text-[#576779]"
+                : "bg-white border border-[#f2f6f7] text-[#181818]"
+          }`}
+        >
+          {it.t}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── CTA system, before ──
+const OLD_BUTTONS = [
+  { t: "Let's talk", bg: "#43c0c4", fg: "#fff" },
+  { t: "Request a demo", bg: "#111", fg: "#fff" },
+  { t: "LIFTBOT for Industrial Plants", bg: "#c8d7de", fg: "#454b5b" },
+  { t: "Project report", bg: "#454b5b", fg: "#fff" },
+  { t: "Learn more →", bg: "#2a2d33", fg: "#fff" },
+];
+
+// ── Results ──
+const RESULTS = [
+  { m: "Average session time", old: "2m 53s", now: "3m 58s", d: "+38%", up: true },
+  { m: "Inbound enquiries", old: "192", now: "272", d: "+42%", up: true },
+  { m: "Time on the Chevron case study", old: "–", now: "2m 18s", d: "Target 1m 30s" },
+  { m: "Time on the product page", old: "–", now: "2m 45s", d: "New merged page" },
+  { m: "Homepage bounce", old: "60.9%", now: "60.1%", d: "Flat" },
+  { m: "Unique visitors", old: "16.6K", now: "33K", d: "Almost 2x" },
+];
+
+// React doesn't render `muted` into the HTML, so browsers can block autoplay — set it in JS
+function autoplayMuted(v: HTMLVideoElement | null) {
+  if (!v) return;
+  v.muted = true;
+  v.play().catch(() => {});
+}
+
+export default function OfficialWebsiteRenewal() {
   return (
     <>
       <FloatingNav />
@@ -78,192 +155,184 @@ export default function BrandMotionDetail() {
         {/* Hero media — same image as the previous page's Next project card */}
         <CaseStudyHero href="/work/official-website-renewal" alt="KEWAZO website mockup" />
 
-        {/* Back */}
-        <div className="px-4 sm:px-6 max-w-[900px] mx-auto pt-12 pb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-[13px] text-[#576779] hover:text-[#181818] transition-colors"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Back
-          </Link>
-        </div>
-
-        {/* Hero header */}
-        <div className="px-4 sm:px-6 max-w-[900px] mx-auto pb-10">
-          <div className="flex flex-col gap-4">
-            <p className="text-[13px] text-[#576779] tracking-[-0.1px]">Product · Sep 2025 – Jan 2026</p>
-            <h1 className="text-[36px] sm:text-[48px] font-bold leading-[1.1] tracking-[-1.2px] text-[#181818]">
-              Official website<br />full scale renewal
-            </h1>
-            <p className="text-[16px] leading-[28px] text-[#576779] tracking-[-0.2px] max-w-[560px]">
-              KEWAZO is a Series A-B stage B2B company combining SaaS and robotics in heavy industries.
-            </p>
-          </div>
-
-          {/* Meta */}
-          <div className="mt-10 border-t border-black/[0.07] pt-8 grid grid-cols-2 sm:grid-cols-[1fr_1fr_2fr] gap-6">
-            <div className="flex flex-col gap-1">
-              <p className="text-[12px] text-[#9aa5b1] tracking-[0.4px] uppercase">Delivered</p>
-              <p className="text-[14px] font-medium text-[#181818] tracking-[-0.1px] leading-[20px]">Official website</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-[12px] text-[#9aa5b1] tracking-[0.4px] uppercase">Duration</p>
-              <p className="text-[14px] font-medium text-[#181818] tracking-[-0.1px] leading-[20px]">5 months (2025 Sep – 2026 Jan)</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-[12px] text-[#9aa5b1] tracking-[0.4px] uppercase">Impact / Proxy</p>
-              <ul className="flex flex-col gap-0.5 mt-0.5">
-                {[
-                  "Reduced the navigation cost of user journey",
-                  "Sales used the website more actively as a reference",
-                  "A 45% increase in average session duration (2 m 51 s → 4 m 8 s)",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-1.5">
-                    <span className="mt-[8px] w-[3px] h-[3px] rounded-full bg-[#9aa5b1] shrink-0" />
-                    <p className="text-[13px] leading-[20px] text-[#576779] tracking-[-0.1px]">{item}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="px-4 sm:px-6 max-w-[1200px] mx-auto pb-16">
-          <div className="w-full rounded-[20px] overflow-hidden bg-[#1a1a1a]">
-            <img src={images.mockup2} alt="KEWAZO website detail" className="w-full h-auto object-cover" />
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="px-4 sm:px-6 max-w-[900px] mx-auto">
-
-          <Divider />
-          <SectionRow label="Problem Definition">
-            <p className="text-[16px] leading-[28px] text-[#576779] tracking-[-0.2px]">
-              Users visiting the previous website struggled to form a credible impression of the product quickly. The product value wasn't surfaced in a way that matched how users actually browse — fast and with limited attention.
-            </p>
-            <div className="bg-[#f8f9fa] border border-black/[0.07] rounded-[14px] p-5 mt-2 flex flex-col gap-3">
-              <p className="text-[13px] text-[#9aa5b1] tracking-[-0.1px]">Based on 12 months of previous website analytics</p>
-              <ul className="flex flex-col gap-2">
-                {[
-                  "99% first-time visitors (1% returning)",
-                  "65% of visitors exited from the landing page without further navigation.",
-                  "Of the remaining 35% who continued, 20% visited the [About company] page as their next step",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span className="mt-[9px] w-[3px] h-[3px] rounded-full bg-[#9aa5b1] shrink-0" />
-                    <p className="text-[14px] leading-[22px] text-[#576779] tracking-[-0.1px]">{item}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </SectionRow>
-
-          <Divider />
-          <SectionRow label="How might we">
-            <ul className="flex flex-col gap-3">
-              {[
-                "Create a first touchpoint that builds user trust and credibility?",
-                "Guide users through clear, digestible information?",
-                "Achieve all of the above while reflecting the brand identity?",
-              ].map((q) => (
-                <li key={q} className="flex items-start gap-3">
-                  <span className="mt-[11px] w-[5px] h-[5px] rounded-full bg-[#181818] shrink-0" />
-                  <p className="text-[18px] font-medium leading-[28px] tracking-[-0.3px] text-[#181818]">{q}</p>
-                </li>
-              ))}
-            </ul>
-          </SectionRow>
-
-          <Divider />
-          <SectionRow label="Design Decisions">
-            <div className="flex flex-col gap-14">
-              {/* User flow restructure diagram */}
-              <div className="w-full rounded-[16px] overflow-hidden bg-[#f8f9fa]">
-                <img src={images.detail} alt="Landing page user flow restructure" className="w-full h-auto object-cover" />
+        <div className="flex flex-col gap-20 items-center px-6 sm:px-10 min-[75rem]:px-[100px] pt-20 max-w-[1247px] mx-auto w-full">
+          {/* Title */}
+          <div className="flex flex-col gap-12 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
+              <h1 className="md:col-span-3 text-[38px] sm:text-[52px] font-bold leading-[1.1] tracking-[-1px] text-[#181818] max-w-[720px]">
+                Official website full scale renewal
+              </h1>
+              <div className="flex flex-col gap-2 justify-end items-start">
+                <p className={label}>Delivered</p>
+                <a
+                  href="https://www.kewazo.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-12 px-4 rounded-[4px] bg-[rgba(223,225,227,0.5)] hover:bg-[rgba(223,225,227,0.85)] transition-colors text-[16px] font-semibold tracking-[-0.25px] text-[#181818]"
+                >
+                  Official website
+                </a>
               </div>
+            </div>
 
-              <DecisionCard
-                num={1}
-                title="Restructure the User Flow"
-                desc="Prioritised case studies (proven product values) over product feature explanations. The previous landing page led users straight into feature details before they had any sense of the product's value. Moving Case Studies to the top gives users an immediate anchor — our most powerful sales message."
-                objectives={[
-                  "Reduce user bounce rate on the landing page by 10%",
-                  "Shift the user flow from About Company to Case Studies, reducing navigation costs",
-                ]}
-              />
-
-              {/* Video 1 */}
-              <div className="rounded-[16px] overflow-hidden bg-[#1a1a1a]">
-                <video src={videos.v1} autoPlay muted loop playsInline className="w-full h-auto" />
+            {/* Project profile */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
+              <div className="flex flex-col gap-3">
+                <p className={label}>Role</p>
+                <p>Sole designer / builder (Framer)</p>
               </div>
+              <div className="flex flex-col gap-3">
+                <p className={label}>Scope</p>
+                <p>
+                  Analytics audit<br />Information architecture<br />UX/UI<br />Visual system<br />Framer build<br />Photo/video editing
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <p className={label}>Impact / Proxy</p>
+                <ol className="list-decimal pl-[21px]">
+                  <li><b>+38%</b> average session time<br />(2m 53s → 3m 58s)</li>
+                  <li><b>+42%</b> inbound enquiries<br />(192 → 272 submissions)</li>
+                  <li><b>2m 18s</b> time on the flagship case study, against a 1m 30s target</li>
+                  <li>Kewazo team uses the website more actively as a reference</li>
+                </ol>
+              </div>
+              <div className="flex flex-col gap-3">
+                <p className={label}>Duration</p>
+                <p>5 months<br />(2025 Sep - 2026 Jan)</p>
+              </div>
+            </div>
+          </div>
 
-              <DecisionCard
-                num={2}
-                title="Tiered CTA button structure"
-                desc="I designed tiered CTAs based on user engagement level. This reduced pressure on first-time users and guided them through progressive disclosure."
-                objectives={[
-                  "Increase the amount of clicks on CTA buttons",
-                  "Increase DocSend entering",
-                ]}
-              />
-              <div className="bg-[#f8f9fa] border border-black/[0.07] rounded-[14px] p-6 flex flex-col gap-3">
-                <p className="text-[13px] font-semibold text-[#576779] tracking-[-0.1px]">Buttons redesigned into three tiers:</p>
-                {[
-                  { tier: "High engagement", action: "Request a quote or contact submit", ui: "Hollow graphic" },
-                  { tier: "Mid engagement", action: "Moving to other pages", ui: "Hover: vertical moving micro-motion" },
-                  { tier: "Low commitment", action: "Educational assets", ui: "Hover: colour change" },
-                ].map(({ tier, action, ui }) => (
-                  <div key={tier} className="flex flex-col gap-0.5 border-t border-black/[0.06] pt-3">
-                    <p className="text-[14px] font-medium text-[#181818] tracking-[-0.1px]">{tier}</p>
-                    <p className="text-[13px] text-[#576779]">{action}</p>
-                    <p className="text-[12px] text-[#9aa5b1]">{ui}</p>
+          {/* Story */}
+          <div className="flex flex-col gap-14 pb-16 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-4 py-6">
+              <p className={`${body} md:col-span-3`}>
+                KEWAZO is a B2B startup combining SaaS and robotics to help refineries, chemical plants and construction contractors move heavy equipment. In B2B, a company website is often the first place of evaluation for both a product and the company behind it. As its sole designer, I had the privilege of initiating and shipping the company’s website redesign end-to-end.
+              </p>
+            </div>
+
+            <BeforeAfterSlider before={MEDIA.before} after={MEDIA.after} beforeAlt="Old KEWAZO website (Wix)" afterAlt="New kewazo.com" />
+
+            <Block title="Problem definition" heading="Analytics suggested that users went looking for proof for credibility, and didn't find it.">
+              <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
+              <p>“Can users trust this company?”</p>
+              <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time visitor would.</p>
+            </Block>
+
+            <VisitorsWaffle />
+
+            <ListRow title="Based on 10 months of previous website analytics:">
+              <li><b>98% were first-time visitors.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
+              <li><b>61% left the homepage without clicking anything.</b></li>
+              <li><b>41% of those who stayed went to About company, and only 9% to Case studies,</b> where the strongest proof lived.</li>
+            </ListRow>
+
+            <ListRow title="How Might We:">
+              <li>make the first-visit users prove KEWAZO is credible within seconds?</li>
+              <li>guide users through clear, digestible information without making them hunt?</li>
+              <li>rebuilt the homepage to answer user’s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</li>
+            </ListRow>
+
+            {/* Design decisions (1) */}
+            <div className="flex flex-col gap-2 w-full">
+              <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-start p-6 rounded-[20px] bg-[#f5f7fb]">
+                <IAColumn title="Old homepage" items={OLD_HOME} />
+                <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
+                <IAColumn title="New homepage" items={NEW_HOME} />
+              </div>
+              <Block
+                title="Design decisions (1)"
+                heading="Rebuild the information architecture around the user's questions"
+                result="→ +38% average session time (2m 53s → 3m 58s)"
+              >
+                <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</p>
+              </Block>
+            </div>
+
+            {/* Design decisions (2) */}
+            <div className="flex flex-col gap-2 w-full">
+              <Block
+                title="Design decisions (2)"
+                heading="Lead with proof first, product features come later"
+                result="→ 2m 18s time on the new flagship case study page"
+              >
+                <p>Problem: Case studies held the strongest proof, and only 9% of engaged visitors opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
+              </Block>
+              {/* Media slot (empty in the design) */}
+              <div className="h-[400px] rounded-[16px] border border-[#d4def5] w-full" />
+            </div>
+
+            {/* Design decisions (3) */}
+            <div className="flex flex-col gap-2 w-full">
+              <Block title="Design decisions (3)" heading="A shorter path to an enquiry" result="→ +42% inbound enquiries">
+                <p>Five button styles competed for attention, with no clear hierarchy. I grouped actions into three tiers based on the commitment they ask of users, then gave each tier its own hover motion to reinforce the hierarchy.</p>
+                <p>The contact form now sits at the bottom of the homepage. Previously, visitors had to click a button to reach it on a separate page.</p>
+              </Block>
+              <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-center w-full">
+                <div className="flex flex-col gap-4 p-[18px] rounded-[16px] border border-[#e2e5f1] bg-white md:w-[245px] md:h-[261px] shrink-0">
+                  <p className="text-[12px] font-semibold uppercase text-[#181818]">Before</p>
+                  <div className="flex flex-wrap gap-2">
+                    {OLD_BUTTONS.map((b) => (
+                      <span key={b.t} className="px-[11px] py-[9px] rounded-[3px] text-[12px] font-semibold whitespace-nowrap" style={{ background: b.bg, color: b.fg }}>
+                        {b.t}
+                      </span>
+                    ))}
                   </div>
-                ))}
+                </div>
+                <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
+                <div className="relative flex-1 min-w-0 md:h-[261px] rounded-[16px] border border-[#d4def5] p-[18px] md:p-0">
+                  <p className="md:absolute md:left-[18px] md:top-[18px] text-[12px] font-semibold uppercase text-[#181818] mb-3 md:mb-0">After</p>
+                  {/* "Design decisions 3" */}
+                  <video
+                    ref={autoplayMuted}
+                    src={MEDIA.decision3}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-label="New three-tier button system with hover motion"
+                    className="w-full aspect-[631/261] md:aspect-auto md:absolute md:top-0 md:right-0 md:w-[calc(100%-107px)] md:h-full rounded-[16px] object-cover bg-[#d9d9d9]"
+                  />
+                </div>
               </div>
-
-              {/* Video 2 */}
-              <div className="rounded-[16px] overflow-hidden bg-[#1a1a1a]">
-                <video src={videos.v2} autoPlay muted loop playsInline className="w-full h-auto" />
-              </div>
-
-              <DecisionCard
-                num={3}
-                title="Grouping features and services as a carousel"
-                desc="Key features were grouped into a single scannable carousel. This reduced the scroll length users had to navigate and enabled faster comprehension of the product's core value."
-                objectives={[
-                  "Increase user scroll depth",
-                  "Increase user completion rate of the Product page",
-                ]}
-              />
-
-              <DecisionCard
-                num={4}
-                title="Making strong case studies compelling to watch and hard to miss"
-                desc="Case studies are presented as a full-bleed slideshow with clear ROI highlights. Detailed reports are linked via DocSend, letting users go deeper at their own pace while the team collects qualified leads through email submission."
-                objectives={[
-                  "Increase user dwell time to over 1 m 30 s",
-                  "Increase DocSend entries from users",
-                ]}
-              />
-
-              {/* Video 3 */}
-              <div className="rounded-[16px] overflow-hidden bg-[#1a1a1a]">
-                <video src={videos.v3} autoPlay muted loop playsInline className="w-full h-auto" />
-              </div>
-
             </div>
-          </SectionRow>
 
-          <Divider />
-          <SectionRow label="What I'd test next">
-            <p className="text-[16px] leading-[28px] text-[#576779] tracking-[-0.2px]">
-              The next step would be to better understand user behaviour on the site, identify potential customers through their interaction patterns, and connect those signals directly to the sales process.
-            </p>
-          </SectionRow>
+            {/* Impacts and Takeaway */}
+            <div className="flex flex-col gap-4 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
+                <p className={`${sectionLabel} md:row-span-2`}>Impacts and Takeaway</p>
+                <p className={`${headline} md:col-span-3 max-w-[699px]`}>Longer visits and more enquiries</p>
+                <p className={`${body} md:col-span-3`}>
+                  Users came with one question: “Can we trust this company?” I put the answer, real customer value numbers on the homepage and made the next step obvious. Sales also began using the website as a reference in their outreach. That&apos;s a qualitative signal from the team.
+                </p>
+              </div>
+              <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-[640px] border-collapse">
+                  <thead>
+                    <tr className="bg-[#f5f7fb] text-[13px] font-medium text-[#576779]">
+                      <th className="text-left font-medium px-4 py-3">Metric</th>
+                      <th className="text-right font-medium px-4 py-3 w-[130px]">2025 · old</th>
+                      <th className="text-right font-medium px-4 py-3 w-[130px]">2026 · new</th>
+                      <th className="text-left font-medium px-4 py-3 w-[180px]">-</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {RESULTS.map((r) => (
+                      <tr key={r.m} className="border-b border-[#d4def5] text-[#181818]">
+                        <td className="px-4 py-3 text-[16px]">{r.m}</td>
+                        <td className="px-4 py-3 text-[20px] text-right">{r.old}</td>
+                        <td className="px-4 py-3 text-[20px] text-right">{r.now}</td>
+                        <td className={`px-4 py-3 text-[20px] ${r.up ? "font-semibold text-[#058b8c]" : ""}`}>{r.d}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p className="py-[10px] text-center text-[14px] leading-[1.5] text-[#576779]">
+                  Same calendar window in both years, 1 February to 23 November: the old Wix site in 2025, the new Framer site in 2026.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <NextProject current="/work/official-website-renewal" />
