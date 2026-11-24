@@ -4,7 +4,7 @@
 // driven two ways:
 //   • by a gesture (drag / scroll past the end of the page): setProgress(0→1)
 //     grows the thumbnail toward full screen as the user pulls, then
-//     commit() finishes the expansion or cancel() springs it back;
+//     commit() finishes the expansion (cancel() only if pulled all the way back);
 //   • by a click: heroTransition() runs the whole expansion at once.
 // After the expansion the next page loads underneath, and the full-screen
 // image settles into that page's hero slot (the element marked with
@@ -23,8 +23,6 @@ const WAIT_TIMEOUT_MS = 3000;
 const NAV_HIDE_AT = 0.12; // gesture progress at which the nav fades out
 const NAV_REVEAL_AT = 0.6; // fraction of the settle when the nav starts fading in
 const NAV_REVEAL_MS = 700; // keep in sync with globals.css
-
-export const COMMIT_THRESHOLD = 0.3;
 
 const px = (n: number) => `${n}px`;
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;

@@ -3,7 +3,6 @@ import { Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getNextCaseStudy } from "../data/case-studies";
 import {
-  COMMIT_THRESHOLD,
   heroTransition,
   prefersReducedMotion,
   startHeroDrag,
@@ -13,7 +12,9 @@ import {
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 const CLICK_SLOP = 6; // px of movement before a press becomes a drag
 const WHEEL_ARM_GAP_MS = 250; // a fresh scroll gesture must start once the page is already at the bottom
-const WHEEL_COMMIT = 0.45; // scrolling needs a bit more intent than dragging
+const WHEEL_IDLE_MS = 140; // scroll pause that hands over to the automatic finish
+const WHEEL_SMOOTHING = 0.2; // per-frame easing of the thumbnail toward the scrolled amount
+const CANCEL_BELOW = 0.02; // only a gesture pulled all the way back is cancelled
 
 // "Next project" section (Figma: 260808_aumatis › Next project).
 // Click the thumbnail, drag it upward, or keep scrolling past the end of the
@@ -36,11 +37,13 @@ export default function NextProject({ current }: { current: string }) {
     dragRef.current = startHeroDrag({ router, href: next.href, src: next.image, from: mediaRef.current });
     return dragRef.current;
   };
-  const release = (threshold = COMMIT_THRESHOLD) => {
+  // Once a gesture has started it always carries on into the next project,
+  // unless the user deliberately pulled it all the way back.
+  const release = () => {
     const d = dragRef.current;
     if (!d) return;
     dragRef.current = null;
-    if (d.progress >= threshold) d.commit();
+    if (d.progress > CANCEL_BELOW) d.commit();
     else d.cancel();
   };
   const gestureRef = useRef({ ensureDrag, release });
@@ -55,6 +58,25 @@ export default function NextProject({ current }: { current: string }) {
     let touchY: number | null = null;
     let armed = false;
     let lastWheel = 0;
+    let target = 0; // scrolled amount; the thumbnail eases toward it every frame
+    let raf = 0;
+
+    const follow = () => {
+      const d = dragRef.current;
+      if (!d) {
+        raf = 0;
+        return;
+      }
+      const p = d.progress + (target - d.progress) * WHEEL_SMOOTHING;
+      d.setProgress(Math.abs(target - p) < 0.001 ? target : p);
+      if (target >= 1 && d.progress > 0.97) {
+        raf = 0;
+        clearTimeout(idle);
+        gestureRef.current.release();
+        return;
+      }
+      raf = requestAnimationFrame(follow);
+    };
 
     const atBottom = () =>
       window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
@@ -81,13 +103,19 @@ export default function NextProject({ current }: { current: string }) {
           armed = true;
         }
       }
+      const isNew = !dragRef.current;
       const d = ensureDrag();
       if (!d) return;
       e.preventDefault();
-      d.setProgress(clamp01(d.progress + e.deltaY / (window.innerHeight * 1.2)));
+      if (isNew) target = d.progress;
+      target = clamp01(target + e.deltaY / (window.innerHeight * 1.2));
+      if (!raf) raf = requestAnimationFrame(follow);
       clearTimeout(idle);
-      if (d.progress >= 1) release(WHEEL_COMMIT);
-      else idle = setTimeout(() => release(WHEEL_COMMIT), 180);
+      idle = setTimeout(() => {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        release();
+      }, WHEEL_IDLE_MS);
     };
 
     const onTouchStart = (e: TouchEvent) => {
@@ -114,6 +142,7 @@ export default function NextProject({ current }: { current: string }) {
     window.addEventListener("touchcancel", onTouchEnd);
     return () => {
       clearTimeout(idle);
+      cancelAnimationFrame(raf);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
