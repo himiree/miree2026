@@ -298,9 +298,8 @@ export default function OfficialWebsiteRenewal() {
                   </div>
                 </div>
                 <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
-                <div className="relative flex-1 min-w-0 md:h-[261px] rounded-[16px] border border-[#d4def5] p-[18px] md:p-0">
-                  <p className="md:absolute md:left-[18px] md:top-[18px] text-[12px] font-semibold uppercase text-[#181818] mb-3 md:mb-0">After</p>
-                  {/* "Design decisions 3" */}
+                <div className="relative flex-1 min-w-0 aspect-[631/261] md:aspect-auto md:h-[261px] rounded-[16px] overflow-hidden bg-[#1c1c1c]">
+                  {/* "Design decisions 3" — fills the whole After box */}
                   <video
                     ref={autoplayMuted}
                     src={MEDIA.decision3}
@@ -309,8 +308,9 @@ export default function OfficialWebsiteRenewal() {
                     loop
                     playsInline
                     aria-label="New three-tier button system with hover motion"
-                    className="w-full aspect-[631/261] md:aspect-auto md:absolute md:top-0 md:right-0 md:w-[calc(100%-107px)] md:h-full rounded-[16px] object-cover bg-[#d9d9d9]"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
+                  <p className="absolute left-[18px] top-[18px] text-[12px] font-semibold uppercase text-white">After</p>
                 </div>
               </div>
             </div>
