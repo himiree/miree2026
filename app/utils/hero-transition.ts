@@ -18,7 +18,7 @@ const EASE_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
 const CLICK_EXPAND_MS = 900;
 const SETTLE_MS = 800;
 const CANCEL_MS = 450;
-const FADE_MS = 220;
+const FADE_MS = 150;
 const WAIT_TIMEOUT_MS = 3000;
 const NAV_HIDE_AT = 0.12; // gesture progress at which the nav fades out
 const NAV_REVEAL_AT = 0.6; // fraction of the settle when the nav starts fading in
@@ -40,6 +40,29 @@ function revealNav() {
   setTimeout(() => {
     if (document.documentElement.dataset.heroNav === "reveal") setNav(null);
   }, NAV_REVEAL_MS + 50);
+}
+
+// Hold the page still for the whole transition — including while the next page
+// loads and the image settles into its hero slot — so leftover trackpad momentum
+// can't scroll the new page out from under the overlay. Done with event
+// blocking rather than overflow:hidden so the layout (scrollbar width) never shifts.
+const SCROLL_KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
+function lockScroll() {
+  const block = (e: Event) => {
+    if (e.cancelable) e.preventDefault();
+  };
+  const blockKeys = (e: KeyboardEvent) => {
+    if (SCROLL_KEYS.has(e.key)) e.preventDefault();
+  };
+  const opts = { capture: true, passive: false } as const;
+  window.addEventListener("wheel", block, opts);
+  window.addEventListener("touchmove", block, opts);
+  window.addEventListener("keydown", blockKeys, opts);
+  return () => {
+    window.removeEventListener("wheel", block, opts);
+    window.removeEventListener("touchmove", block, opts);
+    window.removeEventListener("keydown", blockKeys, opts);
+  };
 }
 
 function waitFor<T>(check: () => T | null, timeout: number): Promise<T | null> {
@@ -89,7 +112,6 @@ export function startHeroDrag({
   active = true;
 
   const html = document.documentElement;
-  const prevOverflow = html.style.overflow;
   const oldTarget = document.querySelector("[data-hero-target]");
   const r = from.getBoundingClientRect();
   const startRadius = parseFloat(getComputedStyle(from).borderTopLeftRadius) || 0;
@@ -118,7 +140,7 @@ export function startHeroDrag({
   overlay.appendChild(img);
   document.body.appendChild(overlay);
   from.style.visibility = "hidden";
-  html.style.overflow = "hidden";
+  const unlockScroll = lockScroll();
   router.prefetch(href);
 
   let progress = 0;
@@ -147,7 +169,7 @@ export function startHeroDrag({
   apply(0);
 
   const teardown = () => {
-    html.style.overflow = prevOverflow;
+    unlockScroll();
     overlay.remove();
     if (from.isConnected) from.style.visibility = "";
     active = false;
@@ -189,7 +211,6 @@ export function startHeroDrag({
         await overlay.animate([frameAt(p), frameAt(1)], opts).finished;
 
         // 2 — navigate underneath; drop below the fixed nav (z-50) so it can fade in on top
-        html.style.overflow = prevOverflow;
         overlay.style.zIndex = "40";
         router.push(href);
 
