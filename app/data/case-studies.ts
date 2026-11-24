@@ -9,6 +9,8 @@ export interface CaseStudy {
   href: string;
   title: string;
   meta: string;
+  /** Shown under the title in the "Next project" section */
+  tags: string[];
   image: string;
 }
 
@@ -17,12 +19,14 @@ export const caseStudies: CaseStudy[] = [
     href: "/work/official-website-renewal",
     title: "Official website full scale renewal",
     meta: "Product · Sep 2025 – Jan 2026",
+    tags: ["Web Design", "UX"],
     image: `${fb}5xQRoFELCnHgk1II0R2HiN0UkI.png`,
   },
   {
     href: "/work/kewazo-design-system",
     title: "Design System for B2B robotic startup",
     meta: "Product · Sep 2024 – Nov 2024",
+    tags: ["Branding", "Design System", "Marketing assets"],
     image: `${fb}1kK4CERS1OmXuQGONc1U9i2WmuU.png`,
   },
 ];
