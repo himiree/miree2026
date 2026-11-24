@@ -325,13 +325,13 @@ export default function OfficialWebsiteRenewal() {
                 </p>
               </div>
               <div className="w-full overflow-x-auto">
-                <table className="w-full min-w-[640px] border-collapse">
+                <table className="w-full min-w-[640px] border-collapse table-fixed">
                   <thead>
                     <tr className="bg-[#f5f7fb] text-[13px] font-medium text-[#576779]">
-                      <th className="text-left font-medium px-4 py-3">Metric</th>
-                      <th className="text-right font-medium px-4 py-3 w-[130px]">2025 · old</th>
-                      <th className="text-right font-medium px-4 py-3 w-[130px]">2026 · new</th>
-                      <th className="text-left font-medium px-4 py-3 w-[180px]">-</th>
+                      <th className="text-left font-medium px-4 py-3 w-[30%]">Metric</th>
+                      <th className="text-right font-medium px-4 py-3 w-[20%]">2025 · old</th>
+                      <th className="text-right font-medium px-4 py-3 w-[20%]">2026 · new</th>
+                      <th className="text-left font-medium px-4 py-3 pl-10 w-[30%]">-</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -340,7 +340,7 @@ export default function OfficialWebsiteRenewal() {
                         <td className="px-4 py-3 text-[16px]">{r.m}</td>
                         <td className="px-4 py-3 text-[20px] text-right">{r.old}</td>
                         <td className="px-4 py-3 text-[20px] text-right">{r.now}</td>
-                        <td className={`px-4 py-3 text-[20px] ${r.up ? "font-semibold text-[#058b8c]" : ""}`}>{r.d}</td>
+                        <td className={`px-4 py-3 pl-10 text-[20px] ${r.up ? "font-semibold text-[#058b8c]" : ""}`}>{r.d}</td>
                       </tr>
                     ))}
                   </tbody>
