@@ -51,14 +51,26 @@ const VISITORS = [
 ];
 
 function VisitorsWaffle() {
-  const cells = VISITORS.flatMap((v) => Array.from({ length: v.n }, () => v.cell));
+  // Pie slices, clockwise from 12 o'clock (values are out of 100)
+  const slices = VISITORS.map((v, i) => {
+    const before = VISITORS.slice(0, i).reduce((sum, x) => sum + x.n, 0);
+    const start = (before / 100) * Math.PI * 2;
+    const end = ((before + v.n) / 100) * Math.PI * 2;
+    const pt = (a: number) => `${50 + 50 * Math.sin(a)} ${50 - 50 * Math.cos(a)}`;
+    return { ...v, d: `M50 50 L${pt(start)} A50 50 0 ${end - start > Math.PI ? 1 : 0} 1 ${pt(end)} Z` };
+  });
   return (
     <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 p-7 rounded-[20px] border border-[#d4def5] bg-white w-full">
-      <div className="grid grid-cols-10 gap-1 w-[296px] max-w-full shrink-0" role="img" aria-label="100 homepage visitors: 61 left without clicking, 16 went to About company, 3 went to Case studies, 20 went elsewhere">
-        {cells.map((c, i) => (
-          <span key={i} className="aspect-square rounded-[4px]" style={{ background: c }} />
+      <svg
+        viewBox="0 0 100 100"
+        className="w-[296px] max-w-full shrink-0"
+        role="img"
+        aria-label="100 homepage visitors: 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
+      >
+        {slices.map((sl) => (
+          <path key={sl.label} d={sl.d} fill={sl.cell} stroke="#fff" strokeWidth="0.6" strokeLinejoin="round" />
         ))}
-      </div>
+      </svg>
       <div className="flex flex-col gap-4 min-w-0">
         <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
         {VISITORS.map((v) => (
