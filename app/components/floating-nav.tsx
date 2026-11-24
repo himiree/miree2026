@@ -75,9 +75,9 @@ export default function FloatingNav() {
   ];
 
   const CONTACT_ITEMS = [
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/damiree-kim/", external: true },
-    { label: "Instagram", href: "https://www.instagram.com/damiree_813/", external: true },
-    { label: "Email", href: "mailto:damiree813@gmail.com", external: false },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/damiree-kim/", icon: "/icon-linkedin.svg", external: true },
+    { label: "Instagram", href: "https://www.instagram.com/damiree_813/", icon: "/icon-instagram.svg", external: true },
+    { label: "Email", href: "mailto:damiree813@gmail.com", icon: "/icon-email.svg", external: false },
   ];
 
   return (
@@ -172,8 +172,9 @@ export default function FloatingNav() {
                       {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       onMouseEnter={() => playClickSound()}
                       onClick={() => setContactOpen(false)}
-                      className="block w-full text-left px-4 py-2.5 text-[13px] leading-[18px] tracking-[-0.4px] text-[#576779] hover:text-[#181818] transition-colors duration-150 whitespace-nowrap"
+                      className="flex items-center gap-2 w-full text-left px-4 py-2.5 text-[13px] leading-[18px] tracking-[-0.4px] text-[#576779] hover:text-[#181818] transition-colors duration-150 whitespace-nowrap"
                     >
+                      <img src={item.icon} alt="" aria-hidden width={14} height={14} className="size-[14px] shrink-0 object-contain" />
                       {item.label}
                     </a>
                   ))}
