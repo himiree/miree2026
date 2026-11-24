@@ -14,12 +14,12 @@ export interface HomeWork {
 
 export const homeWork: HomeWork[] = [
   {
-    title: "Official website full scale renewal",
+    title: "Website revamp",
     image: "/project-img-2.png",
     href: "/work/official-website-renewal",
   },
   {
-    title: "Robotic hoist utilisation dashboard UI",
+    title: "Data dashboard UI",
     image: "/project-img-1.png",
     // The video shows the dashboard unblurred; uncomment to autoplay it on hover
     // video: "/project-img-1.mp4",

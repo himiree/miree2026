@@ -87,10 +87,15 @@ export function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+export type Rect = { top: number; left: number; width: number; height: number };
+
+const DIRECT_MS = 1000;
+const BACKDROP_OUT_MS = 450;
+
 export interface HeroDrag {
   readonly progress: number;
   setProgress: (p: number) => void;
-  commit: (opts?: { duration?: number; easing?: string; direct?: boolean }) => Promise<void>;
+  commit: (opts?: { duration?: number; easing?: string; direct?: boolean; to?: () => Rect }) => Promise<void>;
   cancel: () => Promise<void>;
 }
 
@@ -175,6 +180,73 @@ export function startHeroDrag({
     active = false;
   };
 
+  // Direct morph (home → case study): the thumbnail starts moving at once toward
+  // where the next page's hero will be, while the current page fades to white
+  // behind it and the next page loads underneath, out of sight. When it lands,
+  // the white fades away to reveal the new page around the hero.
+  const directMorph = async (to?: () => Rect) => {
+    const backdrop = document.createElement("div");
+    Object.assign(backdrop.style, {
+      position: "fixed",
+      inset: "0",
+      zIndex: "9998",
+      background: getComputedStyle(document.body).backgroundColor || "#fff",
+      opacity: "0",
+      pointerEvents: "none",
+    } as Partial<CSSStyleDeclaration>);
+    document.body.appendChild(backdrop);
+    try {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const goal = to?.() ?? { top: 0, left: 0, width: vw, height: vh };
+      const goalFrame = {
+        top: px(goal.top),
+        left: px(goal.left),
+        width: px(goal.width),
+        height: px(goal.height),
+        borderRadius: "0px",
+      };
+      const opts = { duration: DIRECT_MS, easing: EASE_IN_OUT, fill: "forwards" as const };
+      backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: DIRECT_MS * 0.6, easing: "ease-out", fill: "forwards" });
+      img.animate([{ transform: scaleAt(progress) }, { transform: "scale(1)" }], opts);
+      const flight = overlay.animate([frameAt(progress), goalFrame], opts).finished;
+
+      // Load the next page underneath while the image is in flight
+      await nextFrame();
+      router.push(href);
+      const target = await waitFor<HTMLElement>(() => {
+        if (window.location.pathname !== href) return null;
+        const el = document.querySelector<HTMLElement>("[data-hero-target]");
+        if (!el || el === oldTarget) return null;
+        const im = el.querySelector("img");
+        if (im && !im.complete) return null;
+        return el;
+      }, WAIT_TIMEOUT_MS);
+      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+      await flight;
+
+      if (target) {
+        // Correct any small difference between the predicted and real hero slot
+        const t = target.getBoundingClientRect();
+        const off = Math.abs(t.top - goal.top) + Math.abs(t.height - goal.height) + Math.abs(t.width - goal.width);
+        if (off > 1) {
+          await overlay.animate(
+            [goalFrame, { top: px(t.top), left: px(t.left), width: px(t.width), height: px(t.height), borderRadius: getComputedStyle(target).borderRadius }],
+            { duration: 220, easing: EASE_OUT, fill: "forwards" },
+          ).finished;
+        }
+      }
+
+      // Let the nav sit above the image, then reveal the new page around it
+      overlay.style.zIndex = "40";
+      backdrop.style.zIndex = "39";
+      revealNav();
+      await backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: BACKDROP_OUT_MS, easing: "ease-out", fill: "forwards" }).finished;
+    } finally {
+      backdrop.remove();
+    }
+  };
+
   return {
     get progress() {
       return progress;
@@ -195,11 +267,15 @@ export function startHeroDrag({
       teardown();
     },
 
-    async commit({ duration, easing, direct = false } = {}) {
+    async commit({ duration, easing, direct = false, to } = {}) {
       if (finished) return;
       finished = true;
       setNav("hidden");
       try {
+        if (direct) {
+          await directMorph(to);
+          return;
+        }
         // 1 — finish expanding to full screen (skipped for a direct morph,
         //     where the thumbnail flies straight into the hero slot)
         const p = progress;
@@ -269,11 +345,13 @@ export async function heroTransition(opts: {
   from: HTMLElement;
   /** Morph the thumbnail straight into the next page's hero (no full-screen step) */
   direct?: boolean;
+  /** Where the next page's hero will be, so the image can start moving before it loads */
+  to?: () => Rect;
 }) {
   if (prefersReducedMotion()) {
     opts.router.push(opts.href);
     return;
   }
   const drag = startHeroDrag(opts);
-  if (drag) await drag.commit({ duration: CLICK_EXPAND_MS, easing: EASE_IN_OUT, direct: opts.direct });
+  if (drag) await drag.commit({ duration: CLICK_EXPAND_MS, easing: EASE_IN_OUT, direct: opts.direct, to: opts.to });
 }
