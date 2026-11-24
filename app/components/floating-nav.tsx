@@ -98,10 +98,10 @@ export default function FloatingNav() {
             <img
               src="/profile.png"
               alt="Damiree Kim"
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out group-hover/profile:opacity-0"
+              className="absolute inset-0 w-full h-full object-cover"
             />
             <img
-              src="/profile_hover.webp"
+              src="/profile_still2.png"
               alt=""
               aria-hidden
               className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover/profile:opacity-100"
