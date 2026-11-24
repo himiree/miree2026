@@ -1,6 +1,7 @@
 "use client";
 import FloatingNav from "../../components/floating-nav";
 import Footer from "../../components/footer";
+import NextProject from "../../components/next-project";
 import Link from "next/link";
 
 const fb = "https://framerusercontent.com";
@@ -129,7 +130,7 @@ export default function BrandMotionDetail() {
 
         {/* Hero image — full website mockup */}
         <div className="px-4 sm:px-6 max-w-[1200px] mx-auto pb-4">
-          <div className="w-full rounded-[20px] overflow-hidden bg-[#1a1a1a]">
+          <div data-hero-target className="w-full rounded-[20px] overflow-hidden bg-[#1a1a1a]">
             <img src={images.mockup1} alt="KEWAZO website mockup" className="w-full h-auto object-cover" />
           </div>
         </div>
@@ -268,6 +269,8 @@ export default function BrandMotionDetail() {
             </p>
           </SectionRow>
         </div>
+
+        <NextProject current="/work/official-website-renewal" />
 
         {/* Bottom nav */}
         <div className="px-4 sm:px-6 max-w-[900px] mx-auto pb-20 border-t border-black/[0.07] pt-10">

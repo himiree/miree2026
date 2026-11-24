@@ -1,6 +1,7 @@
 "use client";
 import FloatingNav from "../../components/floating-nav";
 import Footer from "../../components/footer";
+import NextProject from "../../components/next-project";
 import Link from "next/link";
 
 const framerBase = "https://framerusercontent.com/images/";
@@ -63,7 +64,7 @@ export default function BrandMotionDetail() {
 
         {/* Hero image */}
         <div className="px-4 sm:px-6 max-w-[1200px] mx-auto pb-16">
-          <div className="w-full rounded-[20px] overflow-hidden bg-[#f1f3f5]">
+          <div data-hero-target className="w-full rounded-[20px] overflow-hidden bg-[#f1f3f5]">
             <img
               src={images.hero}
               alt="Design System overview"
@@ -213,6 +214,8 @@ export default function BrandMotionDetail() {
             </div>
           </div>
         </div>
+
+        <NextProject current="/work/kewazo-design-system" />
 
         {/* Bottom nav */}
         <div className="px-4 sm:px-6 max-w-[900px] mx-auto pb-20 border-t border-black/[0.07] pt-10">
