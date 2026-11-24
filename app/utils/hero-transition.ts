@@ -90,7 +90,7 @@ export function prefersReducedMotion() {
 export interface HeroDrag {
   readonly progress: number;
   setProgress: (p: number) => void;
-  commit: (opts?: { duration?: number; easing?: string }) => Promise<void>;
+  commit: (opts?: { duration?: number; easing?: string; direct?: boolean }) => Promise<void>;
   cancel: () => Promise<void>;
 }
 
@@ -195,13 +195,15 @@ export function startHeroDrag({
       teardown();
     },
 
-    async commit({ duration, easing } = {}) {
+    async commit({ duration, easing, direct = false } = {}) {
       if (finished) return;
       finished = true;
       setNav("hidden");
       try {
-        // 1 — finish expanding to full screen
+        // 1 — finish expanding to full screen (skipped for a direct morph,
+        //     where the thumbnail flies straight into the hero slot)
         const p = progress;
+        if (!direct) {
         const opts = {
           duration: duration ?? 300 + 600 * (1 - p),
           easing: easing ?? EASE_OUT,
@@ -209,6 +211,8 @@ export function startHeroDrag({
         };
         img.animate([{ transform: scaleAt(p) }, { transform: scaleAt(1) }], opts);
         await overlay.animate([frameAt(p), frameAt(1)], opts).finished;
+        }
+        const from = direct ? frameAt(p) : frameAt(1);
 
         // 2 — navigate underneath; drop below the fixed nav (z-50) so it can fade in on top
         overlay.style.zIndex = "40";
@@ -232,9 +236,12 @@ export function startHeroDrag({
           const t = target.getBoundingClientRect();
           const endRadius = getComputedStyle(target).borderRadius;
           setTimeout(revealNav, SETTLE_MS * NAV_REVEAL_AT);
+          img.animate([{ transform: direct ? scaleAt(p) : "scale(1)" }, { transform: "scale(1)" }], {
+            duration: SETTLE_MS, easing: EASE_IN_OUT, fill: "forwards",
+          });
           await overlay.animate(
             [
-              { top: "0px", left: "0px", width: px(window.innerWidth), height: px(window.innerHeight), borderRadius: "0px" },
+              from,
               { top: px(t.top), left: px(t.left), width: px(t.width), height: px(t.height), borderRadius: endRadius },
             ],
             { duration: SETTLE_MS, easing: EASE_IN_OUT, fill: "forwards" },
@@ -255,11 +262,18 @@ export function startHeroDrag({
 }
 
 /** Click: run the whole transition at once. */
-export async function heroTransition(opts: { router: Router; href: string; src: string; from: HTMLElement }) {
+export async function heroTransition(opts: {
+  router: Router;
+  href: string;
+  src: string;
+  from: HTMLElement;
+  /** Morph the thumbnail straight into the next page's hero (no full-screen step) */
+  direct?: boolean;
+}) {
   if (prefersReducedMotion()) {
     opts.router.push(opts.href);
     return;
   }
   const drag = startHeroDrag(opts);
-  if (drag) await drag.commit({ duration: CLICK_EXPAND_MS, easing: EASE_IN_OUT });
+  if (drag) await drag.commit({ duration: CLICK_EXPAND_MS, easing: EASE_IN_OUT, direct: opts.direct });
 }

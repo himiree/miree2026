@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { heroTransition } from "../utils/hero-transition";
 import { homeWork } from "../data/home-work";
 
 const titleClass =
@@ -11,6 +13,19 @@ const titleClass =
 export default function HomeWork({ label }: { label: string }) {
   const [active, setActive] = useState(0);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  // Open a case study by flying the thumbnail straight into its hero
+  // (the hero uses the same image, so the hand-off is invisible).
+  const open = (e: React.MouseEvent, i: number) => {
+    const w = homeWork[i];
+    if (!w.href || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    if (!mediaRef.current) return;
+    e.preventDefault();
+    if (i !== active) setActive(i);
+    heroTransition({ router, href: w.href, src: w.image, from: mediaRef.current, direct: true });
+  };
 
   useEffect(() => {
     videos.current.forEach((v, i) => {
@@ -27,7 +42,7 @@ export default function HomeWork({ label }: { label: string }) {
   const current = homeWork[active];
 
   const media = (
-    <div className="group/media relative w-full aspect-[682/387] rounded-[24px] overflow-hidden bg-[#1a1a1a]">
+    <div ref={mediaRef} className="group/media relative w-full aspect-[682/387] rounded-[24px] overflow-hidden bg-[#1a1a1a]">
       {homeWork.map((w, i) => (
         <div
           key={w.title}
@@ -68,7 +83,7 @@ export default function HomeWork({ label }: { label: string }) {
     <div className="grid grid-cols-1 min-[900px]:grid-cols-3 gap-8 w-full">
       <div className="min-[900px]:col-span-2">
         {current.href ? (
-          <Link href={current.href} aria-label={current.title} className="block">
+          <Link href={current.href} aria-label={current.title} onClick={(e) => open(e, active)} className="block">
             {media}
           </Link>
         ) : (
@@ -89,6 +104,7 @@ export default function HomeWork({ label }: { label: string }) {
               href={w.href}
               onPointerEnter={select}
               onFocus={select}
+              onClick={(e) => open(e, i)}
               className={`${titleClass} ${color}`}
             >
               {w.title}

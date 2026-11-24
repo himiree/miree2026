@@ -20,7 +20,8 @@ export const caseStudies: CaseStudy[] = [
     title: "Official website full scale renewal",
     meta: "Product · Sep 2025 – Jan 2026",
     tags: ["Web Design", "UX"],
-    image: `${fb}5xQRoFELCnHgk1II0R2HiN0UkI.png`,
+    // Same file as the homepage thumbnail, so home → case study morphs seamlessly
+    image: "/project-img-2.png",
   },
   {
     href: "/work/kewazo-design-system",
