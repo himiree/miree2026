@@ -11,6 +11,7 @@ const MEDIA = {
   // Before/after screenshots for the drag slider — add paths to show them
   before: "/Project_website_revamp/kewazo-before.jpg", // old Wix homepage
   after: "/Project_website_revamp/kewazo-after.jpg", // new kewazo.com homepage
+  decision2: "/Project_website_revamp/Design%20decisions%202.png",
   decision3: "/Project_website_revamp/Design%20decisions%203.mp4",
 };
 
@@ -276,8 +277,14 @@ export default function OfficialWebsiteRenewal() {
               >
                 <p>Problem: Case studies held the strongest proof, and only 9% of engaged visitors opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
               </Block>
-              {/* Media slot (empty in the design) */}
-              <div className="h-[400px] rounded-[16px] border border-[#d4def5] w-full" />
+              {/* "Design decisions 2" */}
+              <div className="relative h-[400px] rounded-[16px] border border-[#d4def5] w-full overflow-hidden bg-[#2c3038]">
+                <img
+                  src={MEDIA.decision2}
+                  alt="Customer results with ROI shown on the new homepage"
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+              </div>
             </div>
 
             {/* Design decisions (3) */}
