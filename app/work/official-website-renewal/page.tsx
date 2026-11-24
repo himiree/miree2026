@@ -2,6 +2,7 @@
 import FloatingNav from "../../components/floating-nav";
 import Footer from "../../components/footer";
 import NextProject from "../../components/next-project";
+import CaseStudyHero from "../../components/case-study-hero";
 import Link from "next/link";
 
 const fb = "https://framerusercontent.com";
@@ -75,8 +76,11 @@ export default function BrandMotionDetail() {
     <>
       <FloatingNav />
       <main className="bg-white text-[#181818] min-h-screen">
+        {/* Hero media — same image as the previous page's Next project card */}
+        <CaseStudyHero href="/work/official-website-renewal" alt="KEWAZO website mockup" />
+
         {/* Back */}
-        <div className="px-4 sm:px-6 max-w-[900px] mx-auto pt-36 pb-6">
+        <div className="px-4 sm:px-6 max-w-[900px] mx-auto pt-12 pb-6">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-[13px] text-[#576779] hover:text-[#181818] transition-colors"
@@ -125,13 +129,6 @@ export default function BrandMotionDetail() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
-
-        {/* Hero image — full website mockup */}
-        <div className="px-4 sm:px-6 max-w-[1200px] mx-auto pb-4">
-          <div data-hero-target className="w-full rounded-[20px] overflow-hidden bg-[#1a1a1a]">
-            <img src={images.mockup1} alt="KEWAZO website mockup" className="w-full h-auto object-cover" />
           </div>
         </div>
 

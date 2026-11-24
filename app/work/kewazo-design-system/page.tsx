@@ -2,6 +2,7 @@
 import FloatingNav from "../../components/floating-nav";
 import Footer from "../../components/footer";
 import NextProject from "../../components/next-project";
+import CaseStudyHero from "../../components/case-study-hero";
 import Link from "next/link";
 
 const framerBase = "https://framerusercontent.com/images/";
@@ -21,8 +22,11 @@ export default function BrandMotionDetail() {
     <>
       <FloatingNav />
       <main className="bg-white text-[#181818] min-h-screen">
+        {/* Hero media — same image as the previous page's Next project card */}
+        <CaseStudyHero href="/work/kewazo-design-system" alt="Design System overview" />
+
         {/* Back button */}
-        <div className="px-4 sm:px-6 max-w-[900px] mx-auto pt-36 pb-6">
+        <div className="px-4 sm:px-6 max-w-[900px] mx-auto pt-12 pb-6">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-[13px] text-[#576779] hover:text-[#181818] transition-colors"
@@ -59,17 +63,6 @@ export default function BrandMotionDetail() {
                 <p className="text-[14px] font-medium text-[#181818] tracking-[-0.1px]">{value}</p>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Hero image */}
-        <div className="px-4 sm:px-6 max-w-[1200px] mx-auto pb-16">
-          <div data-hero-target className="w-full rounded-[20px] overflow-hidden bg-[#f1f3f5]">
-            <img
-              src={images.hero}
-              alt="Design System overview"
-              className="w-full h-auto object-cover"
-            />
           </div>
         </div>
 

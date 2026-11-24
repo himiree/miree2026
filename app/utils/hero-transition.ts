@@ -2,7 +2,9 @@
 // 1. the clicked image grows from its card to fill the viewport,
 // 2. the next page is loaded underneath,
 // 3. the full-screen image settles into the next page's hero slot
-//    (the element marked with `data-hero-target`) and fades away.
+//    (the element marked with `data-hero-target`) and fades away,
+//    while the floating nav (hidden during the transition) eases back in.
+//    Nav hide/reveal styles live in globals.css under html[data-hero-nav].
 
 type Router = { push: (href: string) => void; prefetch: (href: string) => void };
 
@@ -11,6 +13,21 @@ const EXPAND_MS = 900;
 const SETTLE_MS = 800;
 const FADE_MS = 220;
 const WAIT_TIMEOUT_MS = 3000;
+const NAV_REVEAL_AT = 0.6; // fraction of the settle when the nav starts fading in
+const NAV_REVEAL_MS = 700; // keep in sync with globals.css
+
+function setNav(state: "hidden" | "reveal" | null) {
+  const html = document.documentElement;
+  if (state) html.dataset.heroNav = state;
+  else delete html.dataset.heroNav;
+}
+
+function revealNav() {
+  setNav("reveal");
+  setTimeout(() => {
+    if (document.documentElement.dataset.heroNav === "reveal") setNav(null);
+  }, NAV_REVEAL_MS + 50);
+}
 
 let running = false;
 
@@ -90,6 +107,7 @@ export async function heroTransition({
   document.body.appendChild(overlay);
   from.style.visibility = "hidden";
   html.style.overflow = "hidden";
+  setNav("hidden");
   router.prefetch(href);
 
   const cleanup = () => {
@@ -117,6 +135,8 @@ export async function heroTransition({
 
     // 2 — navigate underneath
     html.style.overflow = prevOverflow;
+    // Drop below the fixed nav (z-50) so it can fade in on top of the image
+    overlay.style.zIndex = "40";
     router.push(href);
 
     const target = await waitFor<HTMLElement>(() => {
@@ -138,6 +158,7 @@ export async function heroTransition({
       const endRadius = getComputedStyle(target).borderRadius;
       const w = window.innerWidth;
       const h = window.innerHeight;
+      setTimeout(revealNav, SETTLE_MS * NAV_REVEAL_AT);
       await overlay.animate(
         [
           { top: "0px", left: "0px", width: px(w), height: px(h), borderRadius: "0px" },
@@ -154,6 +175,7 @@ export async function heroTransition({
     }).finished;
   } finally {
     if (from.isConnected) from.style.visibility = "";
+    if (document.documentElement.dataset.heroNav === "hidden") revealNav();
     cleanup();
   }
 }

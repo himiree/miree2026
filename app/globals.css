@@ -62,3 +62,17 @@ body {
   transform: scaleX(1);
   transform-origin: left;
 }
+
+/* Page transition (utils/hero-transition.ts): the floating nav hides while the
+   hero image expands, then eases back in as the image settles into place. */
+html[data-hero-nav="hidden"] [data-nav] {
+  opacity: 0 !important;
+  translate: 0 -16px !important;
+  pointer-events: none !important;
+  transition: opacity 250ms ease, translate 250ms ease !important;
+}
+html[data-hero-nav="reveal"] [data-nav] {
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    translate 700ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
