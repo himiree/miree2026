@@ -13,6 +13,7 @@ export const translations = {
       work: "Work",
       about: "About",
       archive: "Archive",
+      contact: "Contact",
       cv: "CV",
     },
     home: {
@@ -70,6 +71,7 @@ export const translations = {
       work: "작업",
       about: "소개",
       archive: "아카이브",
+      contact: "연락처",
       cv: "CV",
     },
     home: {
@@ -127,6 +129,7 @@ export const translations = {
       work: "Arbeiten",
       about: "Über",
       archive: "Archiv",
+      contact: "Kontakt",
       cv: "CV",
     },
     home: {

@@ -10,6 +10,8 @@ export default function FloatingNav() {
   const [visible, setVisible] = useState(true);
   const [langOpen, setLangOpen] = useState(false);
   const [cvOpen, setCvOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const contactRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);
   const pathname = usePathname();
   const langRef = useRef<HTMLDivElement>(null);
@@ -41,6 +43,24 @@ export default function FloatingNav() {
   }, [langOpen]);
 
   useEffect(() => {
+    if (!contactOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (contactRef.current && !contactRef.current.contains(e.target as Node)) {
+        setContactOpen(false);
+      }
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setContactOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [contactOpen]);
+
+  useEffect(() => {
     if (!cvOpen) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setCvOpen(false);
@@ -52,7 +72,12 @@ export default function FloatingNav() {
   const NAV_ITEMS = [
     { label: t.nav.work, href: "/#recent-work" },
     { label: t.nav.about, href: "/about" },
-    { label: t.nav.archive, href: "/archives" },
+  ];
+
+  const CONTACT_ITEMS = [
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/damiree-kim/", external: true },
+    { label: "Instagram", href: "https://www.instagram.com/damiree_813/", external: true },
+    { label: "Email", href: "mailto:damiree813@gmail.com", external: false },
   ];
 
   return (
@@ -104,6 +129,58 @@ export default function FloatingNav() {
                 </Link>
               );
             })}
+            {/* Contact dropdown */}
+            <div ref={contactRef} className="relative">
+              <button
+                data-nav-link
+                onClick={() => { setContactOpen((v) => !v); }}
+                aria-haspopup="menu"
+                aria-expanded={contactOpen}
+                className={`flex items-center gap-1.5 text-[14px] font-semibold leading-[18px] tracking-[-0.4px] transition-colors duration-200 ${
+                  contactOpen ? "text-[#181818]" : "text-[#576779] hover:text-[#181818]"
+                }`}
+              >
+                {t.nav.contact}
+                <svg
+                  width="8"
+                  height="5"
+                  viewBox="0 0 6 4"
+                  fill="none"
+                  aria-hidden
+                  className={`transition-transform duration-200 ${contactOpen ? "rotate-180" : ""}`}
+                >
+                  <path
+                    d="M0.5 0.5L3 3L5.5 0.5"
+                    stroke="currentColor"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+
+              {contactOpen && (
+                <div
+                  role="menu"
+                  className="absolute top-full mt-5 left-1/2 -translate-x-1/2 bg-[rgba(255,255,255,0.88)] backdrop-blur-[40px] rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[128px] border border-white/60 py-1"
+                >
+                  {CONTACT_ITEMS.map((item) => (
+                    <a
+                      key={item.label}
+                      role="menuitem"
+                      href={item.href}
+                      {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      onMouseEnter={() => playClickSound()}
+                      onClick={() => setContactOpen(false)}
+                      className="block w-full text-left px-4 py-2.5 text-[13px] leading-[18px] tracking-[-0.4px] text-[#576779] hover:text-[#181818] transition-colors duration-150 whitespace-nowrap"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* CV as button to open modal */}
             <button
               data-nav-link
