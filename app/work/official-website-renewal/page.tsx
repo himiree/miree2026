@@ -9,8 +9,8 @@ import BeforeAfterSlider from "../../components/before-after-slider";
 
 const MEDIA = {
   // Before/after screenshots for the drag slider — add paths to show them
-  before: undefined as string | undefined, // old Wix site
-  after: undefined as string | undefined, // kewazo.com
+  before: "/Project_website_revamp/kewazo-before.jpg", // old Wix homepage
+  after: "/Project_website_revamp/kewazo-after.jpg", // new kewazo.com homepage
   decision3: "/Project_website_revamp/Design%20decisions%203.mp4",
 };
 
@@ -162,7 +162,7 @@ export default function OfficialWebsiteRenewal() {
               <h1 className="md:col-span-3 text-[38px] sm:text-[52px] font-bold leading-[1.1] tracking-[-1px] text-[#181818] max-w-[720px]">
                 Official website full scale renewal
               </h1>
-              <div className="flex flex-col gap-2 justify-end items-start">
+              <div className="flex flex-col gap-2 justify-end items-start md:justify-self-end">
                 <p className={label}>Delivered</p>
                 <a
                   href="https://www.kewazo.com"
@@ -196,7 +196,7 @@ export default function OfficialWebsiteRenewal() {
                   <li>Kewazo team uses the website more actively as a reference</li>
                 </ol>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 md:justify-self-end">
                 <p className={label}>Duration</p>
                 <p>5 months<br />(2025 Sep - 2026 Jan)</p>
               </div>
@@ -211,7 +211,13 @@ export default function OfficialWebsiteRenewal() {
               </p>
             </div>
 
-            <BeforeAfterSlider before={MEDIA.before} after={MEDIA.after} beforeAlt="Old KEWAZO website (Wix)" afterAlt="New kewazo.com" />
+            <BeforeAfterSlider
+              before={MEDIA.before}
+              after={MEDIA.after}
+              beforeAlt="Old homepage hero: Improving the lives of workers worldwide, with a Let's talk button"
+              afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
+              caption="kewazo.com · drag to compare"
+            />
 
             <Block title="Problem definition" heading="Analytics suggested that users went looking for proof for credibility, and didn't find it.">
               <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
