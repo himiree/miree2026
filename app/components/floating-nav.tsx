@@ -17,6 +17,29 @@ export default function FloatingNav() {
   const langRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
 
+  // Dropdowns (Contact, language) open on mouse hover. A short close delay and an
+  // invisible bridge above each menu let the pointer travel from trigger to menu.
+  // Touch and keyboard still open/close them by tapping or pressing the trigger.
+  const hoverTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+  const lastPointer = useRef("");
+  function hoverOpen(e: React.PointerEvent, key: string, setOpen: (open: boolean) => void) {
+    if (e.pointerType !== "mouse") return;
+    clearTimeout(hoverTimers.current[key]);
+    setOpen(true);
+  }
+  function hoverClose(e: React.PointerEvent, key: string, setOpen: (open: boolean) => void) {
+    if (e.pointerType !== "mouse") return;
+    hoverTimers.current[key] = setTimeout(() => setOpen(false), 150);
+  }
+  // A mouse click on an already hover-opened trigger keeps the menu open
+  function clickToggle(e: React.MouseEvent, setOpen: (fn: (open: boolean) => boolean) => void) {
+    const byMouse = e.detail > 0 && lastPointer.current === "mouse";
+    setOpen((open) => (byMouse ? true : !open));
+  }
+  function rememberPointer(e: React.PointerEvent) {
+    lastPointer.current = e.pointerType;
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY;
@@ -130,10 +153,12 @@ export default function FloatingNav() {
               );
             })}
             {/* Contact dropdown */}
-            <div ref={contactRef} className="relative">
+            <div ref={contactRef} className="relative" onPointerEnter={(e) => hoverOpen(e, "contact", setContactOpen)}
+              onPointerLeave={(e) => hoverClose(e, "contact", setContactOpen)}>
               <button
                 data-nav-link
-                onClick={() => { setContactOpen((v) => !v); }}
+                onPointerDown={rememberPointer}
+                onClick={(e) => clickToggle(e, setContactOpen)}
                 aria-haspopup="menu"
                 aria-expanded={contactOpen}
                 className={`flex items-center gap-1.5 text-[14px] font-semibold leading-[18px] tracking-[-0.4px] transition-colors duration-200 ${
@@ -160,9 +185,10 @@ export default function FloatingNav() {
               </button>
 
               {contactOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-5">
                 <div
                   role="menu"
-                  className="absolute top-full mt-5 left-1/2 -translate-x-1/2 bg-[rgba(255,255,255,0.88)] backdrop-blur-[40px] rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[128px] border border-white/60 py-1"
+                  className="bg-[rgba(255,255,255,0.88)] backdrop-blur-[40px] rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[128px] border border-white/60 py-1"
                 >
                   {CONTACT_ITEMS.map((item) => (
                     <a
@@ -179,6 +205,7 @@ export default function FloatingNav() {
                     </a>
                   ))}
                 </div>
+                </div>
               )}
             </div>
 
@@ -193,9 +220,11 @@ export default function FloatingNav() {
           </nav>
 
           {/* Language toggle pill */}
-          <div ref={langRef} className="relative">
+          <div ref={langRef} className="relative" onPointerEnter={(e) => hoverOpen(e, "lang", setLangOpen)}
+            onPointerLeave={(e) => hoverClose(e, "lang", setLangOpen)}>
             <button
-              onClick={() => { setLangOpen((v) => !v); }}
+              onPointerDown={rememberPointer}
+              onClick={(e) => clickToggle(e, setLangOpen)}
               className="flex items-center gap-2 bg-[rgba(255,255,255,0.82)] backdrop-blur-[40px] rounded-[99px] px-4 py-3 text-[#576779] text-[14px] font-semibold leading-[18px] tracking-[-0.4px] hover:text-[#181818] transition-colors duration-200 shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] border border-white/60"
               aria-label="Language selector"
             >
@@ -219,7 +248,8 @@ export default function FloatingNav() {
             </button>
 
             {langOpen && (
-              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-[rgba(255,255,255,0.88)] backdrop-blur-[40px] rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[72px] border border-white/60">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
+              <div className="bg-[rgba(255,255,255,0.88)] backdrop-blur-[40px] rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[72px] border border-white/60">
                 {(["ENG", "KOR", "DE"] as Lang[]).map((l) => (
                   <button
                     key={l}
@@ -231,6 +261,7 @@ export default function FloatingNav() {
                     {l}
                   </button>
                 ))}
+              </div>
               </div>
             )}
           </div>
