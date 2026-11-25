@@ -303,27 +303,29 @@ export default function OfficialWebsiteRenewal() {
           {/* Title */}
           <div className="flex flex-col gap-12 w-full">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
-              <h1 className="md:col-span-3 text-[38px] sm:text-[52px] font-bold leading-[1.1] tracking-[-1px] text-[#181818] max-w-[720px]">
+              <h1 className="md:col-span-4 text-[38px] sm:text-[52px] font-bold leading-[1.1] tracking-[-1px] text-[#181818] max-w-[720px]">
                 Official website full scale renewal
               </h1>
-              <div className="flex flex-col gap-2 justify-end items-start md:justify-self-end">
-                <p className={label}>Delivered</p>
-                <a
-                  href="https://www.kewazo.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center h-12 px-4 rounded-[4px] bg-[rgba(223,225,227,0.5)] hover:bg-[rgba(223,225,227,0.85)] transition-colors text-[16px] font-semibold tracking-[-0.25px] text-[#181818]"
-                >
-                  Official website
-                </a>
-              </div>
             </div>
 
             {/* Project profile */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
-              <div className="flex flex-col gap-3">
-                <p className={label}>Role</p>
-                <p>Sole designer / builder (Framer)</p>
+              <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-3 items-start">
+                  <p className={label}>Delivered</p>
+                  <a
+                    href="https://www.kewazo.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center h-12 px-4 rounded-[4px] bg-[rgba(223,225,227,0.5)] hover:bg-[rgba(223,225,227,0.85)] transition-colors text-[16px] font-semibold tracking-[-0.25px] text-[#181818]"
+                  >
+                    Official website
+                  </a>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <p className={label}>Role</p>
+                  <p>Sole designer / builder (Framer)</p>
+                </div>
               </div>
               <div className="flex flex-col gap-3">
                 <p className={label}>Scope</p>
