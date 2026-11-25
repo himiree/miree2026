@@ -97,14 +97,14 @@ function VisitorsWaffle() {
             viewBox="0 0 100 100"
             className="size-full -rotate-90"
             role="img"
-            aria-label="Per 100 homepage visitors: 61 left without clicking, 16 went to About company, 3 went to Case studies, 20 went elsewhere"
+            aria-label="16,083 homepage visitors (Feb–Nov 2025): 61% without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
           >
             {slices.map((sl) => (
               <circle key={sl.label} cx="50" cy="50" r={R} fill="none" stroke={sl.cell} strokeWidth="6" strokeDasharray={sl.dash} strokeDashoffset={sl.offset} />
             ))}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <p className="text-[52px] font-semibold leading-none tracking-[-1.5px] text-[#181818]">100</p>
+            <p className="text-[44px] font-semibold leading-none tracking-[-1.5px] text-[#181818]">16,083</p>
             <p className="mt-2 text-[12px] leading-[1.3] text-[#576779]">homepage visitors</p>
           </div>
         </div>
