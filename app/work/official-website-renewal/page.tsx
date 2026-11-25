@@ -351,7 +351,7 @@ export default function OfficialWebsiteRenewal() {
           <div className="flex flex-col gap-14 pb-16 w-full">
             <div className="grid grid-cols-1 md:grid-cols-4 py-6">
               <p className={`${body} md:col-span-3`}>
-                KEWAZO is a B2B startup combining SaaS and robotics to help refineries, chemical plants and construction contractors move heavy equipment. In B2B, a company website is often the first place of evaluation for both a product and the company behind it. As its sole designer, I had the privilege of initiating and shipping the company’s website redesign end-to-end.
+                KEWAZO is a B2B startup combining SaaS and robotics to help refineries, chemical plants and construction contractors move heavy equipment. In B2B, a company website is often the first place of evaluation for both a product and the company behind it. As its sole designer, Rather than waiting for a brief, I identified an opportunity for improvement and turned it into an end-to-end design initiative.
               </p>
             </div>
 
