@@ -97,7 +97,7 @@ function VisitorsWaffle() {
             viewBox="0 0 100 100"
             className="size-full -rotate-90"
             role="img"
-            aria-label="16,083 homepage visitors (Feb–Nov 2025): 61% without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
+            aria-label="16,083 homepage visitors (Feb–Nov 2025): 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
           >
             {slices.map((sl) => (
               <circle key={sl.label} cx="50" cy="50" r={R} fill="none" stroke={sl.cell} strokeWidth="6" strokeDasharray={sl.dash} strokeDashoffset={sl.offset} />
