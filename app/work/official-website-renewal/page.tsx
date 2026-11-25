@@ -61,12 +61,13 @@ function Block({
 }
 
 /** Small label column + bulleted list across three columns */
-function ListRow({ title, children }: { title: string; children: ReactNode }) {
+function ListRow({ title, children, after }: { title: string; children: ReactNode; after?: ReactNode }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 w-full">
       <div className="md:col-start-5 md:col-span-8 flex flex-col gap-3">
         <p className={`${sectionLabel} !text-[#1271C4]`}>{title}</p>
         <ul className={`${body} list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
+        {after && <div className="mt-5 w-full">{after}</div>}
       </div>
     </div>
   );
@@ -98,8 +99,8 @@ function VisitorsWaffle() {
   });
   const LABEL_R = 122; // px from the centre; ring radius is 110px
   return (
-    <div className="flex flex-col items-center gap-4 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
-      <div className="relative w-full max-w-[400px] h-[300px] sm:h-[320px] shrink-0">
+    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
+      <div className="relative w-full max-w-[400px] md:w-[400px] h-[300px] sm:h-[320px] shrink-0">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[200px] sm:size-[220px]">
           <svg
             viewBox="0 0 100 100"
@@ -134,8 +135,8 @@ function VisitorsWaffle() {
       </div>
 
       {/* Details */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 w-full min-w-0 pt-5 border-t border-[#eef1f6]">
-        <p className="sm:col-span-2 text-[14px] font-medium text-[#576779]">Percentage</p>
+      <div className="flex flex-col gap-4 flex-1 w-full min-w-0 pt-5 md:pt-0 md:pl-8 border-t md:border-t-0 md:border-l border-[#eef1f6]">
+        <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
         {VISITORS.map((v) => (
           <div key={v.label} className="flex items-start gap-3">
             <span className="size-3 mt-[6px] rounded-[3px] shrink-0" style={{ background: v.key }} />
@@ -373,14 +374,13 @@ export default function OfficialWebsiteRenewal() {
             <Block
               title="Problem definition"
               heading="Analytics suggested that users went looking for proof for credibility, and didn't find it."
-              media={<VisitorsWaffle />}
             >
               <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
               <p>“Can users trust this company?”</p>
               <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time visitor would.</p>
             </Block>
 
-            <ListRow title="Based on 10 months of previous website analytics:">
+            <ListRow title="Based on 10 months of previous website analytics:" after={<VisitorsWaffle />}>
               <li><b>98% were first-time visitors.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
               <li><b>61% left the homepage without clicking anything.</b></li>
               <li><b>41% of those who stayed went to About company, and only 9% to Case studies,</b> where the strongest proof lived.</li>
