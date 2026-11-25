@@ -14,6 +14,8 @@ const MEDIA = {
   decision1: "/Project_website_revamp/Design%20decisions%201.mp4",
   decision2: "/Project_website_revamp/Design%20decisions%202.png",
   decision3: "/Project_website_revamp/Design%20decisions%203.mp4",
+  decision4: "/Project_website_revamp/Design%20decisions%204-web.mp4", // key features carousel
+  landingFlow: "/Project_website_revamp/Design%20decisions%201.avif", // hero → product → case study
 };
 
 const label = "text-[12.8px] leading-[19.2px] tracking-[-0.25px] text-[#576779]";
@@ -304,7 +306,7 @@ export default function OfficialWebsiteRenewal() {
             <ListRow title="How Might We:">
               <li>make the first-visit users prove KEWAZO is credible within seconds?</li>
               <li>guide users through clear, digestible information without making them hunt?</li>
-              <li>rebuilt the homepage to answer user’s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</li>
+              <li>rebuilt the homepage to answer user’s possible questions in this order: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></li>
             </ListRow>
 
             <Block
@@ -334,7 +336,7 @@ export default function OfficialWebsiteRenewal() {
                 </>
               }
             >
-              <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</p>
+              <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></p>
             </Block>
 
             <Block
@@ -386,6 +388,46 @@ export default function OfficialWebsiteRenewal() {
             >
               <p>Five button styles competed for attention, with no clear hierarchy. I grouped actions into three tiers based on the commitment they ask of users, then gave each tier its own hover motion to reinforce the hierarchy.</p>
               <p>The contact form now sits at the bottom of the homepage. Previously, visitors had to click a button to reach it on a separate page.</p>
+            </Block>
+
+            <Block
+              title="Design decisions (4) and more"
+              heading="Key features grouped into one scannable section"
+              media={
+                <>
+                  <div className="relative w-full aspect-[16/9] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+                    <video
+                      ref={autoplayMuted}
+                      src={MEDIA.decision4}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      aria-label="Key features section: tabs for lifting capacity, battery power, remote control, footprint and safety system"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb] lg:row-span-2">
+                      <div className="rounded-[10px] overflow-hidden bg-[#14172a]">
+                        <img src={MEDIA.landingFlow} alt="Landing page flow: hero section with customer logos, product, then case study results" className="w-full h-auto" />
+                      </div>
+                      <p className="text-[16px] font-semibold text-[#181818]">A landing page that tells one story</p>
+                      <p className="text-[14px] leading-[1.5] text-[#576779]">Hero shows the product is used by major industrial leaders, the product section gives instant understanding, and case studies prove the value on site.</p>
+                    </div>
+                    <div className="flex flex-col gap-2 p-5 rounded-[16px] bg-[#f5f7fb]">
+                      <p className="text-[16px] font-semibold text-[#181818]">Case studies worth watching</p>
+                      <p className="text-[14px] leading-[1.5] text-[#576779]">Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
+                    </div>
+                    <div className="flex flex-col gap-2 p-5 rounded-[16px] bg-[#f5f7fb]">
+                      <p className="text-[16px] font-semibold text-[#181818]">Connected to the sales pipeline</p>
+                      <p className="text-[14px] leading-[1.5] text-[#576779]">A homepage → case study → contact funnel, with DocSend tracking and UTM-tagged links for sales outreach. Built end-to-end in Framer, including photo and video editing.</p>
+                    </div>
+                  </div>
+                </>
+              }
+            >
+              <p>Product details were spread across a long scroll. I grouped the key features (8,000+ lbs/day capacity, battery power, remote control, footprint and safety system) into one tabbed section, so visitors can scan what LIFTBOT does without scrolling through pages of text.</p>
             </Block>
 
             <Block
