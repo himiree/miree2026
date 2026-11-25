@@ -501,11 +501,17 @@ export default function OfficialWebsiteRenewal() {
                       <p className="text-[16px] font-semibold text-[#181818]">A landing page that tells one story</p>
                       <p className="text-[14px] leading-[1.5] text-[#576779]">Hero shows the product is used by major industrial leaders, the product section gives instant understanding, and case studies prove the value on site.</p>
                     </div>
-                    <div className="flex flex-col gap-2 p-5 rounded-[16px] bg-[#f5f7fb]">
+                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb]">
+                      <div className="rounded-[10px] overflow-hidden bg-[#1b1b1c] aspect-[16/10]">
+                        <img src="/Project_website_revamp/case-studies-grid.jpg" alt="Case studies page: customer project cards, each led by one ROI number such as $988,240 total savings" loading="lazy" className="w-full h-full object-cover object-top" />
+                      </div>
                       <p className="text-[16px] font-semibold text-[#181818]">Case studies worth watching</p>
                       <p className="text-[14px] leading-[1.5] text-[#576779]">Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
                     </div>
-                    <div className="flex flex-col gap-2 p-5 rounded-[16px] bg-[#f5f7fb]">
+                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb]">
+                      <div className="rounded-[10px] overflow-hidden bg-[#1b1b1c] aspect-[16/10]">
+                        <img src="/Project_website_revamp/case-study-funnel.jpg" alt="Chevron case study page with Request a demo and See full details (PDF via DocSend) buttons" loading="lazy" className="w-full h-full object-cover object-top" />
+                      </div>
                       <p className="text-[16px] font-semibold text-[#181818]">Connected to the sales pipeline</p>
                       <p className="text-[14px] leading-[1.5] text-[#576779]">A homepage → case study → contact funnel, with DocSend tracking and UTM-tagged links for sales outreach. Built end-to-end in Framer, including photo and video editing.</p>
                     </div>
