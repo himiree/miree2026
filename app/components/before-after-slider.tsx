@@ -2,20 +2,18 @@
 import { useRef, useState } from "react";
 
 // Drag slider comparing two screenshots (Figma: "Drag slider · before/after"),
-// framed like a browser window with a caption in its title bar.
+// framed like a browser window.
 // Pass `before` / `after` image paths; until then each side shows a grey placeholder.
 export default function BeforeAfterSlider({
   before,
   after,
   beforeAlt = "Before",
   afterAlt = "After",
-  caption = "drag to compare",
 }: {
   before?: string;
   after?: string;
   beforeAlt?: string;
   afterAlt?: string;
-  caption?: string;
 }) {
   const [pos, setPos] = useState(50); // % from the left
   const box = useRef<HTMLDivElement>(null);
@@ -40,17 +38,19 @@ export default function BeforeAfterSlider({
 
   return (
     <div className="w-full rounded-[20px] overflow-hidden border border-[#e6e9ed] bg-[#0e0e0e] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.4)]">
-      <div className="flex items-center gap-[6px] min-h-[26px] px-[10px] bg-[#14172a]" aria-hidden>
-        <i className="size-[9px] rounded-full bg-[#4a4c52]" />
-        <i className="size-[9px] rounded-full bg-[#4a4c52]" />
-        <i className="size-[9px] rounded-full bg-[#4a4c52]" />
-        <span className="ml-2 text-[11px] text-[#9aa0a8] whitespace-nowrap overflow-hidden text-ellipsis">{caption}</span>
+      <div className="flex items-center gap-[10px] h-[44px] px-[18px] bg-[#1b1b1c] border-b border-black/40" aria-hidden>
+        {[0, 1, 2].map((k) => (
+          <i
+            key={k}
+            className="size-[13px] rounded-full bg-[radial-gradient(circle_at_50%_35%,#6a6b70,#46474b)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_1px_1px_rgba(0,0,0,0.5)]"
+          />
+        ))}
       </div>
     <div
       ref={box}
       onPointerDown={onPointerDown}
       onPointerMove={(e) => e.buttons === 1 && moveTo(e.clientX)}
-      className="relative w-full aspect-[1047/434] overflow-hidden bg-[#121217] select-none touch-pan-y cursor-ew-resize"
+      className="relative w-full aspect-[1266/897] overflow-hidden bg-[#121217] select-none touch-pan-y cursor-ew-resize"
     >
       {side(after, afterAlt)}
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>

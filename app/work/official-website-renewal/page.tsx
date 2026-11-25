@@ -229,7 +229,6 @@ export default function OfficialWebsiteRenewal() {
               after={MEDIA.after}
               beforeAlt="Old homepage hero: Improving the lives of workers worldwide, with a Let's talk button"
               afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
-              caption="kewazo.com · drag to compare"
             />
 
             <Block title="Problem definition" heading="Analytics suggested that users went looking for proof for credibility, and didn't find it.">
