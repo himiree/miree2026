@@ -199,6 +199,61 @@ const OLD_BUTTONS = [
   { t: "Learn more →", bg: "#2a2d33", fg: "#fff" },
 ];
 
+// ── Before / After pairs ──
+const PAIRS = [
+  {
+    title: "Hero: from a mission statement to what we sell",
+    before: { src: "/Project_website_revamp/before-hero.jpg", alt: "Old hero headline: Improving the lives of workers worldwide" },
+    after: { src: "/Project_website_revamp/kewazo-after.jpg", alt: "New hero: Robotics and AI for industrial maintenance and construction, with customer logos" },
+  },
+  {
+    title: "Actions: from look-alike buttons to three clear tiers",
+    before: { src: "/Project_website_revamp/before-buttons.jpg", alt: "Two identical grey buttons: LIFTBOT for Industrial Plants and LIFTBOT for Commercial Sites" },
+    after: { video: "/Project_website_revamp/Design%20decisions%203.mp4", alt: "Three-tier button system with hover motion" },
+  },
+  {
+    title: "Proof: from a separate page to the homepage",
+    before: { src: "/Project_website_revamp/before-case-study.jpg", alt: "Old case study card on a separate page: ExxonMobil Baytown saved 23% man-hours" },
+    after: { video: "/Project_website_revamp/Design%20decisions%201.mp4", alt: "Customer results for turnarounds, maintenance and capital projects on the new homepage" },
+  },
+];
+
+type PairMedia = { src?: string; video?: string; alt: string };
+
+function PairRow({ label, media }: { label: string; media: PairMedia }) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] items-center gap-4 sm:gap-6 p-5 sm:p-6 rounded-[20px] bg-[#f5f7fb]">
+      <p className="text-[28px] sm:text-[36px] font-semibold leading-none tracking-[-1px] text-[#181818]">{label}</p>
+      <div className="rounded-[12px] overflow-hidden bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
+        {media.video ? (
+          <video ref={autoplayMuted} src={media.video} autoPlay muted loop playsInline aria-label={media.alt} className="block w-full h-auto" />
+        ) : (
+          <img src={media.src} alt={media.alt} className="block w-full h-auto" />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function BeforeAfterPairs() {
+  return (
+    <section className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
+      <div>
+        <p className={`${sectionLabel} md:sticky md:top-28`}>Before / After</p>
+      </div>
+      <div className="md:col-span-3 flex flex-col gap-14 min-w-0">
+        {PAIRS.map((p) => (
+          <div key={p.title} className="flex flex-col gap-3">
+            <p className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818] mb-1">{p.title}</p>
+            <PairRow label="Before" media={p.before} />
+            <PairRow label="After" media={p.after} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ── Results ──
 const RESULTS = [
   { m: "Average session time", old: "2m 53s", now: "3m 58s", d: "+38%", up: true },
@@ -286,6 +341,8 @@ export default function OfficialWebsiteRenewal() {
               beforeAlt="Old homepage hero: Improving the lives of workers worldwide, with a Let's talk button"
               afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
             />
+
+            <BeforeAfterPairs />
 
             <Block
               title="Problem definition"
