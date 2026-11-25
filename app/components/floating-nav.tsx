@@ -15,6 +15,18 @@ export default function FloatingNav() {
   const copiedTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const contactRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);
+  // Scrolled down → only the profile photo stays; hovering it brings the rest back
+  const [peek, setPeek] = useState(false);
+  const peekTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  function openPeek() {
+    clearTimeout(peekTimer.current);
+    setPeek(true);
+  }
+  function closePeek() {
+    clearTimeout(peekTimer.current);
+    peekTimer.current = setTimeout(() => setPeek(false), 250);
+  }
+  const expanded = visible || peek;
   const pathname = usePathname();
   const langRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
@@ -45,6 +57,7 @@ export default function FloatingNav() {
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY;
+      if (Math.abs(currentY - lastScrollY.current) < 4) return;
       if (currentY > lastScrollY.current && currentY > 80) {
         setVisible(false);
       } else {
@@ -135,15 +148,15 @@ export default function FloatingNav() {
     <>
       <div
         data-nav
-        className={`fixed top-6 left-0 right-0 z-50 flex justify-center transition-all duration-300 ease-in-out ${
-          visible ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0 pointer-events-none"
-        }`}
+        className="fixed top-6 left-0 right-0 z-50 flex justify-center pointer-events-none"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pointer-events-auto" onPointerLeave={closePeek}>
           {/* Profile photo */}
           <Link
             href="/"
             data-nav-brand
+            onPointerEnter={openPeek}
+            onFocus={openPeek}
             className="relative w-[68px] h-[42px] rounded-[99px] overflow-hidden flex-shrink-0 shadow-[0px_8px_32px_0px_rgba(0,0,0,0.12)] group/profile"
           >
             <img
@@ -159,6 +172,13 @@ export default function FloatingNav() {
             />
           </Link>
 
+          <div
+            onPointerEnter={() => clearTimeout(peekTimer.current)}
+            onFocusCapture={openPeek}
+            className={`flex items-center gap-2 transition-[opacity,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              expanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-3 pointer-events-none"
+            }`}
+          >
           {/* Nav links pill */}
           <nav
             data-nav-links
@@ -312,6 +332,7 @@ export default function FloatingNav() {
               </div>
               </div>
             )}
+          </div>
           </div>
         </div>
       </div>
