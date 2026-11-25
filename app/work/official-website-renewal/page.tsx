@@ -88,10 +88,10 @@ function VisitorsWaffle() {
       y: -Math.cos(mid),
     };
   });
-  const LABEL_R = 138; // px from the centre; ring radius is 110px
+  const LABEL_R = 122; // px from the centre; ring radius is 110px
   return (
-    <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-4 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
-      <div className="relative w-full max-w-[440px] h-[300px] sm:h-[340px] shrink-0">
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
+      <div className="relative w-full max-w-[400px] h-[300px] sm:h-[320px] shrink-0">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[200px] sm:size-[220px]">
           <svg
             viewBox="0 0 100 100"
@@ -104,7 +104,7 @@ function VisitorsWaffle() {
             ))}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <p className="text-[44px] font-semibold leading-none tracking-[-1.5px] text-[#181818]">16,083</p>
+            <p className="text-[36px] font-semibold leading-none tracking-[-1px] text-[#181818]">16,083</p>
             <p className="mt-2 text-[12px] leading-[1.3] text-[#576779]">homepage visitors</p>
           </div>
         </div>
@@ -126,7 +126,7 @@ function VisitorsWaffle() {
       </div>
 
       {/* Details */}
-      <div className="flex flex-col gap-4 w-full min-w-0">
+      <div className="flex flex-col gap-4 w-full lg:max-w-[340px] min-w-0">
         <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
         {VISITORS.map((v) => (
           <div key={v.label} className="flex items-center gap-3">
