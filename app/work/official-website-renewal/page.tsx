@@ -215,7 +215,7 @@ const PAIRS = [
   },
   {
     title: "Value proposition",
-    note: "From a slogan and two look-alike buttons to the problem it solves, with one clear next step.",
+    note: "From a team-size slogan to the problem LIFTBOT removes — crane time and manual handling — shown side by side before any choice of market.",
     before: { src: `${BA}ba-before-value.jpg`, alt: "Old section: 3 scaffolders and LIFTBOT cover any project, two identical grey buttons" },
     after: { src: `${BA}ba-after-value.jpg`, alt: "New section: Reducing crane time and manual handling, crane vs manual handling vs LIFTBOT" },
   },
