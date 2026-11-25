@@ -22,11 +22,13 @@ const label = "text-[12.8px] leading-[19.2px] tracking-[-0.25px] text-[#576779]"
 const sectionLabel = "text-[14px] font-medium leading-[19.2px] tracking-[-0.25px] text-[#576779]";
 const headline =
   "text-[26px] sm:text-[32px] font-semibold leading-[1.3] tracking-[-0.25px] text-[#181818] [text-box-trim:trim-both] [text-box-edge:cap_alphabetic]";
+const sideHeadline =
+  "text-[24px] lg:text-[28px] font-semibold leading-[1.25] tracking-[-0.25px] text-[#181818] text-balance";
 const body = "text-[17px] sm:text-[20px] leading-[1.5] tracking-[-0.25px] text-[#181818]";
 
 /**
- * Section on the 4-column grid: label in column 1 (sticks while the section scrolls by),
- * heading / text / result / media across columns 2–4.
+ * Section: label + headline on the left third (they stick while the section scrolls by),
+ * text / result / media on the right two thirds.
  */
 function Block({
   title,
@@ -42,12 +44,14 @@ function Block({
   media?: ReactNode;
 }) {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
-      <div>
-        <p className={`${sectionLabel} md:sticky md:top-28`}>{title}</p>
+    <section className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full">
+      <div className="md:col-span-4">
+        <div className="md:sticky md:top-28 flex flex-col gap-5">
+          <p className={sectionLabel}>{title}</p>
+          <p className={sideHeadline}>{heading}</p>
+        </div>
       </div>
-      <div className="md:col-span-3 flex flex-col gap-6 md:gap-8 min-w-0">
-        <p className={`${headline} max-w-[699px]`}>{heading}</p>
+      <div className="md:col-span-8 flex flex-col gap-6 md:gap-8 min-w-0">
         <div className={`${body} flex flex-col`}>{children}</div>
         {result && <p className={headline}>{result}</p>}
         {media && <div className="flex flex-col gap-4 w-full mt-2">{media}</div>}
@@ -59,9 +63,9 @@ function Block({
 /** Small label column + bulleted list across three columns */
 function ListRow({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-3 w-full">
-      <p className={`${sectionLabel} max-w-[200px]`}>{title}</p>
-      <ul className={`${body} md:col-span-3 list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 w-full">
+      <p className={`${sectionLabel} md:col-span-4 max-w-[240px]`}>{title}</p>
+      <ul className={`${body} md:col-span-8 list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
     </div>
   );
 }
@@ -92,7 +96,7 @@ function VisitorsWaffle() {
   });
   const LABEL_R = 122; // px from the centre; ring radius is 110px
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
+    <div className="flex flex-col items-center gap-4 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
       <div className="relative w-full max-w-[400px] h-[300px] sm:h-[320px] shrink-0">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[200px] sm:size-[220px]">
           <svg
@@ -128,11 +132,11 @@ function VisitorsWaffle() {
       </div>
 
       {/* Details */}
-      <div className="flex flex-col gap-4 w-full lg:max-w-[340px] min-w-0">
-        <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 w-full min-w-0 pt-5 border-t border-[#eef1f6]">
+        <p className="sm:col-span-2 text-[14px] font-medium text-[#576779]">Percentage</p>
         {VISITORS.map((v) => (
-          <div key={v.label} className="flex items-center gap-3">
-            <span className="size-3 rounded-[3px] shrink-0" style={{ background: v.key }} />
+          <div key={v.label} className="flex items-start gap-3">
+            <span className="size-3 mt-[6px] rounded-[3px] shrink-0" style={{ background: v.key }} />
             <div className="flex flex-col gap-[2px] flex-1 min-w-0">
               <p className="text-[16px] font-medium text-[#181818]">{v.label}</p>
               {v.note && <p className="text-[13px] tracking-[-0.32px] text-[#576779]">{v.note}</p>}
@@ -237,11 +241,14 @@ function PairRow({ label, media }: { label: string; media: PairMedia }) {
 
 function BeforeAfterPairs() {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
-      <div>
-        <p className={`${sectionLabel} md:sticky md:top-28`}>Before / After</p>
+    <section className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full">
+      <div className="md:col-span-4">
+        <div className="md:sticky md:top-28 flex flex-col gap-5">
+          <p className={sectionLabel}>Before / After</p>
+          <p className={sideHeadline}>What changed on the homepage</p>
+        </div>
       </div>
-      <div className="md:col-span-3 flex flex-col gap-14 min-w-0">
+      <div className="md:col-span-8 flex flex-col gap-14 min-w-0">
         {PAIRS.map((p) => (
           <div key={p.title} className="flex flex-col gap-3">
             <p className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818] mb-1">{p.title}</p>
