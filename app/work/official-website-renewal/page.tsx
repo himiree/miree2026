@@ -71,7 +71,7 @@ function SubList({ title, children, after }: { title: string; children: ReactNod
   );
 }
 
-// ── 100 homepage visitors (waffle 10×10) ──
+// ── 100 homepage users (waffle 10×10) ──
 const VISITORS = [
   { n: 61, cell: "#eaedf3", key: "#e2e5f1", label: "Left without clicking anything", short: "Left" },
   { n: 16, cell: "#2b3037", key: "#2b3037", label: "Went to About company", short: "About company", note: "41% of those who stayed (16/39)" },
@@ -79,7 +79,7 @@ const VISITORS = [
   { n: 20, cell: "#bad1d4", key: "#bad1d4", label: "Went elsewhere", short: "Elsewhere" },
 ];
 
-function VisitorsWaffle() {
+function UsersWaffle() {
   // Donut ring: r = 40 in a 100×100 box, slices clockwise from 12 o'clock with thin gaps
   const R = 40;
   const C = 2 * Math.PI * R;
@@ -104,7 +104,7 @@ function VisitorsWaffle() {
             viewBox="0 0 100 100"
             className="size-full -rotate-90"
             role="img"
-            aria-label="16,083 homepage visitors (Feb–Nov 2025): 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
+            aria-label="16,083 homepage users (Feb–Nov 2025): 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
           >
             {slices.map((sl) => (
               <circle key={sl.label} cx="50" cy="50" r={R} fill="none" stroke={sl.cell} strokeWidth="6" strokeDasharray={sl.dash} strokeDashoffset={sl.offset} />
@@ -112,7 +112,7 @@ function VisitorsWaffle() {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
             <p className="text-[36px] font-semibold leading-none tracking-[-1px] text-[#181818]">16,083</p>
-            <p className="mt-2 text-[12px] leading-[1.3] text-[#576779]">homepage visitors</p>
+            <p className="mt-2 text-[12px] leading-[1.3] text-[#576779]">homepage users</p>
           </div>
         </div>
         {/* Short titles around the ring */}
@@ -282,7 +282,7 @@ const RESULTS = [
   { m: "Time on the Chevron case study", old: "–", now: "2m 18s", d: "Target 1m 30s" },
   { m: "Time on the product page", old: "–", now: "2m 45s", d: "New merged page" },
   { m: "Homepage bounce", old: "60.9%", now: "60.1%", d: "Flat" },
-  { m: "Unique visitors", old: "16.6K", now: "33K", d: "Almost 2x" },
+  { m: "Unique users", old: "16.6K", now: "33K", d: "Almost 2x" },
 ];
 
 // React doesn't render `muted` into the HTML, so browsers can block autoplay — set it in JS
@@ -376,8 +376,8 @@ export default function OfficialWebsiteRenewal() {
               heading="Analytics suggested that users went looking for proof for credibility, and didn't find it."
               media={
                 <div className="flex flex-col gap-14">
-                  <SubList title="Based on 10 months of previous website analytics:" after={<VisitorsWaffle />}>
-                    <li><b>98% were first-time visitors.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
+                  <SubList title="Based on 10 months of previous website analytics:" after={<UsersWaffle />}>
+                    <li><b>98% were first-time users.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
                     <li><b>61% left the homepage without clicking anything.</b></li>
                     <li><b>41% of those who stayed went to About company, and only 9% to Case studies,</b> where the strongest proof lived.</li>
                   </SubList>
@@ -391,7 +391,7 @@ export default function OfficialWebsiteRenewal() {
             >
               <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
               <p>“Can users trust this company?”</p>
-              <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time visitor would.</p>
+              <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time user would.</p>
             </Block>
 
 
@@ -454,7 +454,7 @@ export default function OfficialWebsiteRenewal() {
                 </>
               }
             >
-              <p>Problem: Case studies held the strongest proof, and only 9% of engaged visitors opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
+              <p>Problem: Case studies held the strongest proof, and only 9% of engaged users opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
             </Block>
 
             <Block
@@ -492,7 +492,7 @@ export default function OfficialWebsiteRenewal() {
               }
             >
               <p>Five button styles competed for attention, with no clear hierarchy. I grouped actions into three tiers based on the commitment they ask of users, then gave each tier its own hover motion to reinforce the hierarchy.</p>
-              <p>The contact form now sits at the bottom of the homepage. Previously, visitors had to click a button to reach it on a separate page.</p>
+              <p>The contact form now sits at the bottom of the homepage. Previously, users had to click a button to reach it on a separate page.</p>
             </Block>
 
             <Block
@@ -524,7 +524,7 @@ export default function OfficialWebsiteRenewal() {
                 </>
               }
             >
-              <p>Product details were spread across a long scroll. I grouped the key features (8,000+ lbs/day capacity, battery power, remote control, footprint and safety system) into one tabbed section, so visitors can scan what LIFTBOT does without scrolling through pages of text.</p>
+              <p>Product details were spread across a long scroll. I grouped the key features (8,000+ lbs/day capacity, battery power, remote control, footprint and safety system) into one tabbed section, so users can scan what LIFTBOT does without scrolling through pages of text.</p>
             </Block>
 
             <Block
