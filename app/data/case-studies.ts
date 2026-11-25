@@ -23,13 +23,6 @@ export const caseStudies: CaseStudy[] = [
     // Same file as the homepage thumbnail, so home → case study morphs seamlessly
     image: "/project-img-2.png",
   },
-  {
-    href: "/work/kewazo-design-system",
-    title: "Design System for B2B robotic startup",
-    meta: "Product · Sep 2024 – Nov 2024",
-    tags: ["Branding", "Design System", "Marketing assets"],
-    image: `${fb}1kK4CERS1OmXuQGONc1U9i2WmuU.png`,
-  },
 ];
 
 export function getNextCaseStudy(currentHref: string): CaseStudy | null {
