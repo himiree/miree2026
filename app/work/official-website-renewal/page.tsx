@@ -406,18 +406,9 @@ export default function OfficialWebsiteRenewal() {
                     <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
                     <IAColumn title="New homepage" items={NEW_HOME} />
                   </div>
-                  {/* Proof cards on the new homepage */}
-                  <div className="relative w-full aspect-[1920/1276] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
-                    <video
-                      ref={autoplayMuted}
-                      src={MEDIA.decision1}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      aria-label="New homepage section: customer results for turnarounds, maintenance and capital projects"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
+                  {/* Landing page story: hero → product → case study */}
+                  <div className="rounded-[16px] overflow-hidden bg-[#14172a]">
+                    <img src={MEDIA.landingFlow} alt="Landing page flow: hero section with customer logos, product, then case study results" className="w-full h-auto" />
                   </div>
                 </>
               }
@@ -430,9 +421,24 @@ export default function OfficialWebsiteRenewal() {
               heading="Lead with proof first, product features come later"
               result="→ 2m 18s time on the new flagship case study page"
               media={
+                <>
+                {/* Customer results cards on the new homepage */}
+                <div className="relative w-full aspect-[1920/1276] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+                  <video
+                    ref={autoplayMuted}
+                    src={MEDIA.decision1}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-label="New homepage section: customer results for turnarounds, maintenance and capital projects"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <div className="relative w-full aspect-[16/9] rounded-[16px] border border-[#d4def5] overflow-hidden bg-[#2c3038]">
                   <img src={MEDIA.decision2} alt="Customer results with ROI shown on the new homepage" className="absolute inset-0 w-full h-full object-contain" />
                 </div>
+                </>
               }
             >
               <p>Problem: Case studies held the strongest proof, and only 9% of engaged visitors opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
@@ -494,13 +500,6 @@ export default function OfficialWebsiteRenewal() {
                     />
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb] lg:row-span-2">
-                      <div className="rounded-[10px] overflow-hidden bg-[#14172a]">
-                        <img src={MEDIA.landingFlow} alt="Landing page flow: hero section with customer logos, product, then case study results" className="w-full h-auto" />
-                      </div>
-                      <p className="text-[16px] font-semibold text-[#181818]">A landing page that tells one story</p>
-                      <p className="text-[14px] leading-[1.5] text-[#576779]">Hero shows the product is used by major industrial leaders, the product section gives instant understanding, and case studies prove the value on site.</p>
-                    </div>
                     <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb]">
                       <div className="rounded-[10px] overflow-hidden bg-[#1b1b1c] aspect-[16/10]">
                         <img src="/Project_website_revamp/case-studies-grid.jpg" alt="Case studies page: customer project cards, each led by one ROI number such as $988,240 total savings" loading="lazy" className="w-full h-full object-cover object-top" />
