@@ -52,8 +52,8 @@ function Block({
         </div>
       </div>
       <div className="md:col-span-8 flex flex-col gap-6 md:gap-8 min-w-0">
-        <div className={`${body} flex flex-col`}>{children}</div>
-        {result && <p className={headline}>{result}</p>}
+        <div className={`${body} flex flex-col max-w-[820px]`}>{children}</div>
+        {result && <p className={`${headline} max-w-[820px]`}>{result}</p>}
         {media && <div className="flex flex-col gap-4 w-full mt-2">{media}</div>}
       </div>
     </section>
@@ -203,39 +203,49 @@ const OLD_BUTTONS = [
   { t: "Learn more →", bg: "#2a2d33", fg: "#fff" },
 ];
 
-// ── Before / After pairs ──
+// ── Before / After pairs (old Wix site → new kewazo.com, captured at 1440px) ──
+const BA = "/Project_website_revamp/ba/";
 const PAIRS = [
   {
-    title: "Hero: from a mission statement to what we sell",
-    before: { src: "/Project_website_revamp/before-hero.jpg", alt: "Old hero headline: Improving the lives of workers worldwide" },
-    after: { src: "/Project_website_revamp/kewazo-after.jpg", alt: "New hero: Robotics and AI for industrial maintenance and construction, with customer logos" },
+    title: "Hero",
+    note: "From a mission statement to what KEWAZO sells, with customer logos as instant proof.",
+    before: { src: `${BA}ba-before-hero.jpg`, alt: "Old hero: Improving the lives of workers worldwide, Let's talk button" },
+    after: { src: "/Project_website_revamp/kewazo-after.jpg", alt: "New hero: Robotics and AI for industrial maintenance and construction, customer logos" },
   },
   {
-    title: "Actions: from look-alike buttons to three clear tiers",
-    before: { src: "/Project_website_revamp/before-buttons.jpg", alt: "Two identical grey buttons: LIFTBOT for Industrial Plants and LIFTBOT for Commercial Sites" },
-    after: { video: "/Project_website_revamp/Design%20decisions%203.mp4", alt: "Three-tier button system with hover motion" },
+    title: "Value proposition",
+    note: "From a slogan and two look-alike buttons to the problem it solves, with one clear next step.",
+    before: { src: `${BA}ba-before-value.jpg`, alt: "Old section: 3 scaffolders and LIFTBOT cover any project, two identical grey buttons" },
+    after: { src: `${BA}ba-after-value.jpg`, alt: "New section: Reducing crane time and manual handling, crane vs manual handling vs LIFTBOT" },
   },
   {
-    title: "Proof: from a separate page to the homepage",
-    before: { src: "/Project_website_revamp/before-case-study.jpg", alt: "Old case study card on a separate page: ExxonMobil Baytown saved 23% man-hours" },
-    after: { video: "/Project_website_revamp/Design%20decisions%201.mp4", alt: "Customer results for turnarounds, maintenance and capital projects on the new homepage" },
+    title: "Product",
+    note: "From a single product render to the full offering: robot, data platform and service.",
+    before: { src: `${BA}ba-before-product.jpg`, alt: "Old section: LIFTBOT render with one line of text" },
+    after: { src: `${BA}ba-after-product.jpg`, alt: "New section: LIFTBOT, KEWAZO ONSITE and KEWAZO CARE cards" },
+  },
+  {
+    title: "Proof",
+    note: "From large industry banners to customer results, each led by one number.",
+    before: { src: `${BA}ba-before-proof.jpg`, alt: "Old section: Industrial plants and Commercial sites banners with Learn more links" },
+    after: { src: `${BA}ba-after-proof.jpg`, alt: "New section: Immediate gains, Chevron $988,240, Dow 1/3, Kiewit 22%" },
+  },
+  {
+    title: "Contact",
+    note: "From a newsletter in the footer to an enquiry form with a named person at the bottom of every page.",
+    before: { src: `${BA}ba-before-contact.jpg`, alt: "Old footer with newsletter sign-up" },
+    after: { src: `${BA}ba-after-contact.jpg`, alt: "New contact form: Add LIFTBOT to your site, with a business development contact" },
   },
 ];
 
-type PairMedia = { src?: string; video?: string; alt: string };
-
-function PairRow({ label, media }: { label: string; media: PairMedia }) {
+function PairShot({ label, src, alt }: { label: string; src: string; alt: string }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] items-center gap-4 sm:gap-6 p-5 sm:p-6 rounded-[20px] bg-[#f5f7fb]">
-      <p className="text-[28px] sm:text-[36px] font-semibold leading-none tracking-[-1px] text-[#181818]">{label}</p>
-      <div className="rounded-[12px] overflow-hidden bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
-        {media.video ? (
-          <video ref={autoplayMuted} src={media.video} autoPlay muted loop playsInline aria-label={media.alt} className="block w-full h-auto" />
-        ) : (
-          <img src={media.src} alt={media.alt} className="block w-full h-auto" />
-        )}
+    <figure className="flex flex-col gap-2 min-w-0">
+      <figcaption className="text-[12px] font-semibold uppercase tracking-[0.04em] text-[#576779]">{label}</figcaption>
+      <div className="aspect-[16/10] rounded-[12px] overflow-hidden border border-[#e6e9ed] bg-[#f5f7fb]">
+        <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover object-top" />
       </div>
-    </div>
+    </figure>
   );
 }
 
@@ -248,12 +258,17 @@ function BeforeAfterPairs() {
           <p className={sideHeadline}>What changed on the homepage</p>
         </div>
       </div>
-      <div className="md:col-span-8 flex flex-col gap-14 min-w-0">
+      <div className="md:col-span-8 flex flex-col gap-12 min-w-0">
         {PAIRS.map((p) => (
-          <div key={p.title} className="flex flex-col gap-3">
-            <p className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818] mb-1">{p.title}</p>
-            <PairRow label="Before" media={p.before} />
-            <PairRow label="After" media={p.after} />
+          <div key={p.title} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818]">{p.title}</p>
+              <p className="text-[15px] leading-[1.5] text-[#576779]">{p.note}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <PairShot label="Before" {...p.before} />
+              <PairShot label="After" {...p.after} />
+            </div>
           </div>
         ))}
       </div>
@@ -286,7 +301,7 @@ export default function OfficialWebsiteRenewal() {
         {/* Hero media — same image as the previous page's Next project card */}
         <CaseStudyHero href="/work/official-website-renewal" alt="KEWAZO website mockup" />
 
-        <div className="flex flex-col gap-20 items-center px-6 sm:px-10 min-[75rem]:px-[100px] pt-20 max-w-[1247px] mx-auto w-full">
+        <div className="flex flex-col gap-20 items-center px-5 sm:px-[40px] pt-20 w-full">
           {/* Title */}
           <div className="flex flex-col gap-12 w-full">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
@@ -370,7 +385,6 @@ export default function OfficialWebsiteRenewal() {
             <ListRow title="How Might We:">
               <li>make the first-visit users prove KEWAZO is credible within seconds?</li>
               <li>guide users through clear, digestible information without making them hunt?</li>
-              <li>rebuilt the homepage to answer user’s possible questions in this order: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></li>
             </ListRow>
 
             <Block
