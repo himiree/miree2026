@@ -42,7 +42,7 @@ export default function BeforeAfterSlider({
         {[0, 1, 2].map((k) => (
           <i
             key={k}
-            className="size-[13px] rounded-full bg-[radial-gradient(circle_at_50%_35%,#6a6b70,#46474b)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_1px_1px_rgba(0,0,0,0.5)]"
+            className="size-[13px] rounded-full bg-[#4a4b4f]"
           />
         ))}
       </div>
@@ -50,7 +50,7 @@ export default function BeforeAfterSlider({
       ref={box}
       onPointerDown={onPointerDown}
       onPointerMove={(e) => e.buttons === 1 && moveTo(e.clientX)}
-      className="relative w-full aspect-[1266/897] overflow-hidden bg-[#121217] select-none touch-pan-y cursor-ew-resize"
+      className="relative w-full aspect-[1047/560] overflow-hidden bg-[#121217] select-none touch-pan-y cursor-ew-resize"
     >
       {side(after, afterAlt)}
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
