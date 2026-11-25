@@ -53,36 +53,80 @@ const VISITORS = [
 ];
 
 function VisitorsWaffle() {
-  // Pie slices, clockwise from 12 o'clock (values are out of 100)
+  // Donut ring: r = 40 in a 100×100 box, slices drawn clockwise from 12 o'clock with small gaps
+  const R = 40;
+  const C = 2 * Math.PI * R;
+  const GAP = 1.2; // % of the ring left empty between slices
   const slices = VISITORS.map((v, i) => {
     const before = VISITORS.slice(0, i).reduce((sum, x) => sum + x.n, 0);
-    const start = (before / 100) * Math.PI * 2;
-    const end = ((before + v.n) / 100) * Math.PI * 2;
-    const pt = (a: number) => `${50 + 50 * Math.sin(a)} ${50 - 50 * Math.cos(a)}`;
-    return { ...v, d: `M50 50 L${pt(start)} A50 50 0 ${end - start > Math.PI ? 1 : 0} 1 ${pt(end)} Z` };
+    const mid = ((before + v.n / 2) / 100) * Math.PI * 2; // radians from 12 o'clock, clockwise
+    return {
+      ...v,
+      dash: `${(Math.max(v.n - GAP, 0.4) / 100) * C} ${C}`,
+      offset: -((before + GAP / 2) / 100) * C,
+      x: Math.sin(mid),
+      y: -Math.cos(mid),
+    };
   });
+  const LABEL_R = 190; // px from the centre, ring radius is 150px
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 p-7 rounded-[20px] border border-[#d4def5] bg-white w-full">
-      <svg
-        viewBox="0 0 100 100"
-        className="w-[296px] max-w-full shrink-0"
-        role="img"
-        aria-label="100 homepage visitors: 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
-      >
+    <div className="flex flex-col items-center gap-8 p-7 rounded-[20px] border border-[#d4def5] bg-white w-full">
+      <div className="relative w-full max-w-[640px] h-[300px] sm:h-[460px]">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[260px] sm:size-[300px]">
+          <svg
+            viewBox="0 0 100 100"
+            className="size-full -rotate-90"
+            role="img"
+            aria-label="16.6K unique visitors. Homepage: 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
+          >
+            {slices.map((sl) => (
+              <circle
+                key={sl.label}
+                cx="50"
+                cy="50"
+                r={R}
+                fill="none"
+                stroke={sl.cell}
+                strokeWidth="6"
+                strokeDasharray={sl.dash}
+                strokeDashoffset={sl.offset}
+              />
+            ))}
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="text-[56px] sm:text-[72px] font-semibold leading-none tracking-[-2px] text-[#181818]">16.6K</p>
+            <p className="mt-2 text-[14px] text-[#576779]">unique visitors</p>
+          </div>
+        </div>
+
+        {/* Labels around the ring (wider screens) */}
         {slices.map((sl) => (
-          <path key={sl.label} d={sl.d} fill={sl.cell} stroke="#fff" strokeWidth="0.6" strokeLinejoin="round" />
+          <div
+            key={sl.label}
+            className={`hidden sm:flex absolute flex-col max-w-[200px] ${sl.x >= 0 ? "items-start text-left" : "items-end text-right"}`}
+            style={{
+              left: `calc(50% + ${sl.x * LABEL_R}px)`,
+              top: `calc(50% + ${sl.y * LABEL_R}px)`,
+              transform: `translate(${sl.x >= 0 ? "0" : "-100%"}, -50%)`,
+            }}
+          >
+            <p className="text-[28px] font-semibold leading-none text-[#181818]">{sl.n}%</p>
+            <p className="mt-1 text-[14px] leading-[1.3] text-[#576779]">{sl.label}</p>
+            {sl.note && <p className="mt-[2px] text-[12px] leading-[1.3] text-[#8b97a5]">{sl.note}</p>}
+          </div>
         ))}
-      </svg>
-      <div className="flex flex-col gap-4 min-w-0">
-        <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
+      </div>
+
+      {/* Legend (small screens) */}
+      <div className="sm:hidden flex flex-col gap-3 w-full">
         {VISITORS.map((v) => (
           <div key={v.label} className="flex items-center gap-3">
             <span className="size-3 rounded-[3px] shrink-0" style={{ background: v.key }} />
-            <div className="flex flex-col gap-[2px] flex-1 min-w-0 md:w-[440px]">
-              <p className="text-[16px] font-medium text-[#181818]">{v.label}</p>
-              {v.note && <p className="text-[13px] tracking-[-0.32px] text-[#576779]">{v.note}</p>}
+            <div className="flex-1 min-w-0">
+              <p className="text-[15px] text-[#181818]">{v.label}</p>
+              {v.note && <p className="text-[12px] text-[#576779]">{v.note}</p>}
             </div>
-            <p className="text-[24px] font-semibold text-[#181818] shrink-0">{v.n}%</p>
+            <p className="text-[20px] font-semibold text-[#181818]">{v.n}%</p>
           </div>
         ))}
       </div>
