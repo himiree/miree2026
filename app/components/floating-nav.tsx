@@ -150,7 +150,7 @@ export default function FloatingNav() {
         data-nav
         className="fixed top-6 left-0 right-0 z-50 flex justify-center pointer-events-none"
       >
-        <div className="flex items-center gap-2 pointer-events-auto" onPointerLeave={closePeek}>
+        <div className="flex items-center pointer-events-auto" onPointerLeave={closePeek}>
           {/* Profile photo */}
           <Link
             href="/"
@@ -175,8 +175,8 @@ export default function FloatingNav() {
           <div
             onPointerEnter={() => clearTimeout(peekTimer.current)}
             onFocusCapture={openPeek}
-            className={`flex items-center gap-2 transition-[opacity,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              expanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-3 pointer-events-none"
+            className={`flex items-center gap-2 transition-[opacity,max-width,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              expanded ? "opacity-100 max-w-[640px] ml-2" : "opacity-0 max-w-0 ml-0 overflow-hidden pointer-events-none"
             }`}
           >
           {/* Nav links pill */}

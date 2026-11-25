@@ -23,7 +23,7 @@ const sectionLabel = "text-[14px] font-medium leading-[19.2px] tracking-[-0.25px
 const headline =
   "text-[26px] sm:text-[32px] font-semibold leading-[1.3] tracking-[-0.25px] text-[#181818] [text-box-trim:trim-both] [text-box-edge:cap_alphabetic]";
 const sideHeadline =
-  "text-[24px] lg:text-[28px] font-semibold leading-[1.25] tracking-[-0.25px] text-[#181818] text-balance";
+  "text-[20px] lg:text-[22px] font-medium leading-[1.35] tracking-[-0.25px] text-[#181818] text-balance";
 const body = "text-[17px] sm:text-[20px] leading-[1.5] tracking-[-0.25px] text-[#181818]";
 
 /**
@@ -45,13 +45,13 @@ function Block({
 }) {
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full">
-      <div className="md:col-span-4">
+      <div className="md:col-span-3">
         <div className="md:sticky md:top-28 flex flex-col gap-5">
           <p className={sectionLabel}>{title}</p>
           <p className={sideHeadline}>{heading}</p>
         </div>
       </div>
-      <div className="md:col-span-8 flex flex-col gap-6 md:gap-8 min-w-0">
+      <div className="md:col-span-9 flex flex-col gap-6 md:gap-8 min-w-0">
         <div className={`${body} flex flex-col gap-4 max-w-[820px]`}>{children}</div>
         {result && <p className={`${headline} max-w-[820px]`}>{result}</p>}
         {media && <div className="flex flex-col gap-4 w-full mt-2">{media}</div>}
@@ -251,13 +251,13 @@ function PairShot({ label, src, alt }: { label: string; src: string; alt: string
 function BeforeAfterPairs() {
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full">
-      <div className="md:col-span-4">
+      <div className="md:col-span-3">
         <div className="md:sticky md:top-28 flex flex-col gap-5">
           <p className={sectionLabel}>Before / After</p>
           <p className={sideHeadline}>What changed on the homepage</p>
         </div>
       </div>
-      <div className="md:col-span-8 flex flex-col gap-12 min-w-0">
+      <div className="md:col-span-9 flex flex-col gap-12 min-w-0">
         {PAIRS.map((p) => (
           <div key={p.title} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
@@ -311,7 +311,7 @@ export default function OfficialWebsiteRenewal() {
 
             {/* Project profile */}
             <div className="grid grid-cols-2 md:grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
-              <div className="md:col-span-4 flex flex-col gap-8">
+              <div className="md:col-span-3 flex flex-col gap-8">
                 <div className="flex flex-col gap-3 items-start">
                   <p className={label}>Delivered</p>
                   <a
@@ -334,7 +334,7 @@ export default function OfficialWebsiteRenewal() {
                   Analytics audit<br />Information architecture<br />UX/UI<br />Visual system<br />Framer build<br />Photo/video editing
                 </p>
               </div>
-              <div className="md:col-span-3 flex flex-col gap-3">
+              <div className="md:col-span-4 flex flex-col gap-3">
                 <p className={label}>Impact / Proxy</p>
                 <ol className="list-decimal pl-[21px]">
                   <li><b>+38%</b> average session time<br />(2m 53s → 3m 58s)</li>

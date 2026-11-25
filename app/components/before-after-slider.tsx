@@ -37,12 +37,12 @@ export default function BeforeAfterSlider({
     );
 
   return (
-    <div className="w-full rounded-[20px] overflow-hidden border border-[#e6e9ed] bg-[#0e0e0e] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.4)]">
-      <div className="flex items-center gap-[10px] h-[44px] px-[18px] bg-[#1b1b1c] border-b border-black/40" aria-hidden>
+    <div className="w-full rounded-[20px] overflow-hidden border border-[#e6e9ed] bg-[#f3f4f6] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.4)]">
+      <div className="flex items-center gap-[10px] h-[44px] px-[18px] bg-[#f3f4f6] border-b border-[#e6e9ed]" aria-hidden>
         {[0, 1, 2].map((k) => (
           <i
             key={k}
-            className="size-[13px] rounded-full bg-[#4a4b4f]"
+            className="size-[13px] rounded-full bg-[#d4d7dc]"
           />
         ))}
       </div>
