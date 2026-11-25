@@ -50,7 +50,7 @@ export default function BeforeAfterSlider({
       ref={box}
       onPointerDown={onPointerDown}
       onPointerMove={(e) => e.buttons === 1 && moveTo(e.clientX)}
-      className="relative w-full aspect-[1047/560] overflow-hidden bg-[#121217] select-none touch-pan-y cursor-ew-resize"
+      className="relative w-full aspect-[1047/640] overflow-hidden bg-[#121217] select-none touch-pan-y cursor-ew-resize"
     >
       {side(after, afterAlt)}
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
