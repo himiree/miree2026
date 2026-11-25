@@ -11,6 +11,7 @@ const MEDIA = {
   // Before/after screenshots for the drag slider — add paths to show them
   before: "/Project_website_revamp/kewazo-before.jpg", // old Wix homepage
   after: "/Project_website_revamp/kewazo-after.jpg", // new kewazo.com homepage
+  decision1: "/Project_website_revamp/Design%20decisions%201.mp4",
   decision2: "/Project_website_revamp/Design%20decisions%202.png",
   decision3: "/Project_website_revamp/Design%20decisions%203.mp4",
 };
@@ -265,6 +266,20 @@ export default function OfficialWebsiteRenewal() {
               >
                 <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</p>
               </Block>
+            </div>
+
+            {/* Design decisions (1) result: proof cards on the new homepage */}
+            <div className="relative w-full aspect-[1920/1276] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+              <video
+                ref={autoplayMuted}
+                src={MEDIA.decision1}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label="New homepage section: customer results for turnarounds, maintenance and capital projects"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
             </div>
 
             {/* Design decisions (2) */}
