@@ -27,6 +27,26 @@ export default function FloatingNav() {
     peekTimer.current = setTimeout(() => setPeek(false), 250);
   }
   const expanded = visible || peek;
+  // Hovering the photo plays a quick wink
+  const [wink, setWink] = useState(false);
+  const winkTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  function playWink() {
+    clearTimeout(winkTimer.current);
+    setWink(true);
+    winkTimer.current = setTimeout(() => setWink(false), 650);
+  }
+  // While collapsed, slide the photo right by half the hidden part so it sits at screen centre
+  const restRef = useRef<HTMLDivElement>(null);
+  const [shift, setShift] = useState(0);
+  useEffect(() => {
+    const el = restRef.current;
+    if (!el) return;
+    const measure = () => setShift((el.offsetWidth + 8) / 2);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const pathname = usePathname();
   const langRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
@@ -155,9 +175,16 @@ export default function FloatingNav() {
           <Link
             href="/"
             data-nav-brand
-            onPointerEnter={openPeek}
+            onPointerEnter={() => {
+              openPeek();
+              playWink();
+            }}
             onFocus={openPeek}
-            className="relative w-[68px] h-[42px] rounded-[99px] overflow-hidden flex-shrink-0 shadow-[0px_8px_32px_0px_rgba(0,0,0,0.12)] group/profile"
+            style={{
+              transform: `translateX(${expanded ? 0 : shift}px) scale(${wink ? 1.06 : 1})`,
+              transition: "transform 620ms cubic-bezier(0.34, 1.36, 0.64, 1)",
+            }}
+            className="relative w-[68px] h-[42px] rounded-[99px] overflow-hidden flex-shrink-0 shadow-[0px_8px_32px_0px_rgba(0,0,0,0.12)]"
           >
             <img
               src="/profile.png"
@@ -168,15 +195,22 @@ export default function FloatingNav() {
               src="/profile_still2.png"
               alt=""
               aria-hidden
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover/profile:opacity-100"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[90ms] ease-out ${wink ? "opacity-100" : "opacity-0"}`}
             />
           </Link>
 
           <div
             onPointerEnter={() => clearTimeout(peekTimer.current)}
             onFocusCapture={openPeek}
-            className={`flex items-center gap-2 transition-[opacity,max-width,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              expanded ? "opacity-100 max-w-[640px] ml-2" : "opacity-0 max-w-0 ml-0 overflow-hidden pointer-events-none"
+            ref={restRef}
+            style={{
+              transformOrigin: "left center",
+              transition: expanded
+                ? "opacity 380ms ease-out 60ms, translate 620ms cubic-bezier(0.34, 1.36, 0.64, 1) 40ms, scale 620ms cubic-bezier(0.34, 1.36, 0.64, 1) 40ms, filter 420ms ease-out 60ms"
+                : "opacity 220ms ease-in, translate 300ms cubic-bezier(0.4, 0, 1, 1), scale 300ms cubic-bezier(0.4, 0, 1, 1), filter 220ms ease-in",
+            }}
+            className={`ml-2 flex items-center gap-2 ${
+              expanded ? "opacity-100 translate-x-0 scale-100 blur-0" : "opacity-0 -translate-x-4 scale-[0.94] blur-[6px] pointer-events-none"
             }`}
           >
           {/* Nav links pill */}
