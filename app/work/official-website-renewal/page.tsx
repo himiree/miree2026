@@ -64,8 +64,10 @@ function Block({
 function ListRow({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 w-full">
-      <p className={`${sectionLabel} md:col-span-4 max-w-[240px]`}>{title}</p>
-      <ul className={`${body} md:col-span-8 list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
+      <div className="md:col-start-5 md:col-span-8 flex flex-col gap-3">
+        <p className={`${sectionLabel} !text-[#1271C4]`}>{title}</p>
+        <ul className={`${body} list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
+      </div>
     </div>
   );
 }
@@ -546,7 +548,7 @@ export default function OfficialWebsiteRenewal() {
 
             <Block
               title="Reflection"
-              heading="A &ldquo;yes&rdquo; at the start isn&apos;t the finish line."
+              heading="Taking ownership also means building the shared commitment necessary to carry it through."
             >
               <p>Nobody asked for this project. There was no brief, no kickoff, no Asana ticket with my name on it. There was simply a website I kept finding problems with, and a hunch that it was quietly costing us leads.</p>
               <p>I started designing. The direction emerged through a series of conversations with our CEO. The process was hardly linear. Drafts were questioned, some survived, and a fair amount of work never made it into the final design.</p>
