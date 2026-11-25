@@ -240,11 +240,9 @@ const PAIRS = [
 
 function PairShot({ label, src, alt }: { label: string; src: string; alt: string }) {
   return (
-    <figure className="flex flex-col gap-2 min-w-0">
-      <figcaption className="text-[12px] font-semibold uppercase tracking-[0.04em] text-[#576779]">{label}</figcaption>
-      <div className="aspect-[16/10] rounded-[12px] overflow-hidden border border-[#e6e9ed] bg-[#f5f7fb]">
-        <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover object-top" />
-      </div>
+    <figure className="relative min-w-0 aspect-[16/10] rounded-[12px] overflow-hidden border border-[#e6e9ed] bg-[#f5f7fb]">
+      <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover object-top" />
+      <figcaption className="absolute bottom-3 left-3 rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">{label}</figcaption>
     </figure>
   );
 }
@@ -437,7 +435,7 @@ export default function OfficialWebsiteRenewal() {
               media={
                 <div className="flex flex-col lg:flex-row gap-5 items-stretch lg:items-center w-full">
                   <div className="flex flex-col gap-4 p-[18px] rounded-[16px] border border-[#e2e5f1] bg-white lg:w-[220px] lg:h-[261px] shrink-0">
-                    <p className="text-[12px] font-semibold uppercase text-[#181818]">Before</p>
+                    <p className="w-fit rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">Before</p>
                     <div className="flex flex-wrap gap-2">
                       {OLD_BUTTONS.map((b) => (
                         <span key={b.t} className="px-[11px] py-[9px] rounded-[3px] text-[12px] font-semibold whitespace-nowrap" style={{ background: b.bg, color: b.fg }}>
@@ -459,7 +457,7 @@ export default function OfficialWebsiteRenewal() {
                       aria-label="New three-tier button system with hover motion"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <p className="absolute left-[18px] top-[18px] text-[12px] font-semibold uppercase text-white">After</p>
+                    <p className="absolute bottom-3 left-3 rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">After</p>
                   </div>
                 </div>
               }
