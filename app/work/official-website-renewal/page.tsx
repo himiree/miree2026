@@ -359,7 +359,7 @@ export default function OfficialWebsiteRenewal() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
-            <div className="md:col-start-2 md:col-span-10">
+            <div className="md:col-start-3 md:col-span-8">
             <BeforeAfterSlider
               before={MEDIA.before}
               after={MEDIA.after}
@@ -438,6 +438,19 @@ export default function OfficialWebsiteRenewal() {
                 <div className="relative w-full aspect-[16/9] rounded-[16px] border border-[#d4def5] overflow-hidden bg-[#2c3038]">
                   <img src={MEDIA.decision2} alt="Customer results with ROI shown on the new homepage" className="absolute inset-0 w-full h-full object-contain" />
                 </div>
+                {/* Walkthrough of the flagship Chevron case study page */}
+                <div className="relative w-full aspect-[16/10] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+                  <video
+                    ref={autoplayMuted}
+                    src="/Project_website_revamp/chevron-walkthrough.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-label="Scrolling through the Chevron case study page: headline result, crane vs LIFTBOT cost comparison, then the enquiry form"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 </>
               }
             >
@@ -506,13 +519,6 @@ export default function OfficialWebsiteRenewal() {
                       </div>
                       <p className="text-[16px] font-semibold text-[#181818]">Case studies worth watching</p>
                       <p className="text-[14px] leading-[1.5] text-[#576779]">Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
-                    </div>
-                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb]">
-                      <div className="rounded-[10px] overflow-hidden bg-[#1b1b1c] aspect-[16/10]">
-                        <img src="/Project_website_revamp/case-study-funnel.jpg" alt="Chevron case study page with Request a demo and See full details (PDF via DocSend) buttons" loading="lazy" className="w-full h-full object-cover object-top" />
-                      </div>
-                      <p className="text-[16px] font-semibold text-[#181818]">Connected to the sales pipeline</p>
-                      <p className="text-[14px] leading-[1.5] text-[#576779]">A homepage → case study → contact funnel, with DocSend tracking and UTM-tagged links for sales outreach. Built end-to-end in Framer, including photo and video editing.</p>
                     </div>
                   </div>
                 </>
