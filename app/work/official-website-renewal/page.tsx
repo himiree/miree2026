@@ -357,12 +357,14 @@ export default function OfficialWebsiteRenewal() {
               </p>
             </div>
 
+            <div className="w-4/5 mx-auto">
             <BeforeAfterSlider
               before={MEDIA.before}
               after={MEDIA.after}
               beforeAlt="Old homepage hero: Improving the lives of workers worldwide, with a Let's talk button"
               afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
             />
+            </div>
 
             <BeforeAfterPairs />
 
