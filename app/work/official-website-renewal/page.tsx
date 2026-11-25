@@ -52,7 +52,7 @@ function Block({
         </div>
       </div>
       <div className="md:col-span-8 flex flex-col gap-6 md:gap-8 min-w-0">
-        <div className={`${body} flex flex-col max-w-[820px]`}>{children}</div>
+        <div className={`${body} flex flex-col gap-4 max-w-[820px]`}>{children}</div>
         {result && <p className={`${headline} max-w-[820px]`}>{result}</p>}
         {media && <div className="flex flex-col gap-4 w-full mt-2">{media}</div>}
       </div>
@@ -61,14 +61,12 @@ function Block({
 }
 
 /** Small label column + bulleted list across three columns */
-function ListRow({ title, children, after }: { title: string; children: ReactNode; after?: ReactNode }) {
+function SubList({ title, children, after }: { title: string; children: ReactNode; after?: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 w-full">
-      <div className="md:col-start-5 md:col-span-8 flex flex-col gap-3">
-        <p className={`${sectionLabel} !text-[#1271C4]`}>{title}</p>
-        <ul className={`${body} list-disc pl-[1.5em] flex flex-col`}>{children}</ul>
-        {after && <div className="mt-5 w-full">{after}</div>}
-      </div>
+    <div className="flex flex-col gap-3 w-full">
+      <p className={`${sectionLabel} !text-[#1271C4]`}>{title}</p>
+      <ul className={`${body} list-disc pl-[1.5em] flex flex-col gap-1 max-w-[820px]`}>{children}</ul>
+      {after && <div className="mt-5 w-full">{after}</div>}
     </div>
   );
 }
@@ -99,7 +97,7 @@ function VisitorsWaffle() {
   });
   const LABEL_R = 122; // px from the centre; ring radius is 110px
   return (
-    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
+    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 p-6 rounded-[16px] border border-[#d4def5] bg-white w-full">
       <div className="relative w-full max-w-[400px] md:w-[400px] h-[300px] sm:h-[320px] shrink-0">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[200px] sm:size-[220px]">
           <svg
@@ -243,7 +241,7 @@ const PAIRS = [
 
 function PairShot({ label, src, alt }: { label: string; src: string; alt: string }) {
   return (
-    <figure className="relative min-w-0 aspect-[16/10] rounded-[12px] overflow-hidden border border-[#e6e9ed] bg-[#f5f7fb]">
+    <figure className="relative min-w-0 aspect-[16/10] rounded-[16px] overflow-hidden border border-[#e6e9ed] bg-[#f5f7fb]">
       <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover object-top" />
       <figcaption className="absolute bottom-3 left-3 rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">{label}</figcaption>
     </figure>
@@ -305,15 +303,15 @@ export default function OfficialWebsiteRenewal() {
         <div className="flex flex-col gap-20 items-center px-5 sm:px-[40px] pt-20 w-full">
           {/* Title */}
           <div className="flex flex-col gap-12 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
-              <h1 className="md:col-span-4 text-[38px] sm:text-[52px] font-bold leading-[1.1] tracking-[-1px] text-[#181818] max-w-[720px]">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
+              <h1 className="md:col-span-8 text-[38px] sm:text-[52px] font-bold leading-[1.1] tracking-[-1px] text-[#181818] max-w-[720px]">
                 Official website full scale renewal
               </h1>
             </div>
 
             {/* Project profile */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
-              <div className="flex flex-col gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
+              <div className="md:col-span-4 flex flex-col gap-8">
                 <div className="flex flex-col gap-3 items-start">
                   <p className={label}>Delivered</p>
                   <a
@@ -330,13 +328,13 @@ export default function OfficialWebsiteRenewal() {
                   <p>Sole designer / builder (Framer)</p>
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Scope</p>
                 <p>
                   Analytics audit<br />Information architecture<br />UX/UI<br />Visual system<br />Framer build<br />Photo/video editing
                 </p>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Impact / Proxy</p>
                 <ol className="list-decimal pl-[21px]">
                   <li><b>+38%</b> average session time<br />(2m 53s → 3m 58s)</li>
@@ -345,7 +343,7 @@ export default function OfficialWebsiteRenewal() {
                   <li>Kewazo team uses the website more actively as a reference</li>
                 </ol>
               </div>
-              <div className="flex flex-col gap-3 md:justify-self-end">
+              <div className="md:col-span-2 flex flex-col gap-3">
                 <p className={label}>Duration</p>
                 <p>5 months<br />(2025 Sep - 2026 Jan)</p>
               </div>
@@ -354,13 +352,14 @@ export default function OfficialWebsiteRenewal() {
 
           {/* Story */}
           <div className="flex flex-col gap-14 pb-16 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-4 py-6">
-              <p className={`${body} md:col-span-3`}>
-                KEWAZO is a B2B startup combining SaaS and robotics to help refineries, chemical plants and construction contractors move heavy equipment. In B2B, a company website is often the first place of evaluation for both a product and the company behind it. As its sole designer, Rather than waiting for a brief, I identified an opportunity for improvement and turned it into an end-to-end design initiative.
+            <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
+              <p className={`${body} md:col-span-8`}>
+                KEWAZO is a B2B startup combining SaaS and robotics to help refineries, chemical plants and construction contractors move heavy equipment. In B2B, a company website is often the first place of evaluation for both a product and the company behind it. As its sole designer, rather than waiting for a brief, I identified an opportunity for improvement and turned it into an end-to-end design initiative.
               </p>
             </div>
 
-            <div className="w-4/5 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
+            <div className="md:col-start-2 md:col-span-10">
             <BeforeAfterSlider
               before={MEDIA.before}
               after={MEDIA.after}
@@ -368,28 +367,33 @@ export default function OfficialWebsiteRenewal() {
               afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
             />
             </div>
+            </div>
 
             <BeforeAfterPairs />
 
             <Block
               title="Problem definition"
               heading="Analytics suggested that users went looking for proof for credibility, and didn't find it."
+              media={
+                <div className="flex flex-col gap-14">
+                  <SubList title="Based on 10 months of previous website analytics:" after={<VisitorsWaffle />}>
+                    <li><b>98% were first-time visitors.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
+                    <li><b>61% left the homepage without clicking anything.</b></li>
+                    <li><b>41% of those who stayed went to About company, and only 9% to Case studies,</b> where the strongest proof lived.</li>
+                  </SubList>
+
+                  <SubList title="How Might We:">
+                    <li>make the first-visit users prove KEWAZO is credible within seconds?</li>
+                    <li>guide users through clear, digestible information without making them hunt?</li>
+                  </SubList>
+                </div>
+              }
             >
               <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
               <p>“Can users trust this company?”</p>
               <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time visitor would.</p>
             </Block>
 
-            <ListRow title="Based on 10 months of previous website analytics:" after={<VisitorsWaffle />}>
-              <li><b>98% were first-time visitors.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
-              <li><b>61% left the homepage without clicking anything.</b></li>
-              <li><b>41% of those who stayed went to About company, and only 9% to Case studies,</b> where the strongest proof lived.</li>
-            </ListRow>
-
-            <ListRow title="How Might We:">
-              <li>make the first-visit users prove KEWAZO is credible within seconds?</li>
-              <li>guide users through clear, digestible information without making them hunt?</li>
-            </ListRow>
 
             <Block
               title="Design decisions (1)"
@@ -397,7 +401,7 @@ export default function OfficialWebsiteRenewal() {
               result="→ +38% average session time (2m 53s → 3m 58s)"
               media={
                 <>
-                  <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-start p-6 rounded-[20px] bg-[#f5f7fb]">
+                  <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-start p-6 rounded-[16px] bg-[#f5f7fb]">
                     <IAColumn title="Old homepage" items={OLD_HOME} />
                     <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
                     <IAColumn title="New homepage" items={NEW_HOME} />
