@@ -539,6 +539,17 @@ export default function OfficialWebsiteRenewal() {
             >
               <p>Users came with one question: “Can we trust this company?” I put the answer, real customer value numbers on the homepage and made the next step obvious. Sales also began using the website as a reference in their outreach. That&apos;s a qualitative signal from the team.</p>
             </Block>
+
+            <Block
+              title="Reflection"
+              heading="A &ldquo;yes&rdquo; at the start isn&apos;t the finish line."
+            >
+              <p>Nobody asked for this project. There was no brief, no kickoff, no Asana ticket with my name on it. There was simply a website I kept finding problems with, and a hunch that it was quietly costing us leads.</p>
+              <p>I started designing. The direction emerged through a series of conversations with our CEO. The process was hardly linear. Drafts were questioned, some survived, and a fair amount of work never made it into the final design.</p>
+              <p>I initiated and drove the project, but I could not have brought it to launch alone. What mattered was that the CEO did not simply approve the project and leave me to it. He stayed engaged, questioned my decisions, listened to my reasoning, and continued to stand behind the work.</p>
+              <p>Over my three years as the sole designer at a startup, I came to understand that a &ldquo;yes&rdquo; at the start isn&apos;t the finish line. Knowing what needs to be done and having the skills to do it are only part of the equation. Taking ownership also means making the reasoning behind the work understood and building the shared commitment necessary to carry it through.</p>
+              <p>One of my most valuable lessons was learning to pay as much attention to how people were working together as to the work itself.</p>
+            </Block>
           </div>
         </div>
 
