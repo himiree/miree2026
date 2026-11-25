@@ -22,15 +22,35 @@ const headline =
   "text-[26px] sm:text-[32px] font-semibold leading-[1.3] tracking-[-0.25px] text-[#181818] [text-box-trim:trim-both] [text-box-edge:cap_alphabetic]";
 const body = "text-[17px] sm:text-[20px] leading-[1.5] tracking-[-0.25px] text-[#181818]";
 
-/** Label on the left, heading / text / result across the other three columns */
-function Block({ title, heading, children, result }: { title: string; heading: string; children: ReactNode; result?: ReactNode }) {
+/**
+ * Section on the 4-column grid: label in column 1 (sticks while the section scrolls by),
+ * heading / text / result / media across columns 2–4.
+ */
+function Block({
+  title,
+  heading,
+  children,
+  result,
+  media,
+}: {
+  title: string;
+  heading: string;
+  children: ReactNode;
+  result?: ReactNode;
+  media?: ReactNode;
+}) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
-      <p className={`${sectionLabel} md:row-span-3`}>{title}</p>
-      <p className={`${headline} md:col-span-3 max-w-[699px]`}>{heading}</p>
-      <div className={`${body} md:col-span-3 flex flex-col`}>{children}</div>
-      {result && <p className={`${headline} md:col-span-3`}>{result}</p>}
-    </div>
+    <section className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
+      <div>
+        <p className={`${sectionLabel} md:sticky md:top-28`}>{title}</p>
+      </div>
+      <div className="md:col-span-3 flex flex-col gap-6 md:gap-8 min-w-0">
+        <p className={`${headline} max-w-[699px]`}>{heading}</p>
+        <div className={`${body} flex flex-col`}>{children}</div>
+        {result && <p className={headline}>{result}</p>}
+        {media && <div className="flex flex-col gap-4 w-full mt-2">{media}</div>}
+      </div>
+    </section>
   );
 }
 
@@ -46,20 +66,20 @@ function ListRow({ title, children }: { title: string; children: ReactNode }) {
 
 // ── 100 homepage visitors (waffle 10×10) ──
 const VISITORS = [
-  { n: 61, cell: "#eaedf3", key: "#e2e5f1", label: "Left without clicking anything" },
-  { n: 16, cell: "#2b3037", key: "#2b3037", label: "Went to About company", note: "41% of those who stayed (16/39)" },
-  { n: 3, cell: "#1ea7a6", key: "#1ea7a6", label: "Went to Case studies", note: "9% of those who stayed (9/39), where the strongest proof lived" },
-  { n: 20, cell: "#bad1d4", key: "#bad1d4", label: "Went elsewhere" },
+  { n: 61, cell: "#eaedf3", key: "#e2e5f1", label: "Left without clicking anything", short: "Left" },
+  { n: 16, cell: "#2b3037", key: "#2b3037", label: "Went to About company", short: "About company", note: "41% of those who stayed (16/39)" },
+  { n: 3, cell: "#1ea7a6", key: "#1ea7a6", label: "Went to Case studies", short: "Case studies", note: "9% of those who stayed (9/39), where the strongest proof lived" },
+  { n: 20, cell: "#bad1d4", key: "#bad1d4", label: "Went elsewhere", short: "Elsewhere" },
 ];
 
 function VisitorsWaffle() {
-  // Donut ring: r = 40 in a 100×100 box, slices drawn clockwise from 12 o'clock with small gaps
+  // Donut ring: r = 40 in a 100×100 box, slices clockwise from 12 o'clock with thin gaps
   const R = 40;
   const C = 2 * Math.PI * R;
-  const GAP = 1.2; // % of the ring left empty between slices
+  const GAP = 0.6; // % of the ring left empty between slices
   const slices = VISITORS.map((v, i) => {
     const before = VISITORS.slice(0, i).reduce((sum, x) => sum + x.n, 0);
-    const mid = ((before + v.n / 2) / 100) * Math.PI * 2; // radians from 12 o'clock, clockwise
+    const mid = ((before + v.n / 2) / 100) * Math.PI * 2;
     return {
       ...v,
       dash: `${(Math.max(v.n - GAP, 0.4) / 100) * C} ${C}`,
@@ -68,65 +88,54 @@ function VisitorsWaffle() {
       y: -Math.cos(mid),
     };
   });
-  const LABEL_R = 190; // px from the centre, ring radius is 150px
+  const LABEL_R = 138; // px from the centre; ring radius is 110px
   return (
-    <div className="flex flex-col items-center gap-8 p-7 rounded-[20px] border border-[#d4def5] bg-white w-full">
-      <div className="relative w-full max-w-[640px] h-[300px] sm:h-[460px]">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[260px] sm:size-[300px]">
+    <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-4 p-6 rounded-[20px] border border-[#d4def5] bg-white w-full">
+      <div className="relative w-full max-w-[440px] h-[300px] sm:h-[340px] shrink-0">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[200px] sm:size-[220px]">
           <svg
             viewBox="0 0 100 100"
             className="size-full -rotate-90"
             role="img"
-            aria-label="16.6K unique visitors. Homepage: 61% left without clicking, 16% went to About company, 3% went to Case studies, 20% went elsewhere"
+            aria-label="Per 100 homepage visitors: 61 left without clicking, 16 went to About company, 3 went to Case studies, 20 went elsewhere"
           >
             {slices.map((sl) => (
-              <circle
-                key={sl.label}
-                cx="50"
-                cy="50"
-                r={R}
-                fill="none"
-                stroke={sl.cell}
-                strokeWidth="6"
-                strokeDasharray={sl.dash}
-                strokeDashoffset={sl.offset}
-              />
+              <circle key={sl.label} cx="50" cy="50" r={R} fill="none" stroke={sl.cell} strokeWidth="6" strokeDasharray={sl.dash} strokeDashoffset={sl.offset} />
             ))}
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <p className="text-[56px] sm:text-[72px] font-semibold leading-none tracking-[-2px] text-[#181818]">16.6K</p>
-            <p className="mt-2 text-[14px] text-[#576779]">unique visitors</p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <p className="text-[52px] font-semibold leading-none tracking-[-1.5px] text-[#181818]">100</p>
+            <p className="mt-2 text-[12px] leading-[1.3] text-[#576779]">homepage visitors</p>
           </div>
         </div>
-
-        {/* Labels around the ring (wider screens) */}
+        {/* Short titles around the ring */}
         {slices.map((sl) => (
           <div
             key={sl.label}
-            className={`hidden sm:flex absolute flex-col max-w-[200px] ${sl.x >= 0 ? "items-start text-left" : "items-end text-right"}`}
+            className={`hidden sm:flex absolute flex-col max-w-[130px] ${sl.x >= 0 ? "items-start text-left" : "items-end text-right"}`}
             style={{
               left: `calc(50% + ${sl.x * LABEL_R}px)`,
               top: `calc(50% + ${sl.y * LABEL_R}px)`,
               transform: `translate(${sl.x >= 0 ? "0" : "-100%"}, -50%)`,
             }}
           >
-            <p className="text-[28px] font-semibold leading-none text-[#181818]">{sl.n}%</p>
-            <p className="mt-1 text-[14px] leading-[1.3] text-[#576779]">{sl.label}</p>
-            {sl.note && <p className="mt-[2px] text-[12px] leading-[1.3] text-[#8b97a5]">{sl.note}</p>}
+            <p className="text-[22px] font-semibold leading-none text-[#181818]">{sl.n}%</p>
+            <p className="mt-1 text-[12px] leading-[1.3] text-[#576779]">{sl.short}</p>
           </div>
         ))}
       </div>
 
-      {/* Legend (small screens) */}
-      <div className="sm:hidden flex flex-col gap-3 w-full">
+      {/* Details */}
+      <div className="flex flex-col gap-4 w-full min-w-0">
+        <p className="text-[14px] font-medium text-[#576779]">Percentage</p>
         {VISITORS.map((v) => (
           <div key={v.label} className="flex items-center gap-3">
             <span className="size-3 rounded-[3px] shrink-0" style={{ background: v.key }} />
-            <div className="flex-1 min-w-0">
-              <p className="text-[15px] text-[#181818]">{v.label}</p>
-              {v.note && <p className="text-[12px] text-[#576779]">{v.note}</p>}
+            <div className="flex flex-col gap-[2px] flex-1 min-w-0">
+              <p className="text-[16px] font-medium text-[#181818]">{v.label}</p>
+              {v.note && <p className="text-[13px] tracking-[-0.32px] text-[#576779]">{v.note}</p>}
             </div>
-            <p className="text-[20px] font-semibold text-[#181818]">{v.n}%</p>
+            <p className="text-[22px] font-semibold text-[#181818] shrink-0">{v.n}%</p>
           </div>
         ))}
       </div>
@@ -276,13 +285,15 @@ export default function OfficialWebsiteRenewal() {
               afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
             />
 
-            <Block title="Problem definition" heading="Analytics suggested that users went looking for proof for credibility, and didn't find it.">
+            <Block
+              title="Problem definition"
+              heading="Analytics suggested that users went looking for proof for credibility, and didn't find it."
+              media={<VisitorsWaffle />}
+            >
               <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
               <p>“Can users trust this company?”</p>
               <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time visitor would.</p>
             </Block>
-
-            <VisitorsWaffle />
 
             <ListRow title="Based on 10 months of previous website analytics:">
               <li><b>98% were first-time visitors.</b> There was one chance to make an impression, and almost nobody came back to read more.</li>
@@ -296,125 +307,120 @@ export default function OfficialWebsiteRenewal() {
               <li>rebuilt the homepage to answer user’s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</li>
             </ListRow>
 
-            {/* Design decisions (1) */}
-            <div className="flex flex-col gap-2 w-full">
-              <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-start p-6 rounded-[20px] bg-[#f5f7fb]">
-                <IAColumn title="Old homepage" items={OLD_HOME} />
-                <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
-                <IAColumn title="New homepage" items={NEW_HOME} />
-              </div>
-              <Block
-                title="Design decisions (1)"
-                heading="Rebuild the information architecture around the user's questions"
-                result="→ +38% average session time (2m 53s → 3m 58s)"
-              >
-                <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</p>
-              </Block>
-            </div>
+            <Block
+              title="Design decisions (1)"
+              heading="Rebuild the information architecture around the user's questions"
+              result="→ +38% average session time (2m 53s → 3m 58s)"
+              media={
+                <>
+                  <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-start p-6 rounded-[20px] bg-[#f5f7fb]">
+                    <IAColumn title="Old homepage" items={OLD_HOME} />
+                    <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
+                    <IAColumn title="New homepage" items={NEW_HOME} />
+                  </div>
+                  {/* Proof cards on the new homepage */}
+                  <div className="relative w-full aspect-[1920/1276] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+                    <video
+                      ref={autoplayMuted}
+                      src={MEDIA.decision1}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      aria-label="New homepage section: customer results for turnarounds, maintenance and capital projects"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+                </>
+              }
+            >
+              <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: What is it? Does it work for companies like mine? What exactly do I get? How do I talk to someone?</p>
+            </Block>
 
-            {/* Design decisions (1) result: proof cards on the new homepage */}
-            <div className="relative w-full aspect-[1920/1276] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
-              <video
-                ref={autoplayMuted}
-                src={MEDIA.decision1}
-                autoPlay
-                muted
-                loop
-                playsInline
-                aria-label="New homepage section: customer results for turnarounds, maintenance and capital projects"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
+            <Block
+              title="Design decisions (2)"
+              heading="Lead with proof first, product features come later"
+              result="→ 2m 18s time on the new flagship case study page"
+              media={
+                <div className="relative w-full aspect-[16/9] rounded-[16px] border border-[#d4def5] overflow-hidden bg-[#2c3038]">
+                  <img src={MEDIA.decision2} alt="Customer results with ROI shown on the new homepage" className="absolute inset-0 w-full h-full object-contain" />
+                </div>
+              }
+            >
+              <p>Problem: Case studies held the strongest proof, and only 9% of engaged visitors opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
+            </Block>
 
-            {/* Design decisions (2) */}
-            <div className="flex flex-col gap-2 w-full">
-              <Block
-                title="Design decisions (2)"
-                heading="Lead with proof first, product features come later"
-                result="→ 2m 18s time on the new flagship case study page"
-              >
-                <p>Problem: Case studies held the strongest proof, and only 9% of engaged visitors opened them. So I moved the customer results onto the homepage, right after the problem statement. Each card leads with one number, labelled by job type.</p>
-              </Block>
-              {/* "Design decisions 2" */}
-              <div className="relative h-[400px] rounded-[16px] border border-[#d4def5] w-full overflow-hidden bg-[#2c3038]">
-                <img
-                  src={MEDIA.decision2}
-                  alt="Customer results with ROI shown on the new homepage"
-                  className="absolute inset-0 w-full h-full object-contain"
-                />
-              </div>
-            </div>
-
-            {/* Design decisions (3) */}
-            <div className="flex flex-col gap-2 w-full">
-              <Block title="Design decisions (3)" heading="A shorter path to an enquiry" result="→ +42% inbound enquiries">
-                <p>Five button styles competed for attention, with no clear hierarchy. I grouped actions into three tiers based on the commitment they ask of users, then gave each tier its own hover motion to reinforce the hierarchy.</p>
-                <p>The contact form now sits at the bottom of the homepage. Previously, visitors had to click a button to reach it on a separate page.</p>
-              </Block>
-              <div className="flex flex-col md:flex-row gap-5 items-stretch md:items-center w-full">
-                <div className="flex flex-col gap-4 p-[18px] rounded-[16px] border border-[#e2e5f1] bg-white md:w-[245px] md:h-[261px] shrink-0">
-                  <p className="text-[12px] font-semibold uppercase text-[#181818]">Before</p>
-                  <div className="flex flex-wrap gap-2">
-                    {OLD_BUTTONS.map((b) => (
-                      <span key={b.t} className="px-[11px] py-[9px] rounded-[3px] text-[12px] font-semibold whitespace-nowrap" style={{ background: b.bg, color: b.fg }}>
-                        {b.t}
-                      </span>
-                    ))}
+            <Block
+              title="Design decisions (3)"
+              heading="A shorter path to an enquiry"
+              result="→ +42% inbound enquiries"
+              media={
+                <div className="flex flex-col lg:flex-row gap-5 items-stretch lg:items-center w-full">
+                  <div className="flex flex-col gap-4 p-[18px] rounded-[16px] border border-[#e2e5f1] bg-white lg:w-[220px] lg:h-[261px] shrink-0">
+                    <p className="text-[12px] font-semibold uppercase text-[#181818]">Before</p>
+                    <div className="flex flex-wrap gap-2">
+                      {OLD_BUTTONS.map((b) => (
+                        <span key={b.t} className="px-[11px] py-[9px] rounded-[3px] text-[12px] font-semibold whitespace-nowrap" style={{ background: b.bg, color: b.fg }}>
+                          {b.t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="self-center text-[24px] text-[#576779] rotate-90 lg:rotate-0">→</p>
+                  <div className="relative flex-1 min-w-0 aspect-[16/9] lg:aspect-auto lg:h-[261px] rounded-[16px] overflow-hidden bg-[#1c1c1c]">
+                    {/* "Design decisions 3" — fills the whole After box */}
+                    <video
+                      ref={autoplayMuted}
+                      src={MEDIA.decision3}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      aria-label="New three-tier button system with hover motion"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <p className="absolute left-[18px] top-[18px] text-[12px] font-semibold uppercase text-white">After</p>
                   </div>
                 </div>
-                <p className="self-center text-[24px] text-[#576779] rotate-90 md:rotate-0">→</p>
-                <div className="relative flex-1 min-w-0 aspect-[631/261] md:aspect-auto md:h-[261px] rounded-[16px] overflow-hidden bg-[#1c1c1c]">
-                  {/* "Design decisions 3" — fills the whole After box */}
-                  <video
-                    ref={autoplayMuted}
-                    src={MEDIA.decision3}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    aria-label="New three-tier button system with hover motion"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <p className="absolute left-[18px] top-[18px] text-[12px] font-semibold uppercase text-white">After</p>
-                </div>
-              </div>
-            </div>
+              }
+            >
+              <p>Five button styles competed for attention, with no clear hierarchy. I grouped actions into three tiers based on the commitment they ask of users, then gave each tier its own hover motion to reinforce the hierarchy.</p>
+              <p>The contact form now sits at the bottom of the homepage. Previously, visitors had to click a button to reach it on a separate page.</p>
+            </Block>
 
-            {/* Impacts and Takeaway */}
-            <div className="flex flex-col gap-4 w-full">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 py-6 w-full">
-                <p className={`${sectionLabel} md:row-span-2`}>Impacts and Takeaway</p>
-                <p className={`${headline} md:col-span-3 max-w-[699px]`}>Longer visits and more enquiries</p>
-                <p className={`${body} md:col-span-3`}>
-                  Users came with one question: “Can we trust this company?” I put the answer, real customer value numbers on the homepage and made the next step obvious. Sales also began using the website as a reference in their outreach. That&apos;s a qualitative signal from the team.
-                </p>
-              </div>
-              <div className="w-full overflow-x-auto">
-                <table className="w-full min-w-[640px] border-collapse table-fixed">
-                  <thead>
-                    <tr className="bg-[#f5f7fb] text-[13px] font-medium text-[#576779]">
-                      <th className="text-left font-medium px-4 py-3 w-[30%]">Metric</th>
-                      <th className="text-right font-medium px-4 py-3 w-[20%]">2025 · old</th>
-                      <th className="text-right font-medium px-4 py-3 w-[20%]">2026 · new</th>
-                      <th className="text-left font-medium px-4 py-3 pl-10 w-[30%]">-</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {RESULTS.map((r) => (
-                      <tr key={r.m} className="border-b border-[#d4def5] text-[#181818]">
-                        <td className="px-4 py-3 text-[16px]">{r.m}</td>
-                        <td className="px-4 py-3 text-[20px] text-right">{r.old}</td>
-                        <td className="px-4 py-3 text-[20px] text-right">{r.now}</td>
-                        <td className={`px-4 py-3 pl-10 text-[20px] ${r.up ? "font-semibold text-[#058b8c]" : ""}`}>{r.d}</td>
+            <Block
+              title="Impacts and Takeaway"
+              heading="Longer visits and more enquiries"
+              media={
+                <div className="w-full overflow-x-auto">
+                  <table className="w-full min-w-[560px] border-collapse table-fixed">
+                    <thead>
+                      <tr className="bg-[#f5f7fb] text-[13px] font-medium text-[#576779]">
+                        <th className="text-left font-medium px-4 py-3 w-[30%]">Metric</th>
+                        <th className="text-right font-medium px-4 py-3 w-[20%]">2025 · old</th>
+                        <th className="text-right font-medium px-4 py-3 w-[20%]">2026 · new</th>
+                        <th className="text-left font-medium px-4 py-3 pl-8 w-[30%]">-</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p className="py-[10px] text-center text-[14px] leading-[1.5] text-[#576779]">
-                  Same calendar window in both years, 1 February to 23 November: the old Wix site in 2025, the new Framer site in 2026.
-                </p>
-              </div>
-            </div>
+                    </thead>
+                    <tbody>
+                      {RESULTS.map((r) => (
+                        <tr key={r.m} className="border-b border-[#d4def5] text-[#181818]">
+                          <td className="px-4 py-3 text-[16px]">{r.m}</td>
+                          <td className="px-4 py-3 text-[20px] text-right">{r.old}</td>
+                          <td className="px-4 py-3 text-[20px] text-right">{r.now}</td>
+                          <td className={`px-4 py-3 pl-8 text-[20px] ${r.up ? "font-semibold text-[#058b8c]" : ""}`}>{r.d}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="py-[10px] text-[14px] leading-[1.5] text-[#576779]">
+                    Same calendar window in both years, 1 February to 23 November: the old Wix site in 2025, the new Framer site in 2026.
+                  </p>
+                </div>
+              }
+            >
+              <p>Users came with one question: “Can we trust this company?” I put the answer, real customer value numbers on the homepage and made the next step obvious. Sales also began using the website as a reference in their outreach. That&apos;s a qualitative signal from the team.</p>
+            </Block>
           </div>
         </div>
 
