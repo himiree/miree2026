@@ -425,9 +425,6 @@ export default function OfficialWebsiteRenewal() {
               beforeAlt="Old homepage hero: Improving the lives of workers worldwide, with a Let's talk button"
               afterAlt="New homepage hero: Robotics and AI for industrial maintenance and construction, with LIFTBOT carrying material and customer logos"
             />
-            <div className="mt-4">
-              <Caption>Homepage hero, old Wix site vs. new Framer site. Drag the handle to compare.</Caption>
-            </div>
             </div>
             </div>
 
@@ -584,15 +581,16 @@ export default function OfficialWebsiteRenewal() {
                     />
                   </div>
                   <Caption>One tabbed section for capacity, battery power, remote control, footprint and safety system.</Caption>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb]">
-                      <div className="rounded-[10px] overflow-hidden bg-[#1b1b1c] aspect-[16/10]">
-                        <img src="/Project_website_revamp/case-studies-grid.jpg" alt="Case studies page: customer project cards, each led by one ROI number such as $988,240 total savings" loading="lazy" className="w-full h-full object-cover object-top" />
-                      </div>
-                      <p className="text-[16px] font-semibold text-[#181818]">Case studies worth watching</p>
-                      <p className="text-[14px] leading-[1.5] text-[#576779]">Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
-                    </div>
+                  {/* Same pattern as the rest of the page: subheading, body text, framed media, caption */}
+                  <div className="flex flex-col gap-4 mt-10">
+                    <h4 className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818]">Case studies worth watching</h4>
+                    <p className={`${body} max-w-[820px]`}>Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
                   </div>
+                  {/* Source image is 652px wide: shown at native width so it stays sharp */}
+                  <div className="w-full max-w-[652px] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+                    <img src="/Project_website_revamp/case-studies-grid.jpg" alt="Case studies page: customer project cards, each led by one ROI number such as $988,240 total savings" loading="lazy" className="w-full h-auto block" />
+                  </div>
+                  <Caption>Case studies page: each customer project leads with one result, filtered by job type.</Caption>
                 </>
               }
             >
