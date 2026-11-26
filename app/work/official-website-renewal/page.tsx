@@ -38,7 +38,7 @@ function Block({
   media,
 }: {
   title: string;
-  heading: string;
+  heading?: string;
   children: ReactNode;
   result?: ReactNode;
   media?: ReactNode;
@@ -48,7 +48,7 @@ function Block({
       <div className="md:col-span-3">
         <div className="md:sticky md:top-28 flex flex-col gap-5">
           <p className={sectionLabel}>{title}</p>
-          <p className={sideHeadline}>{heading}</p>
+          {heading && <p className={sideHeadline}>{heading}</p>}
         </div>
       </div>
       <div className="md:col-span-9 flex flex-col gap-6 md:gap-8 min-w-0">
@@ -563,7 +563,6 @@ export default function OfficialWebsiteRenewal() {
 
             <Block
               title="Reflection"
-              heading="Taking ownership also means building the shared commitment necessary to carry it through."
             >
               <p>The redesign began with a hunch that the existing website was costing us leads. There was no PM or brief. I initiated the project, and led it from concept to launch.</p>
               <p>Over my three years as the sole designer at a startup, I came to understand that a &ldquo;yes&rdquo; at the start isn&apos;t the finish line. Knowing what needs to be done and having the skills to do it are only part of the equation. Taking ownership also means making the reasoning behind the work understood and building the shared commitment necessary to carry it through.</p>
