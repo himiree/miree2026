@@ -79,7 +79,7 @@ const SUMMARY = [
   },
   {
     k: "Result",
-    v: "+42% inbound enquiries (192 → 272), +38% session time, and 2m 18s on the flagship case study against a 1m 30s target. Sales now uses the site in outreach. Homepage bounce stayed flat, which is what I'd work on next.",
+    v: "+42% inbound enquiries (192 → 272), +38% session time, and 2m 18s on the flagship case study against a 1m 30s target. Sales now uses the site in outreach. Homepage bounce stayed flat.",
   },
 ];
 
@@ -101,7 +101,6 @@ const SECTIONS = [
   { id: "problem", t: "Problem" },
   { id: "decisions", t: "Design decisions" },
   { id: "impact", t: "Impact" },
-  { id: "next", t: "What I'd test next" },
   { id: "reflection", t: "Reflection" },
 ];
 
@@ -632,15 +631,6 @@ export default function OfficialWebsiteRenewal() {
             >
               <p>Users came with one question: “Can we trust this company?” I put the answer, real customer results, on the homepage and made the next step obvious. Enquiries rose by 42% and visits got longer. Sales also began using the website as a reference in their outreach, a qualitative signal from the team.</p>
               <p>Two numbers didn&apos;t move the way I hoped. Traffic almost doubled, so enquiries per visitor fell from 1.2% to 0.8%, and homepage bounce, the 61% I started from, stayed flat. The redesign brought in more enquiries overall, but it hasn&apos;t yet made the homepage hold more first-time visitors.</p>
-            </Block>
-
-            <Block
-              id="next"
-              title="What I'd test next"
-              heading="Find out why bounce stayed flat"
-            >
-              <p>First, I&apos;d split the new traffic by source. If a large share comes from channels that bring visitors who were never going to enquire, that would explain both the flat bounce and the lower enquiry rate, and the real question becomes how the site performs for qualified buyers.</p>
-              <p>Then I&apos;d A/B test the hero for that audience, measuring bounce and clicks into customer results, so the next change is judged against the problem this project started from.</p>
             </Block>
 
             <Block
