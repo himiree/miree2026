@@ -31,12 +31,14 @@ const body = "text-[17px] sm:text-[20px] leading-[1.5] tracking-[-0.25px] text-[
  * text / result / media on the right two thirds.
  */
 function Block({
+  id,
   title,
   heading,
   children,
   result,
   media,
 }: {
+  id?: string;
   title: string;
   heading?: string;
   children: ReactNode;
@@ -44,11 +46,11 @@ function Block({
   media?: ReactNode;
 }) {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full">
+    <section id={id} className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full scroll-mt-28">
       <div className="md:col-span-3">
         <div className="md:sticky md:top-28 flex flex-col gap-5">
-          <p className={sectionLabel}>{title}</p>
-          {heading && <p className={sideHeadline}>{heading}</p>}
+          <h2 className={sectionLabel}>{title}</h2>
+          {heading && <h3 className={sideHeadline}>{heading}</h3>}
         </div>
       </div>
       <div className="md:col-span-9 flex flex-col gap-6 md:gap-8 min-w-0">
@@ -57,6 +59,65 @@ function Block({
         {media && <div className="flex flex-col gap-4 w-full mt-2">{media}</div>}
       </div>
     </section>
+  );
+}
+
+/** One line under a screen, image or video: what to look at */
+function Caption({ children }: { children: ReactNode }) {
+  return <p className="text-[14px] leading-[1.5] tracking-[-0.2px] text-[#576779] max-w-[820px] -mt-1">{children}</p>;
+}
+
+/** Problem → what I did → result, readable in a few seconds near the top */
+const SUMMARY = [
+  {
+    k: "Problem",
+    v: "98% of visitors were first-timers, 61% left the homepage without a click, and only 3% reached the case studies, where the strongest proof lived.",
+  },
+  {
+    k: "What I did",
+    v: "Initiated and led the redesign as the sole designer: rebuilt the homepage around buyers' questions, put customer results up front, cut five button styles down to three tiers, and built it in Framer.",
+  },
+  {
+    k: "Result",
+    v: "+42% inbound enquiries (192 → 272), +38% session time, and 2m 18s on the flagship case study against a 1m 30s target. Sales now uses the site in outreach. Homepage bounce stayed flat.",
+  },
+];
+
+function Summary() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 p-6 sm:p-8 rounded-[16px] bg-[#f5f7fb] w-full">
+      {SUMMARY.map((row) => (
+        <div key={row.k} className="flex flex-col gap-2">
+          <p className={`${sectionLabel} !text-[#1271C4]`}>{row.k}</p>
+          <p className="text-[16px] sm:text-[17px] leading-[1.5] tracking-[-0.25px] text-[#181818]">{row.v}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const SECTIONS = [
+  { id: "before-after", t: "Before / After" },
+  { id: "problem", t: "Problem" },
+  { id: "decisions", t: "Design decisions" },
+  { id: "impact", t: "Impact" },
+  { id: "reflection", t: "Reflection" },
+];
+
+function JumpLinks() {
+  return (
+    <nav aria-label="On this page" className="flex flex-wrap items-center gap-2 w-full">
+      <span className={`${label} mr-2`}>On this page</span>
+      {SECTIONS.map((sec) => (
+        <a
+          key={sec.id}
+          href={`#${sec.id}`}
+          className="rounded-full border border-[#d4def5] px-3 py-[6px] text-[14px] tracking-[-0.2px] text-[#181818] hover:bg-[#f5f7fb] transition-colors"
+        >
+          {sec.t}
+        </a>
+      ))}
+    </nav>
   );
 }
 
@@ -250,18 +311,18 @@ function PairShot({ label, src, alt }: { label: string; src: string; alt: string
 
 function BeforeAfterPairs() {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full">
+    <section id="before-after" className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-6 w-full scroll-mt-28">
       <div className="md:col-span-3">
         <div className="md:sticky md:top-28 flex flex-col gap-5">
-          <p className={sectionLabel}>Before / After</p>
-          <p className={sideHeadline}>What changed on the homepage</p>
+          <h2 className={sectionLabel}>Before / After</h2>
+          <h3 className={sideHeadline}>What changed on the homepage</h3>
         </div>
       </div>
       <div className="md:col-span-9 flex flex-col gap-12 min-w-0">
         {PAIRS.map((p) => (
           <div key={p.title} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
-              <p className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818]">{p.title}</p>
+              <h4 className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818]">{p.title}</h4>
               <p className="text-[15px] leading-[1.5] text-[#576779]">{p.note}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -283,6 +344,7 @@ const RESULTS = [
   { m: "Time on the product page", old: "–", now: "2m 45s", d: "New merged page" },
   { m: "Homepage bounce", old: "60.9%", now: "60.1%", d: "Flat" },
   { m: "Unique users", old: "16.6K", now: "33K", d: "Almost 2x" },
+  { m: "Enquiries per unique user", old: "1.2%", now: "0.8%", d: "Lower, as traffic doubled" },
 ];
 
 // React doesn't render `muted` into the HTML, so browsers can block autoplay — set it in JS
@@ -311,7 +373,7 @@ export default function OfficialWebsiteRenewal() {
 
             {/* Project profile */}
             <div className="grid grid-cols-2 md:grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
-              <div className="md:col-span-3 flex flex-col gap-8">
+              <div className="md:col-span-3 flex flex-col">
                 <div className="flex flex-col gap-3 items-start">
                   <p className={label}>Delivered</p>
                   <a
@@ -323,10 +385,6 @@ export default function OfficialWebsiteRenewal() {
                     Official website
                   </a>
                 </div>
-                <div className="flex flex-col gap-3">
-                  <p className={label}>Role</p>
-                  <p>Sole designer / builder (Framer)</p>
-                </div>
               </div>
               <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Scope</p>
@@ -334,18 +392,13 @@ export default function OfficialWebsiteRenewal() {
                   Analytics audit<br />Information architecture<br />UX/UI<br />Visual system<br />Framer build<br />Photo/video editing
                 </p>
               </div>
-              <div className="md:col-span-4 flex flex-col gap-3">
-                <p className={label}>Impact / Proxy</p>
-                <ol className="list-decimal pl-[21px]">
-                  <li><b>+38%</b> average session time<br />(2m 53s → 3m 58s)</li>
-                  <li><b>+42%</b> inbound enquiries<br />(192 → 272 submissions)</li>
-                  <li><b>2m 18s</b> time on the flagship case study, against a 1m 30s target</li>
-                  <li>Kewazo team uses the website more actively as a reference</li>
-                </ol>
-              </div>
-              <div className="md:col-span-2 flex flex-col gap-3">
+              <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Duration</p>
                 <p>5 months<br />(2025 Sep - 2026 Jan)</p>
+              </div>
+              <div className="md:col-span-3 flex flex-col gap-3">
+                <p className={label}>Role</p>
+                <p>Sole designer / builder (Framer)</p>
               </div>
             </div>
           </div>
@@ -356,6 +409,11 @@ export default function OfficialWebsiteRenewal() {
               <p className={`${body} md:col-span-8`}>
                 KEWAZO is a B2B startup combining SaaS and robotics to help refineries, chemical plants and construction contractors move heavy equipment. In B2B, a company website is often the first place of evaluation for both a product and the company behind it. As its sole designer, rather than waiting for a brief, I identified an opportunity for improvement and turned it into an end-to-end design initiative.
               </p>
+            </div>
+
+            <div className="flex flex-col gap-6 w-full">
+              <Summary />
+              <JumpLinks />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
@@ -372,8 +430,9 @@ export default function OfficialWebsiteRenewal() {
             <BeforeAfterPairs />
 
             <Block
+              id="problem"
               title="Problem definition"
-              heading="Analytics suggested that users went looking for proof for credibility, and didn't find it."
+              heading="Analytics suggested that visitors went looking for proof of credibility and didn't find it."
               media={
                 <div className="flex flex-col gap-14">
                   <SubList title="Based on 10 months of previous website analytics:" after={<UsersWaffle />}>
@@ -383,19 +442,20 @@ export default function OfficialWebsiteRenewal() {
                   </SubList>
 
                   <SubList title="How Might We:">
-                    <li>make the first-visit users prove KEWAZO is credible within seconds?</li>
-                    <li>guide users through clear, digestible information without making them hunt?</li>
+                    <li>help first-time visitors see within seconds that KEWAZO is credible?</li>
+                    <li>guide visitors through clear, digestible information without making them hunt for it?</li>
                   </SubList>
                 </div>
               }
             >
-              <p>I reviewed the old website analytics and discussed with the CEO to create the improved website. And we defined the question the website needed to answer:</p>
-              <p>“Can users trust this company?”</p>
-              <p>After reviewing the old website&apos;s analytics, then I walked every page as a first-time user would.</p>
+              <p>I reviewed the old site&apos;s analytics and worked with the CEO to define the one question the website had to answer:</p>
+              <p>“Can we trust this company?”</p>
+              <p>Then I walked every page as a first-time visitor would.</p>
             </Block>
 
 
             <Block
+              id="decisions"
               title="Design decisions (1)"
               heading="Rebuild the information architecture around the user's questions"
               result="→ +38% average session time (2m 53s → 3m 58s)"
@@ -410,10 +470,11 @@ export default function OfficialWebsiteRenewal() {
                   <div className="rounded-[16px] overflow-hidden bg-[#14172a]">
                     <img src={MEDIA.landingFlow} alt="Landing page flow: hero section with customer logos, product, then case study results" className="w-full h-auto" />
                   </div>
+                  <Caption>The new homepage reads as one story from top to bottom: what KEWAZO sells, the product, then customer results.</Caption>
                 </>
               }
             >
-              <p>61% left the homepage, and those who stayed detoured to About company instead of Product page. I created the homepage sections to answer user&apos;s possible questions in this order: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></p>
+              <p>61% left the homepage, and those who stayed detoured to About company instead of the product page. I reordered the homepage to answer visitors&apos; questions in the order they ask them: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></p>
             </Block>
 
             <Block
@@ -435,9 +496,11 @@ export default function OfficialWebsiteRenewal() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
+                <Caption>Customer results now sit right after the problem statement, grouped by job type: turnarounds, maintenance and capital projects.</Caption>
                 <div className="relative w-full aspect-[16/9] rounded-[16px] border border-[#d4def5] overflow-hidden bg-[#2c3038]">
                   <img src={MEDIA.decision2} alt="Customer results with ROI shown on the new homepage" className="absolute inset-0 w-full h-full object-contain" />
                 </div>
+                <Caption>Each card leads with one number, so the proof reads at a glance.</Caption>
                 {/* Walkthrough of the flagship Chevron case study page */}
                 <div className="relative w-full aspect-[16/10] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
                   <video
@@ -451,6 +514,7 @@ export default function OfficialWebsiteRenewal() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
+                <Caption>The flagship Chevron case study: headline result first, then the crane vs. LIFTBOT cost comparison, then the enquiry form.</Caption>
                 </>
               }
             >
@@ -462,6 +526,7 @@ export default function OfficialWebsiteRenewal() {
               heading="A shorter path to an enquiry"
               result="→ +42% inbound enquiries"
               media={
+                <>
                 <div className="flex flex-col lg:flex-row gap-5 items-stretch lg:items-center w-full">
                   <div className="flex flex-col gap-4 p-[18px] rounded-[16px] border border-[#e2e5f1] bg-white lg:w-[220px] lg:h-[261px] shrink-0">
                     <p className="w-fit rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">Before</p>
@@ -489,6 +554,8 @@ export default function OfficialWebsiteRenewal() {
                     <p className="absolute bottom-3 left-3 rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">After</p>
                   </div>
                 </div>
+                <Caption>Five competing button styles became three tiers, ordered by how much each asks of the visitor. Each tier has its own hover motion.</Caption>
+                </>
               }
             >
               <p>Five button styles competed for attention, with no clear hierarchy. I grouped actions into three tiers based on the commitment they ask of users, then gave each tier its own hover motion to reinforce the hierarchy.</p>
@@ -512,24 +579,28 @@ export default function OfficialWebsiteRenewal() {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   </div>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                    <div className="flex flex-col gap-3 p-5 rounded-[16px] bg-[#f5f7fb]">
-                      <div className="rounded-[10px] overflow-hidden bg-[#1b1b1c] aspect-[16/10]">
-                        <img src="/Project_website_revamp/case-studies-grid.jpg" alt="Case studies page: customer project cards, each led by one ROI number such as $988,240 total savings" loading="lazy" className="w-full h-full object-cover object-top" />
-                      </div>
-                      <p className="text-[16px] font-semibold text-[#181818]">Case studies worth watching</p>
-                      <p className="text-[14px] leading-[1.5] text-[#576779]">Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
-                    </div>
+                  <Caption>One tabbed section for capacity, battery power, remote control, footprint and safety system.</Caption>
+                  {/* Same pattern as the rest of the page: subheading, body text, framed media, caption */}
+                  <div className="flex flex-col gap-4 mt-10">
+                    <h4 className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818]">Case studies worth watching</h4>
+                    <p className={`${body} max-w-[820px]`}>Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
                   </div>
+                  {/* Source image is 652px wide: shown at native width so it stays sharp */}
+                  <div className="w-full max-w-[652px] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
+                    <img src="/Project_website_revamp/case-studies-grid.jpg" alt="Case studies page: customer project cards, each led by one ROI number such as $988,240 total savings" loading="lazy" className="w-full h-auto block" />
+                  </div>
+                  <Caption>Case studies page: each customer project leads with one result, filtered by job type.</Caption>
                 </>
               }
             >
               <p>Product details were spread across a long scroll. I grouped the key features (8,000+ lbs/day capacity, battery power, remote control, footprint and safety system) into one tabbed section, so users can scan what LIFTBOT does without scrolling through pages of text.</p>
+              <p>With 98% of visitors on their first and often only visit, the specs a buyer checks first, such as capacity and footprint, had to be findable in one place rather than spread across the page.</p>
             </Block>
 
             <Block
+              id="impact"
               title="Impacts and Takeaway"
-              heading="Longer visits and more enquiries"
+              heading="More enquiries and longer visits, but not yet a lower bounce"
               media={
                 <div className="w-full overflow-x-auto">
                   <table className="w-full min-w-[560px] border-collapse table-fixed">
@@ -538,7 +609,7 @@ export default function OfficialWebsiteRenewal() {
                         <th className="text-left font-medium px-4 py-3 w-[30%]">Metric</th>
                         <th className="text-right font-medium px-4 py-3 w-[20%]">2025 · old</th>
                         <th className="text-right font-medium px-4 py-3 w-[20%]">2026 · new</th>
-                        <th className="text-left font-medium px-4 py-3 pl-8 w-[30%]">-</th>
+                        <th className="text-left font-medium px-4 py-3 pl-8 w-[30%]">Change</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -558,10 +629,12 @@ export default function OfficialWebsiteRenewal() {
                 </div>
               }
             >
-              <p>Users came with one question: “Can we trust this company?” I put the answer, real customer value numbers on the homepage and made the next step obvious. Sales also began using the website as a reference in their outreach. That&apos;s a qualitative signal from the team.</p>
+              <p>Users came with one question: “Can we trust this company?” I put the answer, real customer results, on the homepage and made the next step obvious. Enquiries rose by 42% and visits got longer. Sales also began using the website as a reference in their outreach, a qualitative signal from the team.</p>
+              <p>Two numbers didn&apos;t move the way I hoped. Traffic almost doubled, so enquiries per visitor fell from 1.2% to 0.8%, and homepage bounce, the 61% I started from, stayed flat. The redesign brought in more enquiries overall, but it hasn&apos;t yet made the homepage hold more first-time visitors.</p>
             </Block>
 
             <Block
+              id="reflection"
               title="Reflection"
             >
               <p>The redesign began with a hunch that the existing website was costing us leads. There was no PM or brief. I initiated the project, and led it from concept to launch.</p>

@@ -133,6 +133,14 @@ export default function HomeWork({ label }: { label: string }) {
           );
         })}
         </div>
+        {/* What the active project is about — swaps with the hover */}
+        <p
+          key={current.title}
+          aria-live="polite"
+          className="max-w-[340px] text-[15px] leading-[1.5] tracking-[-0.2px] text-[#576779] text-pretty animate-[fadeIn_300ms_ease-out]"
+        >
+          {current.desc}
+        </p>
       </div>
     </div>
   );
