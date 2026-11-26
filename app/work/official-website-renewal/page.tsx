@@ -71,11 +71,11 @@ function Caption({ children }: { children: ReactNode }) {
 const SUMMARY = [
   {
     k: "Problem",
-    v: "98% of visitors were first-timers, 61% left the homepage without a click, and only 3% reached the case studies, where the strongest proof lived.",
+    v: "98% were first-time users, 61% left the homepage without a click, and only 3% reached the case studies, where the strongest proof lived.",
   },
   {
     k: "What I did",
-    v: "Initiated and led the redesign as the sole designer: rebuilt the homepage around buyers' questions, put customer results up front, cut five button styles down to three tiers, and built it in Framer.",
+    v: "Initiated and led the redesign as the sole designer: rebuilt the homepage around users' questions, put customer results up front, cut five button styles down to three tiers, and built it in Framer.",
   },
   {
     k: "Result",
@@ -432,7 +432,7 @@ export default function OfficialWebsiteRenewal() {
             <Block
               id="problem"
               title="Problem definition"
-              heading="Analytics suggested that visitors went looking for proof of credibility and didn't find it."
+              heading="Analytics suggested that users went looking for proof of credibility and didn't find it."
               media={
                 <div className="flex flex-col gap-14">
                   <SubList title="Based on 10 months of previous website analytics:" after={<UsersWaffle />}>
@@ -442,15 +442,15 @@ export default function OfficialWebsiteRenewal() {
                   </SubList>
 
                   <SubList title="How Might We:">
-                    <li>help first-time visitors see within seconds that KEWAZO is credible?</li>
-                    <li>guide visitors through clear, digestible information without making them hunt for it?</li>
+                    <li>help first-time users see within seconds that KEWAZO is credible?</li>
+                    <li>guide users through clear, digestible information without making them hunt for it?</li>
                   </SubList>
                 </div>
               }
             >
               <p>I reviewed the old site&apos;s analytics and worked with the CEO to define the one question the website had to answer:</p>
               <p>“Can we trust this company?”</p>
-              <p>Then I walked every page as a first-time visitor would.</p>
+              <p>Then I walked every page as a first-time user would.</p>
             </Block>
 
 
@@ -474,7 +474,7 @@ export default function OfficialWebsiteRenewal() {
                 </>
               }
             >
-              <p>61% left the homepage, and those who stayed detoured to About company instead of the product page. I reordered the homepage to answer visitors&apos; questions in the order they ask them: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></p>
+              <p>61% left the homepage, and those who stayed detoured to About company instead of the product page. I reordered the homepage to answer users&apos; questions in the order they ask them: <i>What is it? → Does it work for companies like mine? → What exactly do I get? → How do I talk to someone?</i></p>
             </Block>
 
             <Block
@@ -554,7 +554,7 @@ export default function OfficialWebsiteRenewal() {
                     <p className="absolute bottom-3 left-3 rounded-full bg-black/60 px-[10px] py-1 text-[12px] font-semibold uppercase text-white">After</p>
                   </div>
                 </div>
-                <Caption>Five competing button styles became three tiers, ordered by how much each asks of the visitor. Each tier has its own hover motion.</Caption>
+                <Caption>Five competing button styles became three tiers, ordered by how much each asks of the user. Each tier has its own hover motion.</Caption>
                 </>
               }
             >
@@ -583,7 +583,7 @@ export default function OfficialWebsiteRenewal() {
                   {/* Same pattern as the rest of the page: subheading, body text, framed media, caption */}
                   <div className="flex flex-col gap-4 mt-10">
                     <h4 className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.25px] text-[#181818]">Case studies worth watching</h4>
-                    <p className={`${body} max-w-[820px]`}>Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so viewers can go deeper and the team collects leads.</p>
+                    <p className={`${body} max-w-[820px]`}>Full-bleed video slideshow with clear ROI highlights. Detailed reports open via DocSend, so users can go deeper and the team collects leads.</p>
                   </div>
                   {/* Source image is 652px wide: shown at native width so it stays sharp */}
                   <div className="w-full max-w-[652px] rounded-[16px] overflow-hidden border border-[#d4def5] bg-[#1b1b1c]">
@@ -594,7 +594,7 @@ export default function OfficialWebsiteRenewal() {
               }
             >
               <p>Product details were spread across a long scroll. I grouped the key features (8,000+ lbs/day capacity, battery power, remote control, footprint and safety system) into one tabbed section, so users can scan what LIFTBOT does without scrolling through pages of text.</p>
-              <p>With 98% of visitors on their first and often only visit, the specs a buyer checks first, such as capacity and footprint, had to be findable in one place rather than spread across the page.</p>
+              <p>With 98% of users on their first and often only visit, the specs a user checks first, such as capacity and footprint, had to be findable in one place rather than spread across the page.</p>
             </Block>
 
             <Block
@@ -630,7 +630,7 @@ export default function OfficialWebsiteRenewal() {
               }
             >
               <p>Users came with one question: “Can we trust this company?” I put the answer, real customer results, on the homepage and made the next step obvious. Enquiries rose by 42% and visits got longer. Sales also began using the website as a reference in their outreach, a qualitative signal from the team.</p>
-              <p>Two numbers didn&apos;t move the way I hoped. Traffic almost doubled, so enquiries per visitor fell from 1.2% to 0.8%, and homepage bounce, the 61% I started from, stayed flat. The redesign brought in more enquiries overall, but it hasn&apos;t yet made the homepage hold more first-time visitors.</p>
+              <p>Two numbers didn&apos;t move the way I hoped. Traffic almost doubled, so enquiries per user fell from 1.2% to 0.8%, and homepage bounce, the 61% I started from, stayed flat. The redesign brought in more enquiries overall, but it hasn&apos;t yet made the homepage hold more first-time users.</p>
             </Block>
 
             <Block

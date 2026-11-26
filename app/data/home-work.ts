@@ -19,7 +19,7 @@ export const homeWork: HomeWork[] = [
     title: "Website revamp",
     image: "/project-img-2.png",
     href: "/work/official-website-renewal",
-    desc: "Rebuilt KEWAZO's website around the one question buyers arrive with: can we trust this company? Analytics-led IA and a proof-first homepage, +42% inbound enquiries.",
+    desc: "Rebuilt KEWAZO's website around the one question users arrive with: can we trust this company? Analytics-led IA and a proof-first homepage, +42% inbound enquiries.",
   },
   {
     title: "Data dashboard UI",
