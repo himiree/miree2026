@@ -19,10 +19,10 @@ export const translations = {
     home: {
       greeting: "Hi! I am",
       name: "Miree, a product designer",
-      title: "keen on branding and well-crafted user experiences.",
+      title: "making complex B2B products easy to trust and use.",
       location: "based in Munich, Germany.",
       bio: "I design thoughtful brand identities and intuitive digital experiences that make complex technologies easier to understand and use.",
-      latestWork: "Latest work, +3 years in a B2B robotic startup",
+      latestWork: "Selected work from 3 years as the sole designer at a B2B robotics startup",
       workBio: "I worked 3 years as the sole designer in B2B industrial startup.",
     },
     about: {
@@ -62,7 +62,7 @@ export const translations = {
       status: "Looking for new opportunities",
       localTimeLabel: "Local time (Central European Time)",
       contactLabel: "Drop me a line at",
-      updated: "Last updated 2026-10-01",
+      updated: "Last updated 2026-11-26",
     },
   },
 
@@ -77,10 +77,10 @@ export const translations = {
     home: {
       greeting: "안녕하세요! 저는",
       name: "프로덕트 디자이너 미리입니다.",
-      title: "브랜딩과 정교한 사용자 경험에 관심이 많고,",
+      title: "복잡한 B2B 제품을 믿고 쓰기 쉽게 만들며,",
       location: "독일 뮌헨을 기반으로 활동합니다.",
       bio: "복잡한 기술을 보다 쉽게 이해하고 활용할 수 있도록 사려 깊은 브랜드 아이덴티티와 직관적인 디지털 경험을 만들고 있습니다.",
-      latestWork: "최근 작업, B2B 로보틱스 스타트업에서 3년 이상",
+      latestWork: "B2B 로보틱스 스타트업의 유일한 디자이너로 일한 3년간의 작업",
       workBio: "B2B 산업 스타트업에서 3년간 유일한 디자이너로 근무했습니다.",
     },
     about: {
@@ -120,7 +120,7 @@ export const translations = {
       status: "새로운 기회를 찾고 있습니다",
       localTimeLabel: "현지 시간 (중앙유럽 표준시)",
       contactLabel: "연락처",
-      updated: "마지막 업데이트 2026-10-01",
+      updated: "마지막 업데이트 2026-11-26",
     },
   },
 
@@ -135,10 +135,10 @@ export const translations = {
     home: {
       greeting: "Hi! Ich bin",
       name: "Miree, Produktdesignerin",
-      title: "mit Leidenschaft für Branding und durchdachte User Experiences,",
+      title: "die komplexe B2B-Produkte vertrauenswürdig und einfach nutzbar macht,",
       location: "ansässig in München, Deutschland.",
       bio: "Ich gestalte durchdachte Markenidentitäten und sorgfältig entwickelte Interfaces, die komplexe Technologien leichter verständlich und nutzbar machen.",
-      latestWork: "Aktuelle Arbeiten, 3+ Jahre in einem B2B-Robotik-Startup",
+      latestWork: "Ausgewählte Arbeiten aus 3 Jahren als einzige Designerin in einem B2B-Robotik-Startup",
       workBio: "Ich arbeitete 3 Jahre als einzige Designerin in einem B2B-Industrie-Startup.",
     },
     about: {
@@ -178,7 +178,7 @@ export const translations = {
       status: "Auf der Suche nach neuen Möglichkeiten",
       localTimeLabel: "Ortszeit (Mitteleuropäische Zeit)",
       contactLabel: "Schreib mir an",
-      updated: "Zuletzt aktualisiert 2026-10-01",
+      updated: "Zuletzt aktualisiert 2026-11-26",
     },
   },
 };

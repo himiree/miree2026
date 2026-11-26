@@ -1,6 +1,8 @@
 "use client";
 import { Fragment, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../context/language";
 import { getNextCaseStudy } from "../data/case-studies";
 import {
   heroTransition,
@@ -29,6 +31,7 @@ export default function NextProject({ current }: { current: string }) {
   const dragRef = useRef<HeroDrag | null>(null);
   const suppressClick = useRef(false);
   const next = getNextCaseStudy(current);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (next) router.prefetch(next.href);
@@ -151,7 +154,18 @@ export default function NextProject({ current }: { current: string }) {
     };
   }, [next]);
 
-  if (!next) return null;
+  // Only one public case study so far: end the page with a way back to the work list
+  if (!next)
+    return (
+      <section className="flex justify-center px-4 sm:px-6 pt-8 pb-24">
+        <Link
+          href="/#recent-work"
+          className="rounded-full border border-[#d4def5] px-5 py-3 text-[16px] font-medium tracking-[-0.25px] text-[#181818] hover:bg-[#f5f7fb] transition-colors"
+        >
+          {t.work.back}
+        </Link>
+      </section>
+    );
 
   // Mouse: press the thumbnail and drag it upward
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
