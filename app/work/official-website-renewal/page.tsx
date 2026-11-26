@@ -79,7 +79,7 @@ const SUMMARY = [
   },
   {
     k: "Result",
-    v: "+42% inbound enquiries and +38% session time. Homepage bounce stayed flat, which is what I'd work on next.",
+    v: "+42% inbound enquiries (192 → 272), +38% session time, and 2m 18s on the flagship case study against a 1m 30s target. Sales now uses the site in outreach. Homepage bounce stayed flat, which is what I'd work on next.",
   },
 ];
 
@@ -397,16 +397,7 @@ export default function OfficialWebsiteRenewal() {
                   Analytics audit<br />Information architecture<br />UX/UI<br />Visual system<br />Framer build<br />Photo/video editing
                 </p>
               </div>
-              <div className="md:col-span-4 flex flex-col gap-3">
-                <p className={label}>Impact / Proxy</p>
-                <ol className="list-decimal pl-[21px]">
-                  <li><b>+38%</b> average session time<br />(2m 53s → 3m 58s)</li>
-                  <li><b>+42%</b> inbound enquiries<br />(192 → 272 submissions)</li>
-                  <li><b>2m 18s</b> time on the flagship case study, against a 1m 30s target</li>
-                  <li>Kewazo team uses the website more actively as a reference</li>
-                </ol>
-              </div>
-              <div className="md:col-span-2 flex flex-col gap-3">
+              <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Duration</p>
                 <p>5 months<br />(2025 Sep - 2026 Jan)</p>
               </div>
