@@ -374,7 +374,7 @@ export default function OfficialWebsiteRenewal() {
 
             {/* Project profile */}
             <div className="grid grid-cols-2 md:grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 w-full text-[14px] leading-[1.5] tracking-[-0.25px] text-[#181818]">
-              <div className="md:col-span-3 flex flex-col gap-8">
+              <div className="md:col-span-3 flex flex-col">
                 <div className="flex flex-col gap-3 items-start">
                   <p className={label}>Delivered</p>
                   <a
@@ -386,10 +386,6 @@ export default function OfficialWebsiteRenewal() {
                     Official website
                   </a>
                 </div>
-                <div className="flex flex-col gap-3">
-                  <p className={label}>Role</p>
-                  <p>Sole designer / builder (Framer)</p>
-                </div>
               </div>
               <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Scope</p>
@@ -400,6 +396,10 @@ export default function OfficialWebsiteRenewal() {
               <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Duration</p>
                 <p>5 months<br />(2025 Sep - 2026 Jan)</p>
+              </div>
+              <div className="md:col-span-3 flex flex-col gap-3">
+                <p className={label}>Role</p>
+                <p>Sole designer / builder (Framer)</p>
               </div>
             </div>
           </div>
