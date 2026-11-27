@@ -359,9 +359,10 @@ export default function DataDashboardUI() {
 
             <BeforeAfterPairs />
 
-            <Block id="background" title="Background" heading="Built for the team that sells and renews the robots">
-              <p>After a LIFTBOT is delivered, the question is whether it is actively used. Today, sales and customer success use ONSITE most, for account care and market research.</p>
+            <Block id="background" title="Background" heading="Built for customers first, and for the team that serves them">
+              <p>ONSITE is a customer product: every company running LIFTBOT can get an account to see how its own robots are used on site. Internally, sales and customer success rely on the same data for account care and market research.</p>
               <SubList title="Why usage matters:">
+                <li><b>Customers:</b> see how much their robots lift and when they run, to plan work on site.</li>
                 <li>Strong fleet usage builds a compelling case for moving a customer from a short-term to a long-term contract.</li>
                 <li><b>Customer success:</b> an idle unit is an early sign that a customer needs help.</li>
                 <li><b>Market insight:</b> when and where units run shows which construction schedules are coming up.</li>
