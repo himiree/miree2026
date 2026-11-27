@@ -404,7 +404,7 @@ export default function DataDashboardUI() {
               title="Design decisions (4)"
               heading="Charts start at zero"
               result="→ Moving load down is work, not a loss"
-              media={<><DemoPair id="d4" webAlt="Turning on Operational days only and zooming the daily load chart on web" mobileAlt="Turning Operational days only on and off on mobile" /><Caption>&ldquo;Operational days only&rdquo; removes idle days; zoom widens the bars. Prototype sample data.</Caption></>}
+              media={<><DemoPair id="d4" webAlt="Turning on Operational days only, then zooming out the daily load chart to show more days" mobileAlt="Turning Operational days only on and off on mobile" /><Caption>&ldquo;Operational days only&rdquo; removes idle days; zooming out shows a longer period. Prototype sample data.</Caption></>}
             >
               <p>Up and down load are paired bars, not positive and negative values. A toggle hides idle days.</p>
             </Block>
