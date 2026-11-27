@@ -306,8 +306,19 @@ export default function DataDashboardUI() {
           <div className="flex flex-col gap-14 pb-16 w-full">
             <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
               <p className={`${body} md:col-span-8`}>
-                KEWAZO ONSITE shows how LIFTBOT robotic hoists are used once they reach construction and refinery sites. Sales and customer success rely on it to judge accounts, but the old version recorded every number without answering their question: is this robot really being used?
+                KEWAZO ONSITE is a data dashboard that tracks how LIFTBOT (the company&apos;s robotic lifting system) is used across construction and refinery sites.
               </p>
+              <p className={`${body} md:col-span-8 mt-4`}>
+                Sales and Customer Success teams rely on ONSITE to understand how actively each customer uses their deployed robots, identify underutilised units, and inform contract renewals and expansion decisions.
+              </p>
+              <p className={`${body} md:col-span-8 mt-4`}>
+                Yet the previous version displayed a wealth of data without clearly answering three fundamental questions:
+              </p>
+              <ol className={`${body} md:col-span-8 mt-2 list-decimal pl-6`}>
+                <li>Which units need attention?</li>
+                <li>How is this unit performing?</li>
+                <li>What happened on site today?</li>
+              </ol>
             </div>
 
             <div className="flex flex-col gap-6 w-full">
@@ -331,7 +342,7 @@ export default function DataDashboardUI() {
             <Block id="background" title="Background" heading="Built for the team that sells and renews the robots">
               <p>After a LIFTBOT is delivered, the question is whether it is actively used. Today, sales and customer success use ONSITE most, for account care and market research.</p>
               <SubList title="Why usage matters:">
-                <li><b>Contracts:</b> strong usage is the case for moving a large customer from a short-term to a long-term contract.</li>
+                <li>Strong fleet usage builds a compelling case for moving a customer from a short-term to a long-term contract.</li>
                 <li><b>Customer success:</b> an idle unit is an early sign that a customer needs help.</li>
                 <li><b>Market insight:</b> when and where units run shows which construction schedules are coming up.</li>
               </SubList>
