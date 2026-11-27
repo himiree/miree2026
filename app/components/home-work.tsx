@@ -49,8 +49,9 @@ export default function HomeWork({ label }: { label: string }) {
 
   const current = homeWork[active];
 
+  // 16:10 matches the 1440×900 dashboard recording, so it shows uncropped
   const media = (
-    <div ref={mediaRef} className="group/media relative w-full aspect-[682/387] rounded-[24px] overflow-hidden bg-[#1a1a1a]">
+    <div ref={mediaRef} className="group/media relative w-full aspect-[16/10] rounded-[24px] overflow-hidden bg-[#1a1a1a]">
       {homeWork.map((w, i) => (
         <div
           key={w.title}
