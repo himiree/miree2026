@@ -21,7 +21,7 @@ export const caseStudies: CaseStudy[] = [
     href: "/work/official-website-renewal",
     title: "Official website full scale renewal",
     meta: "Product · Sep 2025 – Jan 2026",
-    tags: ["Web Design", "UX"],
+    tags: ["Responsive web design", "UX/UI", "Product thinking"],
     // Same file as the homepage thumbnail, so home → case study morphs seamlessly
     image: "/project-img-2.png",
   },
