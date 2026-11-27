@@ -315,7 +315,7 @@ export default function DataDashboardUI() {
               </div>
               <div className="md:col-span-3 flex flex-col gap-3">
                 <p className={label}>Role</p>
-                <p>Sole product designer</p>
+                <p>Sole product designer (with a Product Manager orchestrating the redesign across functions)</p>
               </div>
             </div>
           </div>
