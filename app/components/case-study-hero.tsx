@@ -1,4 +1,5 @@
 import { caseStudies } from "../data/case-studies";
+import AutoplayVideo from "./autoplay-video";
 
 // Full-bleed hero at the very top of a case study page.
 // Uses the same image as the "Next project" card on the previous page
@@ -12,7 +13,11 @@ export default function CaseStudyHero({ href, alt = "" }: { href: string; alt?: 
       data-hero-target
       className="relative w-full h-[78svh] min-h-[420px] overflow-hidden bg-[#1a1a1a]"
     >
-      <img src={study.image} alt={alt} className="absolute inset-0 w-full h-full object-cover" />
+      {study.video ? (
+        <AutoplayVideo src={study.video} poster={study.image} className="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <img src={study.image} alt={alt} className="absolute inset-0 w-full h-full object-cover" />
+      )}
     </div>
   );
 }

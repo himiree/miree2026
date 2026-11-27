@@ -353,7 +353,7 @@ export default function DataDashboardUI() {
             <Block
               id="problem"
               title="Problem definition"
-              heading="Every number was there. The answer wasn't."
+              heading="Every number was there but hard to read"
               media={
                 <div className="flex flex-col gap-14">
                   <SubList title="From the UX audit:" after={<AnnotatedLegacy />}>

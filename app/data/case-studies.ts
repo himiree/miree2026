@@ -12,6 +12,8 @@ export interface CaseStudy {
   /** Shown under the title in the "Next project" section */
   tags: string[];
   image: string;
+  /** Optional looping video; `image` is its first frame and serves as the poster */
+  video?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -28,8 +30,9 @@ export const caseStudies: CaseStudy[] = [
     title: "Data dashboard UI",
     meta: "Product · Sep – Oct 2026",
     tags: ["Product Design", "Data visualisation"],
-    // Same file as the homepage thumbnail and this page's hero
-    image: "/Project_data_dashboard/hero.jpg",
+    // Same files as the homepage thumbnail and this page's hero
+    image: "/Project_data_dashboard/video/d1-web.jpg",
+    video: "/Project_data_dashboard/video/d1-web.mp4",
   },
 ];
 

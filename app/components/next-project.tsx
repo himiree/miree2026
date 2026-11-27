@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../context/language";
 import { getNextCaseStudy } from "../data/case-studies";
+import AutoplayVideo from "./autoplay-video";
 import {
   heroTransition,
   prefersReducedMotion,
@@ -222,12 +223,20 @@ export default function NextProject({ current }: { current: string }) {
           onPointerDown={onPointerDown}
           className="relative w-full max-w-[400px] aspect-[2/1] overflow-hidden bg-[#d9d9d9] cursor-grab active:cursor-grabbing"
         >
-          <img
-            src={next.image}
-            alt=""
-            draggable={false}
-            className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-          />
+          {next.video ? (
+            <AutoplayVideo
+              src={next.video}
+              poster={next.image}
+              className="w-full h-full object-cover pointer-events-none transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+            />
+          ) : (
+            <img
+              src={next.image}
+              alt=""
+              draggable={false}
+              className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+            />
+          )}
         </div>
 
         <div className="flex flex-col items-center gap-2">
