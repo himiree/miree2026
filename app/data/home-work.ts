@@ -23,11 +23,10 @@ export const homeWork: HomeWork[] = [
   },
   {
     title: "Data dashboard UI",
-    image: "/project-img-1.png",
-    // The video shows the dashboard unblurred; uncomment to autoplay it on hover
-    // video: "/project-img-1.mp4",
-    note: "Available upon request",
-    desc: "Redesigned KEWAZO ONSITE, the platform customers use to see how LIFTBOT is used on site. Shows how I make dense operational data readable.",
+    // Same file as the case study hero, so home → case study morphs seamlessly
+    image: "/Project_data_dashboard/hero.jpg",
+    href: "/work/data-dashboard-ui",
+    desc: "Redesigned KEWAZO ONSITE so sales and customer success can see in seconds whether deployed robots are really being used. Shows how I make dense operational data readable.",
   },
   {
     title: "360+ brand touchpoints",

@@ -23,6 +23,14 @@ export const caseStudies: CaseStudy[] = [
     // Same file as the homepage thumbnail, so home → case study morphs seamlessly
     image: "/project-img-2.png",
   },
+  {
+    href: "/work/data-dashboard-ui",
+    title: "Data dashboard UI",
+    meta: "Product · Sep – Oct 2026",
+    tags: ["Product Design", "Data visualisation"],
+    // Same file as the homepage thumbnail and this page's hero
+    image: "/Project_data_dashboard/hero.jpg",
+  },
 ];
 
 export function getNextCaseStudy(currentHref: string): CaseStudy | null {
