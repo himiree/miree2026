@@ -452,6 +452,12 @@ export default function DataDashboardUI() {
               }
             >
               <p>The redesign was delivered as a working prototype on desktop and mobile.</p>
+              <p>Each view now answers one of the three questions the old dashboard left open:</p>
+              <ol className="list-decimal pl-6 flex flex-col gap-3">
+                <li><b className="font-semibold">Which units need attention?</b><br />The fleet view states each unit&rsquo;s status in words, so idle and offline units stand out.</li>
+                <li><b className="font-semibold">How is this unit performing?</b><br />The unit page leads with utilization and four clearly defined measures: load, trips, operating time and utilization.</li>
+                <li><b className="font-semibold">What happened on site today?</b><br />The daily view shows how much was lifted, when the robot ran, and its battery at start and end.</li>
+              </ol>
             </Block>
 
           </div>
