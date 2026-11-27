@@ -1,0 +1,1 @@
+var e=`/assets/world-map-DwF8EPvx.jpg`;export{e as t};

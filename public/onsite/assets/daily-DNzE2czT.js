@@ -1,0 +1,1 @@
+import{c as e}from"./index-DeRWxGIo.js";import{f as t,n}from"./ui-Bc3jXbWJ.js";import{n as r}from"./daily-log-WC3B6wBV.js";var i=e(),a=()=>(0,i.jsx)(t,{nav:(0,i.jsx)(n,{}),tabs:!0,children:(0,i.jsx)(`div`,{className:`mx-auto max-w-3xl px-4 py-5 sm:px-8 sm:py-7`,children:(0,i.jsx)(r,{})})});export{a as component};

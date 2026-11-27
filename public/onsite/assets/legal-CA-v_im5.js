@@ -1,0 +1,1 @@
+import{c as e}from"./index-DeRWxGIo.js";import{n as t,r as n}from"./legal-DwChngGO.js";var r=e(),i=[`Provider`,`Contact`,`Commercial register`,`VAT ID`,`Liability for content`],a=()=>(0,r.jsx)(t,{title:`Legal notice`,intro:`KEWAZO GmbH is responsible for the content of the ONSITE dashboard.`,sections:i.map(e=>({h:e,p:n}))});export{a as component};
