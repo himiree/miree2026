@@ -21,22 +21,40 @@ function autoplayMuted(v: HTMLVideoElement | null) {
 
 const V = `${P}video/`;
 
-/** The same interaction recorded in the real prototype, web (main) beside mobile */
-function DemoPair({ id, webAlt, mobileAlt }: { id: string; webAlt: string; mobileAlt: string }) {
+type Before = { src: string; alt: string; note: string; whole?: boolean };
+
+/** The old screen, small, then the same interaction recorded in the real prototype: web (main) beside mobile */
+function DemoPair({ id, webAlt, mobileAlt, before }: { id: string; webAlt: string; mobileAlt: string; before: Before }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,0.36fr)] gap-5 sm:gap-6 items-center p-4 sm:p-6 rounded-[16px] bg-[#f5f7fb]">
-      <figure className="flex flex-col gap-2 min-w-0 m-0">
-        <div className="rounded-[10px] overflow-hidden border border-[#e2e6ee] bg-white shadow-[0_10px_30px_-18px_rgba(24,24,24,0.35)]">
-          <video ref={autoplayMuted} src={`${V}${id}-web.mp4`} poster={`${V}${id}-web.jpg`} autoPlay muted loop playsInline aria-label={webAlt} className="block w-full h-auto" />
+    <div className="flex flex-col gap-6 p-4 sm:p-6 rounded-[16px] bg-[#f5f7fb]">
+      <figure className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 m-0">
+        <div className="w-full sm:w-[240px] shrink-0 aspect-[16/10] rounded-[8px] overflow-hidden border border-[#d4def5] bg-[#2b2b2b]">
+          <img
+            src={`${P}${before.src}`}
+            alt={before.alt}
+            loading="lazy"
+            className={`block w-full h-full ${before.whole ? "object-contain" : "object-cover object-top"}`}
+          />
         </div>
-        <figcaption className="text-[12px] font-medium text-[#576779]">Web</figcaption>
+        <figcaption className="flex flex-col gap-1 text-[14px] leading-[1.45] text-[#576779]">
+          <span className="text-[12px] font-semibold tracking-[0.4px] text-[#181818]">BEFORE</span>
+          {before.note}
+        </figcaption>
       </figure>
-      <figure className="flex flex-col gap-2 items-center min-w-0 m-0">
-        <div className="w-full max-w-[230px] rounded-[30px] border-[7px] border-[#111] bg-[#111] overflow-hidden shadow-[0_14px_30px_-16px_rgba(0,0,0,0.5)]">
-          <video ref={autoplayMuted} src={`${V}${id}-mob.mp4`} poster={`${V}${id}-mob.jpg`} autoPlay muted loop playsInline aria-label={mobileAlt} className="block w-full h-auto rounded-[23px]" />
-        </div>
-        <figcaption className="text-[12px] font-medium text-[#576779]">Mobile</figcaption>
-      </figure>
+      <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,0.36fr)] gap-5 sm:gap-6 items-center">
+        <figure className="flex flex-col gap-2 min-w-0 m-0">
+          <div className="rounded-[10px] overflow-hidden border border-[#e2e6ee] bg-white shadow-[0_10px_30px_-18px_rgba(24,24,24,0.35)]">
+            <video ref={autoplayMuted} src={`${V}${id}-web.mp4`} poster={`${V}${id}-web.jpg`} autoPlay muted loop playsInline aria-label={webAlt} className="block w-full h-auto" />
+          </div>
+          <figcaption className="text-[12px] font-medium text-[#576779]">After · Web</figcaption>
+        </figure>
+        <figure className="flex flex-col gap-2 items-center min-w-0 m-0">
+          <div className="w-full max-w-[230px] rounded-[30px] border-[7px] border-[#111] bg-[#111] overflow-hidden shadow-[0_14px_30px_-16px_rgba(0,0,0,0.5)]">
+            <video ref={autoplayMuted} src={`${V}${id}-mob.mp4`} poster={`${V}${id}-mob.jpg`} autoPlay muted loop playsInline aria-label={mobileAlt} className="block w-full h-auto rounded-[23px]" />
+          </div>
+          <figcaption className="text-[12px] font-medium text-[#576779]">After · Mobile</figcaption>
+        </figure>
+      </div>
     </div>
   );
 }
@@ -377,7 +395,7 @@ export default function DataDashboardUI() {
               title="Design decisions (1)"
               heading="Split one page into Fleet → Unit → Day"
               result="→ Any unit's day in two taps"
-              media={<><DemoPair id="d1" webAlt="Clicking a unit card on the fleet page opens the unit with its daily activity log" mobileAlt="Tapping a unit card, then Daily, on mobile" /><Caption>Web: one click on a card opens the unit with today&apos;s log beside it. Mobile: tap the card, then Daily.</Caption></>}
+              media={<><DemoPair id="d1" before={{ src: "before-full.jpg", alt: "Old dashboard: one long page", note: "Fleet, unit, project and year stacked on one long dark page.", whole: true }} webAlt="Clicking a unit card on the fleet page opens the unit with its daily activity log" mobileAlt="Tapping a unit card, then Daily, on mobile" /><Caption>Web: one click on a card opens the unit with today&apos;s log beside it. Mobile: tap the card, then Daily.</Caption></>}
             >
               <p>Each level answers one question: what needs attention, how is this unit doing, what happened today.</p>
             </Block>
@@ -386,7 +404,7 @@ export default function DataDashboardUI() {
               title="Design decisions (2)"
               heading="Lead with status, not codes"
               result="→ Idle units stand out at a glance"
-              media={<><DemoPair id="d2" webAlt="Filtering the fleet by Offline status on web" mobileAlt="Filtering the fleet by Offline status on mobile" /><Caption>Filtering by Offline leaves only the units that need a follow-up.</Caption></>}
+              media={<><DemoPair id="d2" before={{ src: "b_fleet.jpg", alt: "Old fleet grid of codes", note: "A 10 × 10 grid of IDs and letters; status only readable with internal codes." }} webAlt="Filtering the fleet by Offline status on web" mobileAlt="Filtering the fleet by Offline status on mobile" /><Caption>Filtering by Offline leaves only the units that need a follow-up.</Caption></>}
             >
               <p>One card per unit: status in words, then utilization with the workdays behind it.</p>
             </Block>
@@ -395,7 +413,7 @@ export default function DataDashboardUI() {
               title="Design decisions (3)"
               heading="Ten labels became four metrics"
               result="→ A shared metric vocabulary"
-              media={<><DemoPair id="d3" webAlt="Switching units from Metric to Imperial converts every figure on the time range view" mobileAlt="Scrolling the time range totals on mobile" /><Caption>Switching Metric → Imperial converts every figure and its unit at once. On mobile, each total keeps its breakdown right under it.</Caption></>}
+              media={<><DemoPair id="d3" before={{ src: "b_range.jpg", alt: "Old cumulative project report", note: "13 mixed fields, with 10 different labels for 4 real quantities." }} webAlt="Switching units from Metric to Imperial converts every figure on the time range view" mobileAlt="Scrolling the time range totals on mobile" /><Caption>Switching Metric → Imperial converts every figure and its unit at once. On mobile, each total keeps its breakdown right under it.</Caption></>}
             >
               <p>Every figure carries its unit, period and breakdown, so the same word means the same thing on every screen.</p>
             </Block>
@@ -404,7 +422,7 @@ export default function DataDashboardUI() {
               title="Design decisions (4)"
               heading="Charts start at zero"
               result="→ Moving load down is work, not a loss"
-              media={<><DemoPair id="d4" webAlt="Turning on Operational days only, then zooming out the daily load chart to show more days" mobileAlt="Turning Operational days only on and off on mobile" /><Caption>&ldquo;Operational days only&rdquo; removes idle days; zooming out shows a longer period. Prototype sample data.</Caption></>}
+              media={<><DemoPair id="d4" before={{ src: "before-d4.jpg", alt: "Old charts with a negative bar and an axis starting at 24", note: "Down-load drawn as negative bars; the height axis starts at 24, exaggerating differences." }} webAlt="Turning on Operational days only, then zooming out the daily load chart to show more days" mobileAlt="Turning Operational days only on and off on mobile" /><Caption>&ldquo;Operational days only&rdquo; removes idle days; zooming out shows a longer period. Prototype sample data.</Caption></>}
             >
               <p>Up and down load are paired bars, not positive and negative values. A toggle hides idle days.</p>
             </Block>
@@ -413,7 +431,7 @@ export default function DataDashboardUI() {
               title="Design decisions (5)"
               heading="A day you can read on a phone"
               result={<>→ &ldquo;Did it run today?&rdquo; in one glance</>}
-              media={<><DemoPair id="d5" webAlt="Hovering hours on the load chart shows each hour&apos;s load on web" mobileAlt="Picking Thursday in the week strip fills the day on mobile" /><Caption>Web: hovering an hour shows its load. Mobile: picking Thursday fills the day, from total load to the hourly charts.</Caption></>}
+              media={<><DemoPair id="d5" before={{ src: "b_daily.jpg", alt: "Old daily report", note: "Label–value rows: no quick view of when the robot ran or how much it lifted." }} webAlt="Hovering hours on the load chart shows each hour&apos;s load on web" mobileAlt="Picking Thursday in the week strip fills the day on mobile" /><Caption>Web: hovering an hour shows its load. Mobile: picking Thursday fills the day, from total load to the hourly charts.</Caption></>}
             >
               <p>A week strip, total load first, and a 24-hour bar of when the robot ran, with battery at start and end.</p>
             </Block>
