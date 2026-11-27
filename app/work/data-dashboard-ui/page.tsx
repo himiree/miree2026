@@ -280,7 +280,7 @@ export default function DataDashboardUI() {
               <div className="md:col-span-3 flex flex-col">
                 <div className="flex flex-col gap-3 items-start">
                   <p className={label}>Delivered</p>
-                  <a href="/fleet" target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 h-12 px-4 rounded-[4px] bg-[rgba(223,225,227,0.5)] hover:bg-[rgba(223,225,227,0.9)] transition-colors text-[16px] font-semibold tracking-[-0.25px] text-[#181818] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1271C4]">
+                  <a href="/kewazoonsite-prototype-portfolio" target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 h-12 px-4 rounded-[4px] bg-[rgba(223,225,227,0.5)] hover:bg-[rgba(223,225,227,0.9)] transition-colors text-[16px] font-semibold tracking-[-0.25px] text-[#181818] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1271C4]">
                     Working prototype <span aria-hidden="true">↗</span>
                   </a>
                 </div>

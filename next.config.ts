@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   // The ONSITE prototype is a static build that expects to live at the site root;
   // its files sit in public/onsite and these rewrites serve them at the paths it uses.
+  // Shareable entry address for the prototype; it opens on the fleet view
+  async redirects() {
+    return [{ source: "/kewazoonsite-prototype-portfolio", destination: "/fleet", permanent: false }];
+  },
   async rewrites() {
     return [
       { source: "/fleet", destination: "/onsite/fleet.html" },
