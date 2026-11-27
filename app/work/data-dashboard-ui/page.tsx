@@ -88,9 +88,9 @@ function Caption({ children }: { children: ReactNode }) {
 
 /** Problem → what I did → result, readable in a few seconds near the top */
 const SUMMARY = [
-  { k: "Problem", v: "30 unranked fields on one dark scroll, a fleet grid of codes, and 10 labels for 4 quantities. Nobody could tell at a glance whether a robot was being used." },
-  { k: "What I did", v: "Split it into Fleet → Unit → Day, led with status in words, merged the labels into 4 metrics, and built a mobile daily view." },
-  { k: "Result", v: "A working prototype on desktop and mobile. Next: a task test with sales and customer success against the old dashboard." },
+  { k: "Problem", v: "The sales team couldn't quickly tell whether customers were actually using the robots they had rented. The old dashboard showed lots of numbers, but no clear answer." },
+  { k: "What I did", v: "I reorganised it into three simple views: all robots, one robot, and one day. Each robot's status is now in plain words, and confusing numbers were reduced to four clear measures. It also works on a phone." },
+  { k: "Result", v: "A working prototype for desktop and mobile. Sales can now see in seconds which robots are busy and which sit idle. The next step is testing it with the sales and customer success teams." },
 ];
 
 function Summary() {
@@ -305,20 +305,22 @@ export default function DataDashboardUI() {
           {/* Story */}
           <div className="flex flex-col gap-14 pb-16 w-full">
             <div className="grid grid-cols-1 md:grid-cols-12 md:gap-8">
-              <p className={`${body} md:col-span-8`}>
+              <div className="md:col-span-8 flex flex-col gap-3">
+              <p className={body}>
                 KEWAZO ONSITE is a data dashboard that tracks how LIFTBOT (the company&apos;s robotic lifting system) is used across construction and refinery sites.
               </p>
-              <p className={`${body} md:col-span-8 mt-4`}>
+              <p className={body}>
                 Sales and Customer Success teams rely on ONSITE to understand how actively each customer uses their deployed robots, identify underutilised units, and inform contract renewals and expansion decisions.
               </p>
-              <p className={`${body} md:col-span-8 mt-4`}>
+              <p className={body}>
                 Yet the previous version displayed a wealth of data without clearly answering three fundamental questions:
               </p>
-              <ol className={`${body} md:col-span-8 mt-2 list-decimal pl-6`}>
+              <ol className={`${body} list-decimal pl-6`}>
                 <li>Which units need attention?</li>
                 <li>How is this unit performing?</li>
                 <li>What happened on site today?</li>
               </ol>
+              </div>
             </div>
 
             <div className="flex flex-col gap-6 w-full">
