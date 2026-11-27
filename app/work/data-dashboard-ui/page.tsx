@@ -88,7 +88,7 @@ function Caption({ children }: { children: ReactNode }) {
 
 /** Problem → what I did → result, readable in a few seconds near the top */
 const SUMMARY = [
-  { k: "Problem", v: "The sales team couldn't quickly tell whether customers were actually using the robots they had rented. The old dashboard showed lots of numbers, but no clear answer." },
+  { k: "Problem", v: "The sales team couldn't quickly tell whether customers were actually using the robots deployed on their sites. The old dashboard showed lots of numbers, but no clear answer." },
   { k: "What I did", v: "I reorganised it into three simple views: all robots, one robot, and one day. Each robot's status is now in plain words, and confusing numbers were reduced to four clear measures. It also works on a phone." },
   { k: "Result", v: "A working prototype for desktop and mobile, designed to let sales see in seconds which robots are busy and which sit idle. It hasn't been released yet; launch is planned for 2027. The next step is testing it with the sales and customer success teams." },
 ];
