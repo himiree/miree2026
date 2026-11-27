@@ -39,6 +39,8 @@ export async function playClickSound() {
       await ensureLoaded();
     }
     if (!audioBuffer) return;
+    // Browsers keep audio suspended until the visitor first interacts with the page
+    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
 
     const gainNode = audioContext.createGain();
     gainNode.gain.value = 0.18;

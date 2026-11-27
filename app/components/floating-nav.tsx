@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/language";
-import { playClickSound } from "../utils/sound";
+import { playClickSound, preloadClickSound } from "../utils/sound";
 import type { Lang } from "../data/translations";
 
 export default function FloatingNav() {
@@ -73,6 +73,9 @@ export default function FloatingNav() {
   function rememberPointer(e: React.PointerEvent) {
     lastPointer.current = e.pointerType;
   }
+
+  // Load the hover sound early so the first menu hover isn't silent
+  useEffect(() => preloadClickSound(), []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -232,6 +235,7 @@ export default function FloatingNav() {
                   key={item.href}
                   href={item.href}
                   data-nav-link
+                  onMouseEnter={() => playClickSound()}
                   className={`text-[14px] font-semibold leading-[18px] tracking-[-0.4px] transition-opacity duration-200 ${
                     active ? "text-[#181818]" : "text-[#576779] hover:text-[#181818]"
                   }`}
@@ -246,6 +250,7 @@ export default function FloatingNav() {
               <button
                 data-nav-link
                 onPointerDown={rememberPointer}
+                onMouseEnter={() => playClickSound()}
                 onClick={(e) => clickToggle(e, setContactOpen)}
                 aria-haspopup="menu"
                 aria-expanded={contactOpen}
@@ -276,7 +281,7 @@ export default function FloatingNav() {
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-5">
                 <div
                   role="menu"
-                  className="bg-[rgba(255,255,255,0.94)] backdrop-blur-[64px] backdrop-saturate-150 rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[128px] border border-white/60"
+                  className="bg-[rgba(255,255,255,0.94)] backdrop-blur-[64px] backdrop-saturate-150 rounded-[16px] overflow-hidden shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] min-w-[128px] border border-white/60 py-3 px-1.5"
                 >
                   {CONTACT_ITEMS.map((item) => (
                     <a
@@ -286,7 +291,7 @@ export default function FloatingNav() {
                       {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       onMouseEnter={() => playClickSound()}
                       onClick={() => setContactOpen(false)}
-                      className="flex items-center gap-2 w-full text-left px-4 py-2.5 text-[13px] leading-[18px] tracking-[-0.4px] text-[#576779] hover:text-[#181818] transition-colors duration-150 whitespace-nowrap"
+                      className="flex items-center gap-2 w-full text-left px-4 py-2 text-[13px] leading-[18px] tracking-[-0.4px] text-[#576779] hover:text-[#181818] transition-colors duration-150 whitespace-nowrap"
                     >
                       <img src={item.icon} alt="" aria-hidden width={14} height={14} className="size-[14px] shrink-0 object-contain" />
                       {item.label}
@@ -298,7 +303,7 @@ export default function FloatingNav() {
                     onMouseEnter={() => playClickSound()}
                     onClick={copyEmail}
                     aria-live="polite"
-                    className={`flex items-center gap-2 w-full text-left px-4 py-2.5 text-[13px] leading-[18px] tracking-[-0.4px] transition-colors duration-150 whitespace-nowrap ${
+                    className={`flex items-center gap-2 w-full text-left px-4 py-2 text-[13px] leading-[18px] tracking-[-0.4px] transition-colors duration-150 whitespace-nowrap ${
                       emailCopied ? "text-[#1271C4]" : "text-[#576779] hover:text-[#181818]"
                     }`}
                   >
@@ -313,6 +318,7 @@ export default function FloatingNav() {
             {/* CV as button to open modal */}
             <button
               data-nav-link
+              onMouseEnter={() => playClickSound()}
               onClick={() => { setCvOpen(true); }}
               className="text-[14px] font-semibold leading-[18px] tracking-[-0.4px] transition-opacity duration-200 text-[#576779] hover:text-[#181818]"
             >
@@ -325,6 +331,7 @@ export default function FloatingNav() {
             onPointerLeave={(e) => hoverClose(e, "lang", setLangOpen)}>
             <button
               onPointerDown={rememberPointer}
+              onMouseEnter={() => playClickSound()}
               onClick={(e) => clickToggle(e, setLangOpen)}
               className="flex items-center gap-2 bg-[rgba(255,255,255,0.82)] backdrop-blur-[40px] rounded-[99px] px-4 py-3 text-[#576779] text-[14px] font-semibold leading-[18px] tracking-[-0.4px] hover:text-[#181818] transition-colors duration-200 shadow-[0px_2px_24px_0px_rgba(0,0,0,0.10),0px_0px_0px_0.5px_rgba(0,0,0,0.08)] border border-white/60"
               aria-label="Language selector"
